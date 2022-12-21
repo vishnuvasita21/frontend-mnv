@@ -87,7 +87,7 @@
                 </div>
                 <div class="error" v-html="model.error"></div>
                 <div class="btn-input">
-                  <button @click="login">Login</button>
+                  <button @click="loginAdmin">Login</button>
                 </div>
                 <div class="user-login">
                   <p>
@@ -107,9 +107,10 @@
 </template>
 
 <script>
+import axios from "axios";
 // import { Form } from "vee-validate";
 // import * as Yup from "yup";
-import Authentication from "../../services/Authentication";
+
 export default {
   name: "login",
   // components: {
@@ -127,24 +128,23 @@ export default {
     };
   },
   methods: {
-    async login() {
-      try {
-        const response = await Authentication.login({
+    async loginAdmin() {
+      axios
+        .post("http://localhost:7000/login/admin", {
           email: this.model.email,
           password: this.model.password,
-        });
-
-        if (response != null) {
+        })
+        .then((response) => {
           this.$router.push("/dashboard");
           localStorage.setItem("token", JSON.stringify(response.data.token));
           localStorage.setItem("user", JSON.stringify(response.data));
-        }
 
-        this.model.error = await null;
-      } catch (err) {
-        this.model.error = "Invalid email/password";
-        console.log(this.model.error);
-      }
+          this.model.error = null;
+        })
+        .catch(() => {
+          this.model.error = "Invalid email/password";
+          console.log(this.model.error);
+        });
     },
   },
   // setup() {

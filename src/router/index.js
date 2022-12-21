@@ -14,6 +14,7 @@ import Calendar from "../views/Calendar/Calendar.vue";
 // Pages
 import Pricing from "../views/Pages/Pricing.vue";
 import Login from "../views/Pages/Login.vue";
+import Admin from "../views/Pages/Admin.vue";
 import Register from "../views/Pages/Register.vue";
 import Lock from "../views/Pages/Lock.vue";
 import Profile from "../views/Pages/UserProfile.vue";
@@ -24,17 +25,16 @@ import Buttons from "../views/Components/Buttons.vue";
 import Cards from "../views/Components/Cards.vue";
 import Grid from "../views/Components/GridSystem.vue";
 import Notifications from "../views/Components/Notifications.vue";
+import Checklists from "../views/Components/Checklists.vue";
+import Timeoff from "../views/Components/Timeoff.vue";
 import Icons from "../views/Components/Icons.vue";
 import Typography from "../views/Components/Typography.vue";
+import Myadmin from "../views/Components/Myadmin.vue";
 
 // Tables pages
 import RegularTables from "../views/Tables/RegularTables.vue";
 import SortableTables from "../views/Tables/SortableTables.vue";
 import PaginatedTables from "../views/Tables/PaginatedTables.vue";
-
-// Maps pages
-import GoogleMaps from "../views/Maps/GoogleMaps.vue";
-import VectorMaps from "../views/Maps/VectorMaps.vue";
 
 // Forms pages
 import FormElements from "../views/Forms/FormElements.vue";
@@ -66,6 +66,21 @@ let componentsMenu = {
       path: "notifications",
       name: "Notifications",
       components: { default: Notifications },
+    },
+    {
+      path: "checklists",
+      name: "Checklists",
+      components: { default: Checklists },
+    },
+    {
+      path: "timeoff",
+      name: "Timeoff",
+      components: { default: Timeoff },
+    },
+    {
+      path: "myadmin",
+      name: "Myadmin",
+      components: { default: Myadmin },
     },
     {
       path: "icons",
@@ -104,25 +119,6 @@ let tablesMenu = {
   ],
 };
 
-let mapsMenu = {
-  path: "/maps",
-  component: DashboardLayout,
-  redirect: "/maps/google",
-  name: "Maps",
-  children: [
-    {
-      path: "google",
-      name: "Google Maps",
-      components: { default: GoogleMaps },
-    },
-    {
-      path: "vector",
-      name: "Vector Map",
-      components: { default: VectorMaps },
-    },
-  ],
-};
-
 let formsMenu = {
   path: "/forms",
   component: DashboardLayout,
@@ -152,11 +148,11 @@ const routes = [
     path: "/",
     redirect: "/dashboard",
     component: DashboardLayout,
-    name: "Dashboards",
+    name: "dashboard",
     children: [
       {
         path: "/dashboard",
-        name: "Dashboard",
+        name: "dashboard",
         components: { default: Dashboard },
       },
       {
@@ -215,6 +211,11 @@ const routes = [
         components: { default: Login },
       },
       {
+        path: "/admin",
+        name: "Admin",
+        components: { default: Admin },
+      },
+      {
         path: "/register",
         name: "Register",
         components: { default: Register },
@@ -228,7 +229,7 @@ const routes = [
   },
   componentsMenu,
   tablesMenu,
-  mapsMenu,
+
   formsMenu,
 ];
 

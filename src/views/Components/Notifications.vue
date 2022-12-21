@@ -15,9 +15,9 @@
       </div>
     </base-header>
 
-    <div class="container-fluid mt--6">
+    <div class="mt--6">
       <div class="row justify-content-center">
-        <div class="col-lg-8 card-wrapper">
+        <div class="col-lg-10 card-wrapper">
           <card>
             <template v-slot:header>
               <h3 class="mb-0">Alerts</h3>
@@ -46,221 +46,6 @@
               <strong>Default!</strong> This is a warning alert—check it out!
             </base-alert>
           </card>
-
-          <!-- Modals -->
-          <card>
-            <template v-slot:header>
-              <h3 class="mb-0">Modals</h3>
-            </template>
-            <div class="row">
-              <div class="col-md-4">
-                <base-button
-                  type="primary"
-                  block
-                  class="mb-3"
-                  @click="modals.classic = true"
-                  >Default</base-button
-                >
-              </div>
-
-              <div class="col-md-4">
-                <base-button
-                  type="warning"
-                  block
-                  class="mb-3"
-                  @click="modals.notice = true"
-                  >Notice</base-button
-                >
-              </div>
-
-              <div class="col-md-4">
-                <base-button
-                  type="default"
-                  block
-                  class="mb-3"
-                  @click="modals.form = true"
-                  >Form</base-button
-                >
-              </div>
-            </div>
-
-            <!--Classic modal-->
-            <modal v-model:show="modals.classic">
-              <template v-slot:header>
-                <h6 class="modal-title">Type your modal title</h6>
-              </template>
-              <p>
-                Far far away, behind the word mountains, far from the countries
-                Vokalia and Consonantia, there live the blind texts. Separated
-                they live in Bookmarksgrove right at the coast of the Semantics,
-                a large language ocean.
-              </p>
-              <p>
-                A small river named Duden flows by their place and supplies it
-                with the necessary regelialia. It is a paradisematic country, in
-                which roasted parts of sentences fly into your mouth.
-              </p>
-
-              <template v-slot:footer>
-                <base-button type="primary">Save changes</base-button>
-                <base-button
-                  type="link"
-                  class="ml-auto"
-                  @click="modals.classic = false"
-                  >Close</base-button
-                >
-              </template>
-            </modal>
-
-            <!--Notice modal-->
-            <modal
-              v-model:show="modals.notice"
-              modal-classes="modal-danger"
-              modal-content-classes="bg-gradient-danger"
-            >
-              <template v-slot:header>
-                <h6 class="modal-title">Your attention is required</h6>
-              </template>
-
-              <div class="py-3 text-center">
-                <i class="ni ni-bell-55 ni-3x"></i>
-                <h4 class="heading mt-4">You should read this!</h4>
-                <p>
-                  A small river named Duden flows by their place and supplies it
-                  with the necessary regelialia.
-                </p>
-              </div>
-
-              <template v-slot:footer>
-                <base-button type="white">Ok, Got it</base-button>
-                <base-button
-                  type="link"
-                  class="text-white ml-auto"
-                  @click="modals.notice = false"
-                  >Close</base-button
-                >
-              </template>
-            </modal>
-
-            <!--Form modal-->
-            <modal v-model:show="modals.form" size="sm" body-classes="p-0">
-              <card
-                type="secondary"
-                header-classes="bg-transparent pb-5"
-                body-classes="px-lg-5 py-lg-5"
-                class="border-0 mb-0"
-              >
-                <template v-slot:header>
-                  <div class="text-muted text-center mt-2 mb-3">
-                    <small>Sign in with</small>
-                  </div>
-                  <div class="btn-wrapper text-center">
-                    <base-button type="neutral" icon>
-                      <span class="btn-inner--icon"
-                        ><img src="img/icons/common/github.svg"
-                      /></span>
-                      <span class="btn-inner--text">Github</span>
-                    </base-button>
-                    <base-button type="neutral" icon>
-                      <span class="btn-inner--icon"
-                        ><img src="img/icons/common/google.svg"
-                      /></span>
-                      <span class="btn-inner--text">Google</span>
-                    </base-button>
-                  </div>
-                </template>
-
-                <div class="text-center text-muted mb-4">
-                  <small>Or sign in with credentials</small>
-                </div>
-                <form role="form">
-                  <base-input
-                    name="email"
-                    alternative
-                    v-model="formModal.email"
-                    class="mb-3"
-                    placeholder="Email"
-                    addon-left-icon="ni ni-email-83"
-                  >
-                  </base-input>
-                  <base-input
-                    name="password"
-                    alternative
-                    v-model="formModal.password"
-                    type="password"
-                    placeholder="Password"
-                    addon-left-icon="ni ni-lock-circle-open"
-                  >
-                  </base-input>
-                  <base-checkbox v-model="formModal.remember">
-                    Remember me
-                  </base-checkbox>
-                  <div class="text-center">
-                    <base-button type="primary" class="my-4"
-                      >Sign In</base-button
-                    >
-                  </div>
-                </form>
-              </card>
-            </modal>
-          </card>
-
-          <!-- Notifications -->
-          <card>
-            <template v-slot:header>
-              <h3 class="mb-0">Notifications</h3>
-            </template>
-            <button
-              class="btn btn-default"
-              @click="runToast('top-right', 'default')"
-            >
-              Default
-            </button>
-            <button class="btn btn-info" @click="runToast('top-right', 'info')">
-              Info
-            </button>
-            <button
-              class="btn btn-success"
-              @click="runToast('top-right', 'success')"
-            >
-              Success
-            </button>
-            <button
-              class="btn btn-warning"
-              @click="runToast('top-right', 'warning')"
-            >
-              Warning
-            </button>
-            <button
-              class="btn btn-danger"
-              @click="runToast('top-right', 'danger')"
-            >
-              Danger
-            </button>
-          </card>
-
-          <!--Sweet alert-->
-
-          <card class="ct-example">
-            <template v-slot:header>
-              <h3 class="mb-0">Sweet alerts</h3>
-            </template>
-            <base-button type="primary" @click="showSwal('basic')"
-              >Basic alert</base-button
-            >
-            <base-button type="info" @click="showSwal('info')"
-              >Info alert</base-button
-            >
-            <base-button type="success" @click="showSwal('success')"
-              >Success alert</base-button
-            >
-            <base-button type="warning" @click="showSwal('warning')"
-              >Warning alert</base-button
-            >
-            <base-button type="default" @click="showSwal('question')"
-              >Question</base-button
-            >
-          </card>
         </div>
       </div>
     </div>
@@ -270,7 +55,6 @@
 import swal from "sweetalert2";
 import "sweetalert2/dist/sweetalert2.css";
 import { useToast } from "vue-toastification";
-import Modal from "@/components/Modal";
 import BaseAlert from "@/components/BaseAlert";
 import RouteBreadcrumb from "@/components/Breadcrumb/RouteBreadcrumb";
 import BaseHeader from "@/components/BaseHeader";
@@ -278,7 +62,6 @@ import Notification from "@/components/Notification";
 
 export default {
   components: {
-    Modal,
     BaseAlert,
     BaseHeader,
     RouteBreadcrumb,

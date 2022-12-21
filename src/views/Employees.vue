@@ -1,260 +1,168 @@
 <template>
-  <div class="container" style="height: 100%">
+  <base-header>
+    <div class="row align-items-center py-2">
+      <div>
+        <h6 class="h2 text-white d-inline-block mb-0">Employees</h6>
+        <nav aria-label="breadcrumb" class="d-none d-md-inline-block ml-md-4">
+          <route-bread-crumb></route-bread-crumb>
+        </nav>
+      </div>
+    </div>
+  </base-header>
+  <div class="container" style="height: 100%; padding-bottom: 20px">
     <!-- div for search menu -->
     <div class="search-view">
       <div class="search-office-select">
-        <select class="select-button" name="" id="">
-          <option value="alloffice">All Offices</option>
-          <option value="ahmedabad">Ahmedabad</option>
-          <option value="medianv">Medianv</option>
-        </select>
+        <el-select v-model="officesearch" placeholder="All Offices">
+          <el-option
+            v-for="option in offices"
+            :key="option.label"
+            :label="option.label"
+            :value="option.value"
+          />
+        </el-select>
       </div>
 
       <div class="search-department-select">
-        <select class="select-button" name="" id="">
-          <option value="alloffice">All Departments</option>
-          <option value="admin">Admin</option>
-          <option value="csr">CSR</option>
-          <option value="hr">HR</option>
-          <option value="mnvabad">Medianv Ahmedabad</option>
-          <option value="mnvhq">Medianv Headquarter</option>
-          <option value="seo">SEO</option>
-          <option value="sd">Software Developer</option>
-          <option value="wd">Wordpress Developer</option>
-        </select>
+        <el-select v-model="departsearch" placeholder="All Departments">
+          <el-option
+            v-for="option in departments"
+            :key="option.label"
+            :label="option.label"
+            :value="option.value"
+          />
+        </el-select>
       </div>
 
       <div class="search-user">
-        <div class="searchbar">
-          <i class="fa-solid fa-magnifying-glass text-green"></i>
-          <input class="search-item" type="text" />
-        </div>
+        <el-input
+          placeholder="Please Input"
+          style="width: 400px"
+          v-model="search"
+        />
       </div>
     </div>
     <!-- second div for card view -->
-    <!-- <div class="userview">
-      <div class="user-flexview">
-        <div class="div-img">
-          <img
-            src="https://storage.googleapis.com/prod-production-5f508e55bb1bb80026996182/profile-images/62c25f274decf9001be12655/QnELuh0CJ9Gf2w1CkBEe7.jfif"
-          />
-        </div>
-        <div><h3>Vishnu Vasita</h3></div>
-        <div><p>ID007</p></div>
-        <div><p>+91 1234569870</p></div>
-        <div><a href="#">vishnu@medianv</a></div>
-        <hr />
-        <div>
-          <p><small>Line Manager XYZ</small></p>
-        </div>
-      </div>
-
-      <div class="user-flexview">
-        <div class="div-img">
-          <img
-            src="https://storage.googleapis.com/prod-production-5f508e55bb1bb80026996182/profile-images/62c25f274decf9001be12655/QnELuh0CJ9Gf2w1CkBEe7.jfif"
-          />
-        </div>
-        <div><h3>Vishnu Vasita</h3></div>
-        <div><p>ID007</p></div>
-        <div><p>+91 1234569870</p></div>
-        <div><a href="#">vishnu@medianv</a></div>
-        <hr />
-        <div>
-          <p><small>Line Manager XYZ</small></p>
-        </div>
-      </div>
-
-      <div class="user-flexview">
-        <div class="div-img">
-          <img
-            src="https://storage.googleapis.com/prod-production-5f508e55bb1bb80026996182/profile-images/62c25f274decf9001be12655/QnELuh0CJ9Gf2w1CkBEe7.jfif"
-          />
-        </div>
-        <div><h3>Vishnu Vasita</h3></div>
-        <div><p>ID007</p></div>
-        <div><p>+91 1234569870</p></div>
-        <div><a href="#">vishnu@medianv</a></div>
-        <hr />
-        <div>
-          <p><small>Line Manager XYZ</small></p>
-        </div>
-      </div>
-
-      <div class="user-flexview">
-        <div class="div-img">
-          <img
-            src="https://storage.googleapis.com/prod-production-5f508e55bb1bb80026996182/profile-images/62c25f274decf9001be12655/QnELuh0CJ9Gf2w1CkBEe7.jfif"
-          />
-        </div>
-        <div><h3>Vishnu Vasita</h3></div>
-        <div><p>ID007</p></div>
-        <div><p>+91 1234569870</p></div>
-        <div><a href="#">vishnu@medianv</a></div>
-        <hr />
-        <div>
-          <p><small>Line Manager XYZ</small></p>
-        </div>
-      </div>
-
-      <div class="user-flexview">
-        <div class="div-img">
-          <img
-            src="https://storage.googleapis.com/prod-production-5f508e55bb1bb80026996182/profile-images/62c25f274decf9001be12655/QnELuh0CJ9Gf2w1CkBEe7.jfif"
-          />
-        </div>
-        <div><h3>Vishnu Vasita</h3></div>
-        <div><p>ID007</p></div>
-        <div><p>+91 1234569870</p></div>
-        <div><a href="#">vishnu@medianv</a></div>
-        <hr />
-        <div>
-          <p><small>Line Manager XYZ</small></p>
-        </div>
-      </div>
-
-      <div class="user-flexview">
-        <div class="div-img">
-          <img
-            src="https://storage.googleapis.com/prod-production-5f508e55bb1bb80026996182/profile-images/62c25f274decf9001be12655/QnELuh0CJ9Gf2w1CkBEe7.jfif"
-          />
-        </div>
-        <div><h3>Vishnu Vasita</h3></div>
-        <div><p>ID007</p></div>
-        <div><p>+91 1234569870</p></div>
-        <div><a href="#">vishnu@medianv</a></div>
-        <hr />
-        <div>
-          <p><small>Line Manager XYZ</small></p>
-        </div>
-      </div>
-
-      <div class="user-flexview">
-        <div class="div-img">
-          <img
-            src="https://storage.googleapis.com/prod-production-5f508e55bb1bb80026996182/profile-images/62c25f274decf9001be12655/QnELuh0CJ9Gf2w1CkBEe7.jfif"
-          />
-        </div>
-        <div><h3>Vishnu Vasita</h3></div>
-        <div><p>ID007</p></div>
-        <div><p>+91 1234569870</p></div>
-        <div><a href="#">vishnu@medianv</a></div>
-        <hr />
-        <div>
-          <p><small>Line Manager XYZ</small></p>
-        </div>
-      </div>
-
-      <div class="user-flexview">
-        <div class="div-img">
-          <img
-            src="https://storage.googleapis.com/prod-production-5f508e55bb1bb80026996182/profile-images/62c25f274decf9001be12655/QnELuh0CJ9Gf2w1CkBEe7.jfif"
-          />
-        </div>
-        <div><h3>Vishnu Vasita</h3></div>
-        <div><p>ID007</p></div>
-        <div><p>+91 1234569870</p></div>
-        <div><a href="#">vishnu@medianv</a></div>
-        <hr />
-        <div>
-          <p><small>Line Manager XYZ</small></p>
-        </div>
-      </div>
-    </div> -->
 
     <!-- user card view youtube clone -->
     <div class="video-div">
-      <div class="video-preview">
+      <div class="video-preview" v-for="user in filteredUsers" :key="user.id">
         <div class="thumbnail-row">
-          <img class="img1" src="https://storage.googleapis.com/prod-production-5f508e55bb1bb80026996182/profile-images/6371a439191add00276f6b5a/7XGvDPewzCy7T6siG3bcp.jpeg" />
+          <img class="img1" :src="user.profile_pic" />
         </div>
-        <div><h3>vishnu vasita</h3></div>
-        <div><p>ID007</p></div>
-        <div><p>SEO Team Lead</p></div>
-        <div><p>+91 123456789</p></div>
-        <div><a href="#">vishnu@medianv.com</a></div>
-        <div><p><small> Manger XYZ</small></p></div>
-      </div>
-
-      <div class="video-preview">
-        <div class="thumbnail-row">
-          <img class="img1" src="https://storage.googleapis.com/prod-production-5f508e55bb1bb80026996182/profile-images/6371a439191add00276f6b5a/7XGvDPewzCy7T6siG3bcp.jpeg" />
+        <div>
+          <h3>{{ user.fullName }}</h3>
         </div>
-        <div><h3>vishnu vasita</h3></div>
-        <div><p>ID007</p></div>
-        <div><p>SEO Team Lead</p></div>
-        <div><p>+91 123456789</p></div>
-        <div><a href="#">vishnu@medianv.com</a></div>
-        <div><p><small> Manger XYZ</small></p></div>
-      </div>
-
-
-      <div class="video-preview">
-        <div class="thumbnail-row">
-          <img class="img1" src="https://storage.googleapis.com/prod-production-5f508e55bb1bb80026996182/profile-images/6371a439191add00276f6b5a/7XGvDPewzCy7T6siG3bcp.jpeg" />
+        <div>
+          <p style="margin: 0">{{ user.position }}</p>
         </div>
-        <div><h3>vishnu vasita</h3></div>
-        <div><p>ID007</p></div>
-        <div><p>SEO Team Lead</p></div>
-        <div><p>+91 123456789</p></div>
-        <div><a href="#">vishnu@medianv.com</a></div>
-        <div><p><small> Manger XYZ</small></p></div>
-      </div>
-
-
-      <div class="video-preview">
-        <div class="thumbnail-row">
-          <img class="img1" src="https://storage.googleapis.com/prod-production-5f508e55bb1bb80026996182/profile-images/6371a439191add00276f6b5a/7XGvDPewzCy7T6siG3bcp.jpeg" />
+        <div>
+          <h4 style="margin: 0">ID{{ user._id.slice(3, 8) }}</h4>
         </div>
-        <div><h3>vishnu vasita</h3></div>
-        <div><p>ID007</p></div>
-        <div><p>SEO Team Lead</p></div>
-        <div><p>+91 123456789</p></div>
-        <div><a href="#">vishnu@medianv.com</a></div>
-        <div><p><small> Manger XYZ</small></p></div>
-      </div>
-
-
-      <div class="video-preview">
-        <div class="thumbnail-row">
-          <img class="img1" src="https://storage.googleapis.com/prod-production-5f508e55bb1bb80026996182/profile-images/6371a439191add00276f6b5a/7XGvDPewzCy7T6siG3bcp.jpeg" />
+        <div>
+          <p style="margin: 0">+91 {{ user.number }}</p>
         </div>
-        <div><h3>vishnu vasita</h3></div>
-        <div><p>ID007</p></div>
-        <div><p>SEO Team Lead</p></div>
-        <div><p>+91 123456789</p></div>
-        <div><a href="#">vishnu@medianv.com</a></div>
-        <div><p><small> Manger XYZ</small></p></div>
-      </div>
-
-
-      <div class="video-preview">
-        <div class="thumbnail-row">
-          <img class="img1" src="https://storage.googleapis.com/prod-production-5f508e55bb1bb80026996182/profile-images/6371a439191add00276f6b5a/7XGvDPewzCy7T6siG3bcp.jpeg" />
+        <div>
+          <a href="#">{{ user.email }}</a>
         </div>
-        <div><h3>vishnu vasita</h3></div>
-        <div><p>ID007</p></div>
-        <div><p>SEO Team Lead</p></div>
-        <div><p>+91 123456789</p></div>
-        <div><a href="#">vishnu@medianv.com</a></div>
-        <div><p><small> Manger XYZ</small></p></div>
-      </div>
 
-      <div class="video-preview">
-        <div class="thumbnail-row">
-          <img class="img1" src="https://storage.googleapis.com/prod-production-5f508e55bb1bb80026996182/profile-images/6371a439191add00276f6b5a/7XGvDPewzCy7T6siG3bcp.jpeg" />
+        <div>
+          <hr style="margin: 10px 0" />
+          <p style="margin: 0">
+            <small>Line Manager {{ user.manager }}</small>
+          </p>
         </div>
-        <div><h3>vishnu vasita</h3></div>
-        <div><p>ID007</p></div>
-        <div><p>SEO Team Lead</p></div>
-        <div><p>+91 123456789</p></div>
-        <div><a href="#">vishnu@medianv.com</a></div>
-        <div><p><small> Manger XYZ</small></p></div>
       </div>
-
     </div>
   </div>
 </template>
+
+<script>
+import axios from "axios";
+import {
+  ElInput,
+  ElSelect,
+  ElOption,
+  ElTable,
+  ElTableColumn,
+  ElDropdownMenu,
+  ElDropdownItem,
+  ElDropdown,
+} from "element-plus";
+export default {
+  components: {
+    ElInput,
+    ElSelect,
+    ElOption,
+    [ElTable.name]: ElTable,
+    [ElTableColumn.name]: ElTableColumn,
+    [ElDropdown.name]: ElDropdown,
+    [ElDropdownItem.name]: ElDropdownItem,
+    [ElDropdownMenu.name]: ElDropdownMenu,
+  },
+  data() {
+    return {
+      departsearch: "",
+      officesearch: "",
+      search: "",
+      users: [],
+      currentPage: 1,
+      input1: "",
+
+      offices: [
+        { value: "", label: "All Offices" },
+        { value: "Ahmedabad", label: "Ahmedabad" },
+        { value: "MediaNV", label: "MediaNV" },
+      ],
+      departments: [
+        { value: "", label: "All Departments" },
+        { value: "Admin", label: "Admin" },
+        { value: "CSR", label: "CSR" },
+        { value: "Software Development", label: "Software Development" },
+        { value: "Content Writer", label: "Content Writer" },
+        { value: "Designing", label: "Designing" },
+        { value: "HR", label: "HR" },
+        { value: "MediaNV Ahmedabad", label: "MediaNV Ahmedabad" },
+        { value: "MediaNV Headquarter", label: "MediaNV Headquarter" },
+        { value: "Wordpress Developement", label: "Wordpress Developement" },
+        { value: "PPC", label: "PPC" },
+        { value: "SEO", label: "SEO" },
+      ],
+    };
+  },
+  methods: {
+    // finddepartment(value) {
+    //   return this.users.filter((user) =>
+    //     user.position.toLowerCase().includes(value.toLowerCase())
+    //   );
+    // },
+    getUsers() {
+      axios.get("http://localhost:7000/employees").then((response) => {
+        console.log(response.data);
+        this.users = response.data;
+        console.log(this.users);
+      });
+    },
+  },
+  mounted() {
+    this.getUsers();
+  },
+  computed: {
+    filteredUsers() {
+      return this.users
+        .filter((user) =>
+          user.fullName.toLowerCase().includes(this.search.toLowerCase())
+        )
+        .filter((user) =>
+          user.position.toLowerCase().includes(this.departsearch.toLowerCase())
+        )
+        .filter((user) =>
+          user.office.toLowerCase().includes(this.officesearch.toLowerCase())
+        );
+    },
+  },
+};
+</script>
 
 <style>
 *:focus {
@@ -284,34 +192,28 @@ img {
 } */
 
 /* user card view css */
-.img1 {
-  width: 100%;
-  border-radius: 50%;
-  padding: 50px;
-}
-p {
-    margin: 0;
-}
 .video-preview {
-    box-shadow: 0 0 3px grey;
-    padding: 10px;
+  background-color: white;
+  box-shadow: 0 0 3px grey;
+  padding: 10px;
   display: flex;
-  flex-direction: column;
   justify-content: center;
-  align-items: center;
+  flex-direction: column;
   align-content: center;
-  vertical-align: top;
-  margin-right: 10px;
-  width: 100%;
+  margin: 0;
+  gap: 1px;
 }
-
 .thumbnail-row {
-  margin-bottom: 10px;
-  position: relative;
+  margin: 0;
+  height: 100px;
 }
-
+.thumbnail-row .img1 {
+  height: 100%;
+  padding: 10px;
+  margin-top: 15px;
+}
 .video-div {
-    margin-top: 50px;
+  margin-top: 50px;
   display: grid;
   grid-template-columns: 1fr 1fr 1fr 1fr;
   column-gap: 20px;
@@ -341,7 +243,6 @@ p {
 }
 .container {
   margin: 0;
-  height: 100vh;
 }
 .search-view {
   height: 50px;

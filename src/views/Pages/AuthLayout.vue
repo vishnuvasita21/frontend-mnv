@@ -37,16 +37,11 @@
       </div>
 
       <ul class="navbar-nav mr-auto">
-        <!-- <li class="nav-item">
+        <li class="nav-item">
           <router-link to="/dashboard" class="nav-link">
             <span class="nav-link-inner--text">Dashboard</span>
           </router-link>
         </li>
-        <li class="nav-item">
-          <router-link to="/pricing" class="nav-link">
-            <span class="nav-link-inner--text">Pricing</span>
-          </router-link>
-        </li> -->
         <li class="nav-item">
           <router-link to="/login" class="nav-link">
             <span class="nav-link-inner--text">Login</span>
@@ -57,11 +52,11 @@
             <span class="nav-link-inner--text">Register</span>
           </router-link>
         </li>
-        <!-- <li class="nav-item">
-          <router-link to="/lock" class="nav-link">
-            <span class="nav-link-inner--text">Lock</span>
+        <li class="nav-item">
+          <router-link to="/admin" class="nav-link">
+            <span class="nav-link-inner--text">Admin</span>
           </router-link>
-        </li> -->
+        </li>
       </ul>
       <hr class="d-lg-none" />
       <ul class="navbar-nav align-items-lg-center ml-lg-auto">
@@ -113,18 +108,6 @@
             <span class="nav-link-inner--text d-lg-none">Github</span>
           </a>
         </li>
-        <!-- <li class="nav-item d-none d-lg-block ml-lg-4">
-          <a
-            href="https://www.creative-tim.com/product/vue-argon-dashboard-pro"
-            target="_blank"
-            class="btn btn-neutral btn-icon"
-          >
-            <span class="btn-inner--icon">
-              <i class="fas fa-shopping-cart mr-2"></i>
-            </span>
-            <span class="nav-link-inner--text">Purchase now</span>
-          </a>
-        </li> -->
       </ul>
     </base-nav>
 
@@ -142,7 +125,7 @@
                 href="https://www.creative-tim.com"
                 class="font-weight-bold ml-1"
                 target="_blank"
-                >Creative Vishnu</a
+                >Creative Tim</a
               >
             </div>
           </div>
@@ -155,7 +138,7 @@
                   href="https://www.creative-tim.com"
                   class="nav-link"
                   target="_blank"
-                  >Creative Vishnu</a
+                  >Creative Tim</a
                 >
               </li>
               <li class="nav-item">
