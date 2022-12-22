@@ -1,79 +1,176 @@
 <template>
-  <base-header>
-    <div class="row align-items-center py-2">
-      <div>
-        <h6 class="h2 text-white d-inline-block mb-0">Employees</h6>
-        <nav aria-label="breadcrumb" class="d-none d-md-inline-block ml-md-4">
-          <route-bread-crumb></route-bread-crumb>
-        </nav>
+  <div>
+    <base-header
+      class="pb-6 content__title content__title--calendar"
+      style="background-color: rgb(54, 134, 255) !important"
+    >
+      <div class="row align-items-center py-4">
+        <div class="col-lg-6 col-7">
+          <h6 class="h2 text-white d-inline-block mb-0">{{ $route.name }}</h6>
+          <nav aria-label="breadcrumb" class="d-none d-md-inline-block ml-md-4">
+            <route-bread-crumb></route-bread-crumb>
+          </nav>
+        </div>
       </div>
+    </base-header>
+
+    <div class="card mt--6" style="margin: 20px; padding: 15px">
+      <!-- div for search menu -->
+      <div class="search-view">
+        <div class="search-office-select">
+          <el-select v-model="officesearch" placeholder="All Offices">
+            <el-option
+              v-for="option in offices"
+              :key="option.label"
+              :label="option.label"
+              :value="option.value"
+            />
+          </el-select>
+        </div>
+
+        <div class="search-department-select">
+          <el-select v-model="departsearch" placeholder="All Departments">
+            <el-option
+              v-for="option in departments"
+              :key="option.label"
+              :label="option.label"
+              :value="option.value"
+            />
+          </el-select>
+        </div>
+
+        <div class="search-user w-25">
+          <el-input placeholder="Please Input" v-model="search" />
+        </div>
+      </div>
+      <!-- second div for card view -->
+
+      <!-- user card view youtube clone -->
+      <!-- <div class="video-div">
+                  <div
+                    class="video-preview"
+                    v-for="user in filteredUsers"
+                    :key="user.id"
+                  >
+                    <div class="thumbnail-row">
+                      <img
+                        class="img1"
+                        :src="user.profile_pic ? user.profile_pic : 'giff.gif'"
+                      />
+                    </div>
+                    <div>
+                      <h3>{{ user.fullName }}</h3>
+                    </div>
+                    <div>
+                      <p style="margin: 0">{{ user.position }}</p>
+                    </div>
+                    <div>
+                      <h4 style="margin: 0">ID{{ user._id.slice(3, 8) }}</h4>
+                    </div>
+                    <div>
+                      <p style="margin: 0">+91 {{ user.number }}</p>
+                    </div>
+                    <div>
+                      <a href="#">{{ user.email }}</a>
+                    </div>
+
+                    <div>
+                      <hr style="margin: 10px 0" />
+                      <p style="margin: 0">
+                        <small>Line Manager {{ user.manager }}</small>
+                      </p>
+                    </div>
+                  </div>
+                </div> -->
+
+      <!-- demo -->
+
+      <div class="row">
+        <div class="col-sm-4">
+          <a
+            href="#custom-modal"
+            class="btn btn-custom waves-effect waves-light mb-4"
+            data-animation="fadein"
+            data-plugin="custommodal"
+            data-overlayspeed="200"
+            data-overlaycolor="#36404a"
+            ><i class="mdi mdi-plus"></i
+          ></a>
+        </div>
+        <!-- end col -->
+      </div>
+      <!-- end row -->
+      <div class="row">
+        <div class="col-lg-3" v-for="user in filteredUsers" :key="user.id">
+          <div class="text-center card-box">
+            <div class="member-card pt-2 pb-2">
+              <div class="thumb-lg member-thumb mx-auto">
+                <img
+                  :src="user.profile_pic ? user.profile_pic : 'userpic.jpeg'"
+                  class="rounded-circle img-thumbnail"
+                  alt="profile-image"
+                />
+              </div>
+              <div style="margin-top: 10px">
+                <h4>{{ user.fullName }}</h4>
+
+                <p class="text-muted">
+                  {{ user.position }}
+                </p>
+                <h4 class="text-muted">
+                  ID{{ user._id.slice(3, 8).toUpperCase() }}
+                </h4>
+                <p class="text-muted">
+                  <span
+                    ><a href="#" class="text-pink">{{ user.email }}</a></span
+                  >
+                </p>
+              </div>
+              <ul class="social-links list-inline">
+                <li class="list-inline-item">
+                  <a
+                    title=""
+                    data-placement="top"
+                    data-toggle="tooltip"
+                    class="tooltips"
+                    href=""
+                    data-original-title="Facebook"
+                    ><i class="fa fa-facebook"></i
+                  ></a>
+                </li>
+                <li class="list-inline-item">
+                  <a
+                    title=""
+                    data-placement="top"
+                    data-toggle="tooltip"
+                    class="tooltips"
+                    href=""
+                    data-original-title="Twitter"
+                    ><i class="fa fa-twitter"></i
+                  ></a>
+                </li>
+                <li class="list-inline-item">
+                  <a
+                    title=""
+                    data-placement="top"
+                    data-toggle="tooltip"
+                    class="tooltips"
+                    href=""
+                    data-original-title="Skype"
+                    ><i class="fa fa-skype"></i
+                  ></a>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- container end -->
+
+      <!-- container end-->
     </div>
-  </base-header>
-  <div class="container" style="height: 100%; padding-bottom: 20px">
-    <!-- div for search menu -->
-    <div class="search-view">
-      <div class="search-office-select">
-        <el-select v-model="officesearch" placeholder="All Offices">
-          <el-option
-            v-for="option in offices"
-            :key="option.label"
-            :label="option.label"
-            :value="option.value"
-          />
-        </el-select>
-      </div>
 
-      <div class="search-department-select">
-        <el-select v-model="departsearch" placeholder="All Departments">
-          <el-option
-            v-for="option in departments"
-            :key="option.label"
-            :label="option.label"
-            :value="option.value"
-          />
-        </el-select>
-      </div>
-
-      <div class="search-user">
-        <el-input
-          placeholder="Please Input"
-          style="width: 400px"
-          v-model="search"
-        />
-      </div>
-    </div>
-    <!-- second div for card view -->
-
-    <!-- user card view youtube clone -->
-    <div class="video-div">
-      <div class="video-preview" v-for="user in filteredUsers" :key="user.id">
-        <div class="thumbnail-row">
-          <img class="img1" :src="user.profile_pic" />
-        </div>
-        <div>
-          <h3>{{ user.fullName }}</h3>
-        </div>
-        <div>
-          <p style="margin: 0">{{ user.position }}</p>
-        </div>
-        <div>
-          <h4 style="margin: 0">ID{{ user._id.slice(3, 8) }}</h4>
-        </div>
-        <div>
-          <p style="margin: 0">+91 {{ user.number }}</p>
-        </div>
-        <div>
-          <a href="#">{{ user.email }}</a>
-        </div>
-
-        <div>
-          <hr style="margin: 10px 0" />
-          <p style="margin: 0">
-            <small>Line Manager {{ user.manager }}</small>
-          </p>
-        </div>
-      </div>
-    </div>
+    <!--  -->
   </div>
 </template>
 
@@ -164,7 +261,7 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 *:focus {
   outline: none;
 }
@@ -214,8 +311,9 @@ img {
 }
 .video-div {
   margin-top: 50px;
-  display: grid;
-  grid-template-columns: 1fr 1fr 1fr 1fr;
+  display: flex;
+  flex-wrap: wrap;
+
   column-gap: 20px;
   row-gap: 20px;
 }
@@ -241,9 +339,7 @@ img {
   border-color: green;
   border-style: solid;
 }
-.container {
-  margin: 0;
-}
+
 .search-view {
   height: 50px;
   padding: 30px 10px;
@@ -265,5 +361,57 @@ img {
 .select-button:hover {
   border-color: green;
   cursor: pointer;
+}
+
+/* demo */
+
+.card-box {
+  padding: 20px;
+  border-radius: 10px;
+  margin-bottom: 30px;
+  background-color: #fff;
+  box-shadow: 0 0 2px grey;
+}
+
+.social-links li a {
+  border-radius: 50%;
+  color: rgba(121, 121, 121, 0.8);
+  display: inline-block;
+  height: 30px;
+  line-height: 27px;
+  border: 2px solid rgba(121, 121, 121, 0.5);
+  text-align: center;
+  width: 30px;
+}
+
+.social-links li a:hover {
+  color: #797979;
+  border: 2px solid #797979;
+}
+.thumb-lg {
+  height: 88px;
+  width: 88px;
+}
+.img-thumbnail {
+  padding: 0.25rem;
+  background-color: #fff;
+  border: 1px solid #dee2e6;
+  border-radius: 0.25rem;
+  max-width: 100%;
+  height: auto;
+}
+.text-pink {
+  color: #ff679b !important;
+}
+.btn-rounded {
+  border-radius: 2em;
+}
+.text-muted {
+  color: #02283b !important;
+  font-weight: 200;
+}
+h4 {
+  line-height: 22px;
+  font-size: 18px;
 }
 </style>

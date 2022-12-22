@@ -1,6 +1,9 @@
 <template>
   <div>
-    <base-header class="pb-6">
+    <base-header
+      class="pb-6"
+      style="background-color: rgb(54, 134, 255) !important"
+    >
       <div class="row align-items-center py-4">
         <div class="col-lg-6 col-7">
           <h6 class="h2 text-white d-inline-block mb-0">Default</h6>
@@ -15,7 +18,7 @@
       </div>
     </base-header>
 
-    <div>
+    <div class="container">
       <!--Charts-->
       <div class="row">
         <div class="col-xl-8 mb-5 mb-xl-0">

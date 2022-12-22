@@ -1,7 +1,7 @@
 <template>
   <div>
     <!-- Header -->
-    <div class="header bg-gradient-success py-5 py-lg-5 pt-lg-7">
+    <div class="header bg-gradient-primary py-5 py-lg-5 pt-lg-7">
       <div class="container">
         <div class="header-body text-center mb-7">
           <div class="row justify-content-center">
@@ -170,6 +170,7 @@ export default {
 *:focus {
   outline: none;
 }
+
 .register-container {
   display: flex;
   justify-content: center;

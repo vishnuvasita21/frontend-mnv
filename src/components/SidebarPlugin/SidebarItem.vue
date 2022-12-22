@@ -190,8 +190,10 @@ export default {
 </script>
 <style>
 a.active.router-link-exact-active.nav-link {
-  background: #acc9ff !important;
+  /* background: #b0d5ff !important; */
+  text-decoration: underline;
 }
+
 .navbar-light .navbar-nav .nav-link.active {
   color: rgb(0, 0, 0) !important;
   font-family: "Roboto", sans-serif !important;

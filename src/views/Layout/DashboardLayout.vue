@@ -77,7 +77,7 @@
         </template>
       </template>
     </side-bar>
-    <div class="main-content" style="background-color: rgb(241, 243, 249)">
+    <div class="main-content" style="background-color: rgb(235, 243, 255)">
       <dashboard-navbar :type="$route.meta.navbarType"></dashboard-navbar>
 
       <div @click="$sidebar.displaySidebar(false)">

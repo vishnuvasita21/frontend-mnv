@@ -206,7 +206,10 @@
           <a href="#" class="nav-link pr-0" @click.prevent>
             <div class="media align-items-center">
               <span class="avatar avatar-sm rounded-circle">
-                <img alt="Image placeholder" :src="user.profile_pic" />
+                <img
+                  alt="Image placeholder"
+                  :src="user.profile_pic ? user.profile_pic : 'userpic.jpeg'"
+                />
               </span>
               <div class="media-body ml-2 d-none d-lg-block">
                 <span class="mb-0 text-sm font-weight-bold">{{

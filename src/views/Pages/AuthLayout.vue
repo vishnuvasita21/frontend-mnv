@@ -11,7 +11,7 @@
       <template v-slot:brand>
         <div class="navbar-wrapper">
           <router-link class="navbar-brand" to="/">
-            <img src="img/brand/white.png" />
+            <img src="img/brand/white-logo.png" />
           </router-link>
         </div>
       </template>
@@ -38,11 +38,6 @@
 
       <ul class="navbar-nav mr-auto">
         <li class="nav-item">
-          <router-link to="/dashboard" class="nav-link">
-            <span class="nav-link-inner--text">Dashboard</span>
-          </router-link>
-        </li>
-        <li class="nav-item">
           <router-link to="/login" class="nav-link">
             <span class="nav-link-inner--text">Login</span>
           </router-link>
@@ -50,11 +45,6 @@
         <li class="nav-item">
           <router-link to="/register" class="nav-link">
             <span class="nav-link-inner--text">Register</span>
-          </router-link>
-        </li>
-        <li class="nav-item">
-          <router-link to="/admin" class="nav-link">
-            <span class="nav-link-inner--text">Admin</span>
           </router-link>
         </li>
       </ul>
@@ -69,7 +59,7 @@
             data-original-title="Like us on Facebook"
           >
             <i class="fab fa-facebook-square"></i>
-            <span class="nav-link-inner--text d-lg-none">Facebook</span>
+            <span class="nav-link-inner d-lg-none text-blue">Facebook</span>
           </a>
         </li>
         <li class="nav-item">

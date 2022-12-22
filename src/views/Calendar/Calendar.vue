@@ -1,46 +1,12 @@
 <template>
   <div>
-    <base-header class="pb-6 content__title content__title--calendar">
+    <base-header
+      class="pb-6 content__title content__title--calendar"
+      style="background-color: rgb(54, 134, 255) !important"
+    >
       <div class="row align-items-center py-4">
         <div class="col-lg-6 col-7">
           <h6 class="h2 text-white d-inline-block mb-0">{{ $route.name }}</h6>
-          <nav aria-label="breadcrumb" class="d-none d-md-inline-block ml-md-4">
-            <route-bread-crumb></route-bread-crumb>
-          </nav>
-        </div>
-        <div class="col-lg-6 mt-3 mt-lg-0 text-lg-right">
-          <a
-            href="#"
-            @click.prevent="prev"
-            class="fullcalendar-btn-prev btn btn-sm btn-default"
-          >
-            <i class="fas fa-angle-left"></i>
-          </a>
-          <a
-            href="#"
-            @click.prevent="next"
-            class="fullcalendar-btn-next btn btn-sm btn-default"
-          >
-            <i class="fas fa-angle-right"></i>
-          </a>
-          <base-button
-            class="btn btn-sm btn-default"
-            @click="changeView('dayGridMonth')"
-          >
-            Month
-          </base-button>
-          <base-button
-            class="btn btn-sm btn-default"
-            @click="changeView('dayGridWeek')"
-          >
-            Week
-          </base-button>
-          <base-button
-            class="btn btn-sm btn-default"
-            @click="changeView('timeGridDay')"
-          >
-            Day
-          </base-button>
         </div>
       </div>
     </base-header>
@@ -53,8 +19,24 @@
             <!-- Card header -->
             <div class="card-header">
               <!-- Title -->
-              <h5 class="h3 mb-0">Calendar</h5>
+              <div>
+                <a
+                  href="#"
+                  @click.prevent="prev"
+                  class="fullcalendar-btn-prev btn btn-sm btn-default"
+                >
+                  <i class="fas fa-angle-left"></i>
+                </a>
+                <a
+                  href="#"
+                  @click.prevent="next"
+                  class="fullcalendar-btn-next btn btn-sm btn-default"
+                >
+                  <i class="fas fa-angle-right"></i>
+                </a>
+              </div>
             </div>
+
             <!-- Card body -->
             <div class="card-body p-0 card-calendar-body">
               <div id="fullCalendar"></div>
@@ -179,82 +161,21 @@ import { Calendar } from "@fullcalendar/core";
 import dayGridPlugin from "@fullcalendar/daygrid";
 import interactionPlugin from "@fullcalendar/interaction";
 import timeGridDay from "@fullcalendar/timegrid";
-import RouteBreadCrumb from "@/components/Breadcrumb/RouteBreadcrumb";
+import axios from "axios";
 
 const today = new Date();
 const y = today.getFullYear();
 const m = today.getMonth();
-const d = today.getDate();
+// const d = today.getDate();
 var calendar;
 export default {
   name: "calendar",
   components: {
-    RouteBreadCrumb,
     Modal,
   },
   data() {
     return {
-      events: [
-        {
-          title: "All Day Event",
-          start: new Date(y, m, 1),
-          className: "event-default",
-        },
-        {
-          id: 999,
-          title: "Repeating Event",
-          start: new Date(y, m, d - 4, 6, 0),
-          allDay: false,
-          className: "event-green",
-        },
-        {
-          id: 999,
-          title: "Repeating Event",
-          start: new Date(y, m, d + 3, 6, 0),
-          allDay: false,
-          className: "event-orange",
-        },
-        {
-          title: "Meeting",
-          start: new Date(y, m, d - 1, 10, 30),
-          allDay: false,
-          className: "event-green",
-        },
-        {
-          title: "Lunch",
-          start: new Date(y, m, d + 7, 12, 0),
-          end: new Date(y, m, d + 7, 14, 0),
-          allDay: false,
-          className: "event-red",
-        },
-        {
-          title: "Md-pro Launch",
-          start: new Date(y, m, d - 2, 12, 0),
-          allDay: true,
-          className: "event-azure",
-        },
-        {
-          title: "Birthday Party",
-          start: new Date(y, m, d + 1, 19, 0),
-          end: new Date(y, m, d + 1, 22, 30),
-          allDay: false,
-          className: "event-azure",
-        },
-        {
-          title: "Click for Creative Tim",
-          start: new Date(y, m, 21),
-          end: new Date(y, m, 22),
-          url: "http://www.creative-tim.com/",
-          className: "event-orange",
-        },
-        {
-          title: "Click for Google",
-          start: new Date(y, m, 21),
-          end: new Date(y, m, 22),
-          url: "http://www.creative-tim.com/",
-          className: "event-orange",
-        },
-      ],
+      events: [],
       model: {
         title: "New event",
         className: "bg-default",
@@ -278,6 +199,20 @@ export default {
     };
   },
   methods: {
+    getBirthDate() {
+      this.events = [];
+      axios.get("http://localhost:7000/dates").then((response) => {
+        for (let i = 0; i < response.data.length; i++) {
+          this.events.push({
+            title: "BirthDay",
+            start: this.$dayjs(response.data[i].Info.DOB).format("YYYY-MM-DD"),
+            allDay: true,
+            className: "event-azure",
+          });
+        }
+        this.initCalendar();
+      });
+    },
     initCalendar() {
       var calendarEl = document.getElementById("fullCalendar");
 
@@ -348,7 +283,7 @@ export default {
     },
   },
   mounted() {
-    this.initCalendar();
+    this.getBirthDate();
   },
 };
 </script>

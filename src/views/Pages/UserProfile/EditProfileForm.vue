@@ -61,7 +61,9 @@
             </p>
             <p>
               <span class="user-info">{{
-                $dayjs(DOB).format("DD-MM-YYYY")
+                users[0].Info.DOB
+                  ? $dayjs(users[0].Info.DOB).format("DD-MM-YYYY")
+                  : "-"
               }}</span>
             </p>
             <p>
@@ -493,12 +495,11 @@ export default {
           }`
         )
         .then((response) => {
+          localStorage.setItem("user", JSON.stringify(response.data));
           (this.name = response.data.fullName.split(" ")),
             (this.firstName = this.name[0]),
             (this.lastName = this.name[1]),
-            (this.DOB = this.$dayjs(response.data.Info.DOB).format(
-              "YYYY-MM-DD"
-            )),
+            (this.DOB = response.data.Info.DOB),
             (this.number = response.data.number),
             (this.Gender = response.data.Info.Gender),
             (this.Address = response.data.Info.Address.Address),
@@ -511,13 +512,14 @@ export default {
             (this.Branch = response.data.Info.Bank.Branch),
             this.users.push(response.data);
           this.img = response.data.profile_pic;
-          const byear = parseInt(response.data.Info.DOB.toString().slice(0, 5));
-          const this_year = new Date().getFullYear();
 
-          this.age = this_year - byear;
+          const byear = this.$dayjs(this.DOB);
 
-          localStorage.setItem("user", JSON.stringify(response.data));
+          const cyear = this.$dayjs();
+          this.age = cyear.diff(byear, "year");
         });
+
+      console.log(this.age);
     },
 
     updateProfile(values) {

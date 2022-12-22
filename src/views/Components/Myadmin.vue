@@ -1,14 +1,19 @@
 <template>
   <div>
-    <base-header>
+    <base-header style="background-color: rgb(54, 134, 255) !important">
       <div class="row align-items-center py-4">
         <div class="col-lg-6 col-7">
+          <h6 class="h2 text-white d-inline-block mb-0">
+            {{ pagename }}
+          </h6>
+        </div>
+        <div class="col-lg-6 col-5 text-right">
           <base-button
             size="sm"
             type="neutral"
             @click="
               ((allusercontainer = true),
-              (alltaskcontainer = false),
+              (allleavecontainer = false),
               (alltaskcontainer = false)),
                 (pagename = 'All Users')
             "
@@ -37,20 +42,16 @@
             >Tasks</base-button
           >
         </div>
-        <div class="col-lg-6 col-5 text-center">
-          <h6 class="h2 text-white d-inline-block mb-0">
-            {{ $route.name }} > {{ pagename }}
-          </h6>
-          <nav aria-label="breadcrumb" class="d-none d-md-inline-block ml-md-4">
-            <route-breadcrumb />
-          </nav>
-        </div>
       </div>
     </base-header>
 
-    <div class="container" v-if="allusercontainer">
+    <div
+      class="card"
+      style="margin: 20px; padding: 10px"
+      v-if="allusercontainer"
+    >
       <!-- header -->
-      <div class="leave-body">
+      <div>
         <div class="leave-body-header">
           <div>
             <span style="font-size: 20px; color: Dodgerblue">
@@ -183,7 +184,10 @@
             >
               <el-table-column prop="fullName" label="Name" class="flex-fill"
                 ><template v-slot="{ row }">
-                  <img class="profile_image" :src="row.profile_pic" />
+                  <img
+                    class="profile_image"
+                    :src="row.profile_pic ? row.profile_pic : 'userpic.jpeg'"
+                  />
                   <span>{{ row.fullName }}</span>
                 </template></el-table-column
               >
@@ -212,7 +216,11 @@
     </div>
 
     <!-- leave list for admin -->
-    <div class="container" v-if="allleavecontainer">
+    <div
+      class="card"
+      style="margin: 20px; padding: 10px"
+      v-if="allleavecontainer"
+    >
       <div class="leave-body">
         <div class="leave-body-header">
           <div>
@@ -270,12 +278,17 @@
               />
 
               <el-table-column prop="Leaves" label="Days" class="flex-fill" />
-              <el-table-column
-                label="Date"
-                class="flex-fill"
-                prop="SelectDate"
-                sortable
-              />
+              <el-table-column label="Date" class="flex-fill"
+                ><template v-slot="{ row }">
+                  <span>{{ $dayjs(row.startDate).format("DD-MM-YYYY") }}</span>
+
+                  <span>{{
+                    row.endDate
+                      ? " - " + $dayjs(row.endDate).format("DD-MM-YYYY")
+                      : ""
+                  }}</span>
+                </template></el-table-column
+              >
 
               <el-table-column label="Status" class="flex-fill" prop="status" />
               <el-table-column align="right">
@@ -317,7 +330,7 @@
         <div class="tasks">
           <div>
             <el-table
-              height="400px"
+              height="300px"
               :data="prevLeaves"
               cell-class-name="my-cells"
             >
@@ -327,11 +340,17 @@
                 class="flex-fill"
               />
               <el-table-column prop="Leaves" label="Leave" class="flex-fill" />
-              <el-table-column
-                prop="SelectDate"
-                label="Date"
-                class="flex-fill"
-              />
+              <el-table-column label="Date" class="flex-fill"
+                ><template v-slot="{ row }">
+                  <span>{{ $dayjs(row.startDate).format("DD-MM-YYYY") }}</span>
+
+                  <span>{{
+                    row.endDate
+                      ? " - " + $dayjs(row.endDate).format("DD-MM-YYYY")
+                      : ""
+                  }}</span>
+                </template></el-table-column
+              >
               <el-table-column
                 label="Status"
                 class="flex-fill"
@@ -352,7 +371,11 @@
     </div>
 
     <!-- all tasks -->
-    <div class="container" v-if="alltaskcontainer">
+    <div
+      class="card"
+      style="margin: 20px; padding: 10px"
+      v-if="alltaskcontainer"
+    >
       <!-- header -->
       <div class="leave-body">
         <div class="leave-body-header">
@@ -427,6 +450,7 @@
                   </div>
                   <base-input label="Select Due Date">
                     <el-date-picker
+                      :disabled-date="disableDates"
                       placeholder="Date"
                       v-model="duedate"
                       type="date"
@@ -436,6 +460,7 @@
 
                 <div>
                   <el-button
+                    :disabled="!isComplete"
                     type="primary"
                     @click="
                       AddNewUserTask();
@@ -458,24 +483,36 @@
         <div class="tasks">
           <div>
             <el-table
-              height="700px"
-              scrollbar-always-on="true"
+              height="550px"
               :data="alltasklist"
               style="width: 100%"
               cell-class-name="my-cells"
             >
+              <el-table-column type="expand">
+                <template #default="props">
+                  <div m="4">
+                    <p>Task: {{ props.row.taskName }}</p>
+                    <p>
+                      Due Date:
+                      {{ $dayjs(props.row.DueDate).format("DD-MM-YYYY") }}
+                    </p>
+                    <p>Description: {{ props.row.Description }}</p>
+                    <p>Status: {{ props.row.status }}</p>
+                  </div>
+                </template>
+              </el-table-column>
               <el-table-column
                 height="200px"
                 prop="taskName"
                 label="Task"
                 class="flex-fill"
               />
-              <el-table-column prop="DueDate" label="Date" class="flex-fill" />
-              <el-table-column
-                prop="addMember"
-                label="User"
-                class="flex-fill"
-              />
+              <el-table-column label="Date" class="flex-fill"
+                ><template v-slot="{ row }">
+                  <span>{{ $dayjs(row.DueDate).format("DD-MM-YYYY") }}</span>
+                </template></el-table-column
+              >
+              <el-table-column prop="fullName" label="User" class="flex-fill" />
               <el-table-column
                 label="Status"
                 class="flex-fill"
@@ -606,6 +643,15 @@ export default {
     };
   },
   methods: {
+    disableDates(value) {
+      const today_date = this.$dayjs().format("YYYY-MM-DD");
+      const value_date = this.$dayjs(value).format("YYYY-MM-DD");
+      if (value_date < today_date) {
+        return true;
+      } else {
+        return false;
+      }
+    },
     show() {
       var input = this.$refs;
 
@@ -614,7 +660,7 @@ export default {
     },
     updateLeave(row, value) {
       const id = row._id;
-      console.log(value);
+
       axios
         .post(`http://localhost:7000/updateleavestatus/${id}`, {
           status: value,
@@ -650,7 +696,7 @@ export default {
           taskName: this.taskname,
           taskType: "Checkbox",
           addMember: this.selectedusers,
-          DueDate: JSON.stringify(this.duedate).slice(1, 11),
+          DueDate: this.duedate,
           Description: "urgent",
           status: "Pending",
           statusType: "danger",
@@ -673,11 +719,11 @@ export default {
             label: this.allUsers[i].fullName,
           });
         }
-        console.log(this.users);
       });
     },
     getLeaves() {
       this.leaveReq = [];
+      this.prevLeaves = [];
       axios.get(`http://localhost:7000/leavereq`).then((response) => {
         this.list = response.data;
         for (let i = 0; i < this.list.length; i++) {
@@ -693,18 +739,20 @@ export default {
       this.alltasklist = [];
       axios.get(`http://localhost:7000/alltask`).then((response) => {
         this.alltasklist = response.data;
+        for (let i = 0; i < this.alltasklist.length; i++) {
+          this.getUserName(this.alltasklist[i].addMember[0], i);
+        }
+      });
+    },
+    getUserName(id, i) {
+      axios.get(`http://localhost:7000/usertask/${id}`).then((response) => {
+        this.alltasklist[i]["fullName"] = response.data.fullName;
       });
     },
   },
   computed: {
     isComplete() {
-      return (
-        this.selects.simple &&
-        this.days &&
-        this.date &&
-        this.note &&
-        this.member
-      );
+      return this.taskname && this.selectedusers && this.duedate;
     },
     filteredUsers() {
       return this.allUsers
@@ -746,6 +794,13 @@ export default {
 <style>
 *:focus {
   outline: none;
+}
+.btn-sm {
+  font-size: 1rem !important;
+  font-weight: 700 !important;
+}
+.btn:active {
+  color: black !important;
 }
 .el-table__body-wrapper {
   background: white !important;

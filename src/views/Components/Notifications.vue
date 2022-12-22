@@ -1,53 +1,19 @@
 <template>
-  <div>
-    <base-header class="pb-6">
-      <div class="row align-items-center py-4">
-        <div class="col-lg-6 col-7">
-          <h6 class="h2 text-white d-inline-block mb-0">{{ $route.name }}</h6>
-          <nav aria-label="breadcrumb" class="d-none d-md-inline-block ml-md-4">
-            <route-breadcrumb />
-          </nav>
+  <div style="margin-top: 10px">
+    <div class="container">
+      <div class="leave-body-header">
+        <div>
+          <span style="font-size: 20px; color: Dodgerblue">
+            <i class="fa fa-bell"></i>
+          </span>
         </div>
-        <div class="col-lg-6 col-5 text-right">
-          <base-button size="sm" type="neutral">New</base-button>
-          <base-button size="sm" type="neutral">Filters</base-button>
-        </div>
+        <div><h3 style="margin: 0">All Users</h3></div>
       </div>
-    </base-header>
-
-    <div class="mt--6">
-      <div class="row justify-content-center">
-        <div class="col-lg-10 card-wrapper">
-          <card>
-            <template v-slot:header>
-              <h3 class="mb-0">Alerts</h3>
-            </template>
-            <base-alert dismissible type="default" icon="ni ni-like-2">
-              <strong>Default!</strong> This is a default alert—check it out!
-            </base-alert>
-
-            <base-alert dismissible type="primary" icon="ni ni-like-2">
-              <strong>Default!</strong> This is a primary alert—check it out!
-            </base-alert>
-
-            <base-alert dismissible type="secondary" icon="ni ni-like-2">
-              <strong>Default!</strong> This is a secondary alert—check it out!
-            </base-alert>
-
-            <base-alert dismissible type="info" icon="ni ni-like-2">
-              <strong>Default!</strong> This is a info alert—check it out!
-            </base-alert>
-
-            <base-alert dismissible type="danger" icon="ni ni-like-2">
-              <strong>Default!</strong> This is a danger alert—check it out!
-            </base-alert>
-
-            <base-alert dismissible type="warning" icon="ni ni-like-2">
-              <strong>Default!</strong> This is a warning alert—check it out!
-            </base-alert>
-          </card>
-        </div>
-      </div>
+      <el-table :data="tableData" height="250" style="width: 100%">
+        <el-table-column prop="date" label="Date" class="flex-fill" />
+        <el-table-column prop="name" label="Name" class="flex-fill" />
+        <el-table-column prop="address" label="Address" class="flex-fill" />
+      </el-table>
     </div>
   </div>
 </template>
@@ -55,16 +21,14 @@
 import swal from "sweetalert2";
 import "sweetalert2/dist/sweetalert2.css";
 import { useToast } from "vue-toastification";
-import BaseAlert from "@/components/BaseAlert";
-import RouteBreadcrumb from "@/components/Breadcrumb/RouteBreadcrumb";
-import BaseHeader from "@/components/BaseHeader";
+
 import Notification from "@/components/Notification";
+import { ElTable, ElTableColumn } from "element-plus";
 
 export default {
   components: {
-    BaseAlert,
-    BaseHeader,
-    RouteBreadcrumb,
+    [ElTable.name]: ElTable,
+    [ElTableColumn.name]: ElTableColumn,
   },
   data() {
     return {

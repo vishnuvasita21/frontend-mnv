@@ -1,90 +1,121 @@
 <template>
-  <div class="container" style="height: 100%">
-    <!-- div for search menu -->
-
-    <div class="search-view">
-      <div class="search-office-select">
-        <el-select v-model="selects.simple" placeholder="Select">
-          <el-option
-            v-for="option in selects.languages"
-            :key="option.label"
-            :label="option.label"
-            :value="option.value"
-          />
-        </el-select>
-      </div>
-
-      <div class="search-task">
-        <div>
-          <el-input
-            v-model="input1"
-            placeholder="Search Task"
-            style="width: 400px"
-          />
+  <div>
+    <base-header
+      class="pb-6 content__title content__title--calendar"
+      style="background-color: rgb(54, 134, 255) !important"
+    >
+      <div class="row align-items-center py-4">
+        <div class="col-lg-6 col-7">
+          <h6 class="h2 text-white d-inline-block mb-0">{{ $route.name }}</h6>
+          <nav aria-label="breadcrumb" class="d-none d-md-inline-block ml-md-4">
+            <route-bread-crumb></route-bread-crumb>
+          </nav>
         </div>
       </div>
-    </div>
-    <div class="tasks-header">
-      <h3>New Tasks</h3>
-    </div>
-    <!-- second div for card view -->
-    <div class="tasks">
-      <div>
-        <el-table height="200px" :data="tasklist" cell-class-name="my-cells">
-          <el-table-column type="expand">
-            <template #default="props">
-              <div m="4">
-                <p m="t-0 b-2">Task: {{ props.row.taskName }}</p>
-                <p m="t-0 b-2">Due Date: {{ props.row.DueDate }}</p>
-                <p m="t-0 b-2">Description: {{ props.row.Description }}</p>
-                <p m="t-0 b-2">Status: {{ props.row.status }}</p>
-              </div>
-            </template>
-          </el-table-column>
-          <el-table-column prop="taskName" label="Task" class="flex-fill" />
-          <el-table-column prop="taskName" label="Type" class="flex-fill" />
-          <el-table-column prop="DueDate" label="Due-Date" class="flex-fill" />
-          <el-table-column prop="DueDate" label="Note" class="flex-fill" />
-          <el-table-column prop="status" label="status" class="flex-fill" />
-          <el-table-column prop="" label="Mark as done" class="flex-fill">
-            <template v-slot="{ row }">
-              <el-button type="success" @click="updateTask(row)" solid
-                >done</el-button
-              ></template
-            ></el-table-column
-          >
-        </el-table>
-      </div>
-      <transition name="slide" appear>
-        <div class="checlistModal" v-if="showModal">
-          <div class="task-info">
-            <div>task: {{ list.taskName }}</div>
-            <div>Description: {{ list.Description }}</div>
-            <div>Due Date: {{ list.DueDate }}</div>
+    </base-header>
+    <!-- div for search menu -->
+
+    <div class="container mt--6">
+      <div class="card" style="padding: 20px">
+        <div class="search-view-new">
+          <div class="search-office-select">
+            <el-select v-model="selects.simple" placeholder="Select">
+              <el-option
+                v-for="option in selects.languages"
+                :key="option.label"
+                :label="option.label"
+                :value="option.value"
+              />
+            </el-select>
           </div>
-          <el-button @click="showModal = false" type="primary" solid
-            >OK</el-button
+
+          <div class="search-task w-50">
+            <div>
+              <el-input v-model="input1" placeholder="Search Task" />
+            </div>
+          </div>
+        </div>
+        <div class="tasks-header">
+          <h3>New Tasks</h3>
+        </div>
+        <!-- second div for card view -->
+        <div class="tasks">
+          <div>
+            <el-table
+              height="300px"
+              :data="tasklist"
+              cell-class-name="my-cells"
+            >
+              <el-table-column type="expand">
+                <template #default="props">
+                  <div m="4">
+                    <p m="t-0 b-2">Task: {{ props.row.taskName }}</p>
+                    <p m="t-0 b-2">
+                      Due Date:
+                      {{ $dayjs(props.row.DueDate).format("DD-MM-YYYY") }}
+                    </p>
+                    <p m="t-0 b-2">Description: {{ props.row.Description }}</p>
+                    <p m="t-0 b-2">Status: {{ props.row.status }}</p>
+                  </div>
+                </template>
+              </el-table-column>
+              <el-table-column prop="taskName" label="Task" class="flex-fill" />
+
+              <el-table-column label="Due" class="flex-fill">
+                <template v-slot="{ row }">
+                  <span>{{
+                    $dayjs(row.DueDate).format("DD-MM-YYYY")
+                  }}</span></template
+                ></el-table-column
+              >
+              <el-table-column prop="status" label="status" class="flex-fill" />
+              <el-table-column prop="" label="Mark as done" class="flex-fill">
+                <template v-slot="{ row }">
+                  <el-button type="success" @click="updateTask(row)" solid
+                    >done</el-button
+                  ></template
+                ></el-table-column
+              >
+            </el-table>
+          </div>
+          <transition name="slide" appear>
+            <div class="checlistModal" v-if="showModal">
+              <div class="task-info">
+                <div>task: {{ list.taskName }}</div>
+                <div>Description: {{ list.Description }}</div>
+                <div>Due Date: {{ list.DueDate }}</div>
+              </div>
+              <el-button @click="showModal = false" type="primary" solid
+                >OK</el-button
+              >
+            </div></transition
           >
-        </div></transition
-      >
-    </div>
-    <div class="tasks-header">
-      <h3>Completed Tasks</h3>
-    </div>
-    <div class="tasks">
-      <div>
-        <el-table
-          height="200px"
-          :data="completedTasks"
-          style="width: 100%"
-          cell-class-name="my-cells"
-        >
-          <el-table-column prop="taskName" label="Task" class="flex-fill" />
-          <el-table-column prop="taskName" label="Type" class="flex-fill" />
-          <el-table-column prop="DueDate" label="Due-Date" class="flex-fill" />
-          <el-table-column prop="DueDate" label="Note" class="flex-fill" />
-          <el-table-column prop="status" label="status" class="flex-fill" />
-        </el-table>
+        </div>
+        <div class="tasks-header">
+          <h3>Completed Tasks</h3>
+        </div>
+        <div class="tasks">
+          <div>
+            <el-table
+              height="300px"
+              :data="completedTasks"
+              style="width: 100%"
+              cell-class-name="my-cells"
+            >
+              <el-table-column prop="taskName" label="Task" class="flex-fill" />
+
+              <el-table-column prop="DueDate" label="Due-Date" class="flex-fill"
+                ><template v-slot="{ row }">
+                  <span>{{
+                    $dayjs(row.DueDate).format("DD-MM-YYYY")
+                  }}</span></template
+                ></el-table-column
+              >
+
+              <el-table-column prop="status" label="status" class="flex-fill" />
+            </el-table>
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -246,6 +277,7 @@ img {
 }
 .tasks {
   background-color: blueviolet;
+  margin-bottom: 20px;
 }
 p {
   margin: 0;
@@ -305,12 +337,11 @@ p {
 .container {
   margin: 0;
 }
-.search-view {
-  height: 50px;
-  padding: 30px 10px;
+.search-view-new {
   display: flex;
   align-items: center;
   flex-direction: row;
+  margin-bottom: 20px;
 }
 .search-office-select,
 .search-department-select {
