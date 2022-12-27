@@ -11,7 +11,7 @@
       </div>
     </base-header>
 
-    <div class="container mt--6">
+    <div class="card mt--6 ml-4 mr-4">
       <div class="row">
         <div class="col">
           <!-- Fullcalendar -->
@@ -34,6 +34,12 @@
                 >
                   <i class="fas fa-angle-right"></i>
                 </a>
+
+                <div class="d-inline-block mr-2">
+                  <h2>
+                    {{ monthyear }}
+                  </h2>
+                </div>
               </div>
             </div>
 
@@ -168,6 +174,7 @@ const y = today.getFullYear();
 const m = today.getMonth();
 // const d = today.getDate();
 var calendar;
+// console.log(calendar.viewTitle);
 export default {
   name: "calendar",
   components: {
@@ -175,6 +182,7 @@ export default {
   },
   data() {
     return {
+      monthyear: "",
       events: [],
       model: {
         title: "New event",
@@ -237,18 +245,20 @@ export default {
           this.showEditModal = true;
         },
         events: this.events,
+        initialView: "dayGridMonth",
       });
       calendar.render();
     },
     changeView(newView) {
       calendar.changeView(newView);
-      calendar.view.title;
     },
     next() {
       calendar.next();
+      this.monthyear = calendar.currentData.viewTitle;
     },
     prev() {
       calendar.prev();
+      this.monthyear = calendar.currentData.viewTitle;
     },
     saveEvent() {
       if (this.model.title) {
@@ -284,6 +294,7 @@ export default {
   },
   mounted() {
     this.getBirthDate();
+    this.monthyear = this.$dayjs().format("MMMM YYYY");
   },
 };
 </script>

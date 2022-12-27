@@ -190,13 +190,14 @@ export default {
 </script>
 <style>
 a.active.router-link-exact-active.nav-link {
-  /* background: #b0d5ff !important; */
-  text-decoration: underline;
+  background: #e6c0ff !important;
+}
+a.active.router-link-exact-active.page-item-link {
+  text-decoration: underline white;
 }
 
 .navbar-light .navbar-nav .nav-link.active {
   color: rgb(0, 0, 0) !important;
-  font-family: "Roboto", sans-serif !important;
 }
 .navbar-light .navbar-nav .nav-link.active .text-blue {
   color: #000000 !important;
@@ -226,5 +227,8 @@ a.active.router-link-exact-active.nav-link {
 
 .navbar-dark .sidebar-menu-item.active .nav-link-text {
   color: black;
+}
+.nav-link {
+  font-family: "Poppins", sans-serif !important;
 }
 </style>

@@ -1,124 +1,99 @@
 <template>
-  <div style="margin-top: 10px">
-    <div class="container">
-      <div class="leave-body-header">
-        <div>
-          <span style="font-size: 20px; color: Dodgerblue">
-            <i class="fa fa-bell"></i>
-          </span>
+  <div>
+    <base-header
+      class="pb-6 content__title content__title--calendar"
+      style="background-color: rgb(54, 134, 255) !important"
+    >
+      <div class="row align-items-center py-4">
+        <div class="col-lg-6 col-7">
+          <h6 class="h2 text-white d-inline-block mb-0">{{ $route.name }}</h6>
+          <nav aria-label="breadcrumb" class="d-none d-md-inline-block ml-md-4">
+            <route-bread-crumb></route-bread-crumb>
+          </nav>
         </div>
-        <div><h3 style="margin: 0">All Users</h3></div>
       </div>
-      <el-table :data="tableData" height="250" style="width: 100%">
-        <el-table-column prop="date" label="Date" class="flex-fill" />
-        <el-table-column prop="name" label="Name" class="flex-fill" />
-        <el-table-column prop="address" label="Address" class="flex-fill" />
-      </el-table>
+    </base-header>
+
+    <!-- notification table -->
+    <div class="card mt--6 ml-4 mr-4">
+      <div class="card" style="padding: 20px">
+        <el-table
+          :data="notificationList"
+          style="width: 100%"
+          height="400px"
+          @selection-change="handleSelectionChange"
+        >
+          <el-table-column type="selection" width="55" />
+          <el-table-column label="MESSAGES" class="flex-fill text-bold"
+            ><template v-slot="{ row }">
+              <p
+                style="
+                  font-family: 'Roboto', sans-serif;
+                  margin: 0;
+                  color: black;
+                  font-weight: solid;
+                "
+              >
+                {{ row.notificationmsg }}
+              </p>
+            </template></el-table-column
+          >
+          <el-table-column align="right" width="200">
+            <template v-slot="{ row }">
+              {{ $dayjs(row.date).fromNow() }}
+            </template>
+          </el-table-column>
+        </el-table>
+        <div class="mt-4">
+          <el-button type="primary" size="small">Mark as read</el-button>
+          <el-button type="danger" size="small" @click="delSelected"
+            >Delete</el-button
+          >
+        </div>
+      </div>
     </div>
   </div>
 </template>
 <script>
-import swal from "sweetalert2";
-import "sweetalert2/dist/sweetalert2.css";
-import { useToast } from "vue-toastification";
-
-import Notification from "@/components/Notification";
-import { ElTable, ElTableColumn } from "element-plus";
-
+import { ElTable, ElTableColumn, ElButton } from "element-plus";
+import axios from "axios";
 export default {
   components: {
     [ElTable.name]: ElTable,
     [ElTableColumn.name]: ElTableColumn,
+    ElButton,
   },
   data() {
     return {
-      modals: {
-        classic: false,
-        notice: false,
-        form: false,
-      },
-      formModal: {
-        email: "",
-        password: "",
-        remember: true,
-      },
+      notificationList: [],
+      delNoti: [],
     };
   },
   methods: {
-    runToast(pos, type, ownText, ownIcon) {
-      const text =
-        "Welcome to <b>Vue Argon Dashboard Pro</b> - a beautiful resource for every web developer";
-      const icon = "ni ni-bell-55";
-      const content = {
-        component: Notification,
-        props: {
-          ownText: ownText,
-          ownIcon: ownIcon,
-          icon: icon,
-          text: text,
-          type: type,
-        },
-      };
-      const toast = useToast();
-      toast(content, {
-        hideProgressBar: true,
-        icon: false,
-        closeButton: false,
-        position: pos,
-      });
+    handleSelectionChange(val) {
+      this.delNoti = [];
+      this.delNoti = val;
     },
-    showSwal(type) {
-      if (type === "basic") {
-        swal.fire({
-          title: `Here's a message!`,
-          text: `A few words about this sweet alert ...`,
-          buttonsStyling: false,
-          customClass: {
-            confirmButton: "btn btn-primary",
-          },
-        });
-      } else if (type === "info") {
-        swal.fire({
-          icon: "info",
-          title: `Info`,
-          text: `A few words about this sweet alert ...`,
-          buttonsStyling: false,
-          customClass: {
-            confirmButton: "btn btn-info",
-          },
-        });
-      } else if (type === "success") {
-        swal.fire({
-          title: `Success`,
-          text: "A few words about this sweet alert ...",
-          buttonsStyling: false,
-          customClass: {
-            confirmButton: "btn btn-success",
-          },
-          icon: "success",
-        });
-      } else if (type === "warning") {
-        swal.fire({
-          title: `Warning`,
-          text: "A few words about this sweet alert ...",
-          buttonsStyling: false,
-          customClass: {
-            confirmButton: "btn btn-warning",
-          },
-          icon: "warning",
-        });
-      } else if (type === "question") {
-        swal.fire({
-          title: `Are you sure?`,
-          text: "A few words about this sweet alert ...",
-          buttonsStyling: false,
-          customClass: {
-            confirmButton: "btn btn-default",
-          },
-          icon: "question",
-        });
+    delSelected() {
+      for (let i = 0; i < this.delNoti.length; i++) {
+        axios
+          .delete(`http://localhost:7000/deletenoti/${this.delNoti[i]._id}`)
+          .then(() => {
+            var id = JSON.parse(localStorage.getItem("user"))._id;
+            this.getNotification(id);
+          });
       }
     },
+    getNotification(id) {
+      this.notificationList = [];
+      axios.get(`http://localhost:7000/notify/${id}`).then((response) => {
+        this.notificationList = response.data;
+      });
+    },
+  },
+  mounted() {
+    var id = JSON.parse(localStorage.getItem("user"))._id;
+    this.getNotification(id);
   },
 };
 </script>

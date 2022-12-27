@@ -361,12 +361,12 @@
           </div>
         </div>
         <div class="text-center">
-          <h5 class="h3">
+          <h2>
             {{ users[0].fullName
             }}<span class="font-weight-light">
               {{ age ? ", " + age : null }}</span
             >
-          </h5>
+          </h2>
           <div style="font-weight: bold">ID{{ users[0]._id.slice(4, 8) }}</div>
           <div class="h5 font-weight-300">
             <h3 style="color: grey">{{ users[0].position }}</h3>

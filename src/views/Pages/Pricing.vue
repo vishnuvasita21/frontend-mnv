@@ -1,16 +1,24 @@
 <template>
   <div>
     <!-- Header -->
-    <div class="header bg-gradient-success py-7 py-lg-8 pt-lg-9">
+    <div
+      class="header py-5 py-lg-5 pt-lg-7"
+      style="
+        background: url('g3.gif');
+        background-repeat: no-repeat;
+        background-size: cover;
+      "
+    >
       <div class="container">
         <div class="header-body text-center mb-7">
           <div class="row justify-content-center">
             <div class="col-xl-5 col-lg-6 col-md-8 px-5">
-              <h1 class="text-white">Choose the best plan for your business</h1>
+              <h1 class="text-white">Sign In to account</h1>
             </div>
           </div>
         </div>
       </div>
+
       <div class="separator separator-bottom separator-skew zindex-100">
         <svg
           x="0"
@@ -30,186 +38,51 @@
     <!-- Page content -->
     <div class="container mt--8 pb-5">
       <div class="row justify-content-center">
-        <div class="col-lg-10">
-          <div class="pricing card-group flex-column flex-md-row mb-3">
-            <card
-              header-classes="bg-transparent"
-              body-classes="px-lg-7"
-              class="card-pricing border-0 text-center mb-4"
-            >
-              <template v-slot:header>
-                <h4 class="text-uppercase ls-1 text-primary py-3 mb-0">
-                  Bravo pack
-                </h4>
-              </template>
-              <div class="display-2">$49</div>
-              <span class="text-muted">per application</span>
-              <ul class="list-unstyled my-4">
-                <li>
-                  <div class="d-flex align-items-center">
-                    <div>
-                      <div
-                        class="icon icon-xs icon-shape bg-gradient-primary shadow rounded-circle text-white"
-                      >
-                        <i class="fas fa-terminal"></i>
-                      </div>
-                    </div>
-                    <div>
-                      <span class="pl-2">Complete documentation</span>
-                    </div>
-                  </div>
-                </li>
-                <li>
-                  <div class="d-flex align-items-center">
-                    <div>
-                      <div
-                        class="icon icon-xs icon-shape bg-gradient-primary shadow rounded-circle text-white"
-                      >
-                        <i class="fas fa-pen-fancy"></i>
-                      </div>
-                    </div>
-                    <div>
-                      <span class="pl-2">Working materials in Sketch</span>
-                    </div>
-                  </div>
-                </li>
-                <li>
-                  <div class="d-flex align-items-center">
-                    <div>
-                      <div
-                        class="icon icon-xs icon-shape bg-gradient-primary shadow rounded-circle text-white"
-                      >
-                        <i class="fas fa-hdd"></i>
-                      </div>
-                    </div>
-                    <div>
-                      <span class="pl-2">2GB cloud storage</span>
-                    </div>
-                  </div>
-                </li>
-              </ul>
-
-              <base-button type="primary" class="mb-3"
-                >Start free trial</base-button
-              >
-
-              <template v-slot:footer>
-                <a href="#!" class="text-light">Request a demo</a>
-              </template>
-            </card>
-
-            <card
-              gradient="info"
-              class="card-pricing zoom-in shadow-lg rounded border-0 text-center mb-4"
-              header-classes="bg-transparent"
-              body-classes="px-lg-7"
-              footer-classes="bg-transparent"
-            >
-              <template v-slot:header>
-                <h4 class="text-uppercase ls-1 text-white py-3 mb-0">
-                  Alpha pack
-                </h4>
-              </template>
-              <div class="display-1 text-white">$199</div>
-              <span class="text-white">per application</span>
-              <ul class="list-unstyled my-4">
-                <li>
-                  <div class="d-flex align-items-center">
-                    <div>
-                      <div
-                        class="icon icon-xs icon-shape bg-white shadow rounded-circle text-muted"
-                      >
-                        <i class="fas fa-terminal"></i>
-                      </div>
-                    </div>
-                    <div>
-                      <span class="pl-2 text-white"
-                        >Complete documentation</span
-                      >
-                    </div>
-                  </div>
-                </li>
-                <li>
-                  <div class="d-flex align-items-center">
-                    <div>
-                      <div
-                        class="icon icon-xs icon-shape bg-white shadow rounded-circle text-muted"
-                      >
-                        <i class="fas fa-pen-fancy"></i>
-                      </div>
-                    </div>
-                    <div>
-                      <span class="pl-2 text-white"
-                        >Working materials in Sketch</span
-                      >
-                    </div>
-                  </div>
-                </li>
-                <li>
-                  <div class="d-flex align-items-center">
-                    <div>
-                      <div
-                        class="icon icon-xs icon-shape bg-white shadow rounded-circle text-muted"
-                      >
-                        <i class="fas fa-hdd"></i>
-                      </div>
-                    </div>
-                    <div>
-                      <span class="pl-2 text-white">2GB cloud storage</span>
-                    </div>
-                  </div>
-                </li>
-              </ul>
-
-              <base-button type="secondary" class="mb-3"
-                >Start free trial</base-button
-              >
-
-              <template v-slot:footer>
-                <a href="#!" class="text-white">Contact sales</a>
-              </template>
-            </card>
+        <div class="card"></div>
+        <div class="card bg-secondary border-0">
+          <div class="card-header bg-transparent pb-4">
+            <div class="text-muted text-center mt-2 mb-4">
+              <small>Sign In with</small>
+            </div>
+            <div class="text-center">
+              <a href="#" class="btn btn-neutral btn-icon mr-4">
+                <span class="btn-inner--icon"
+                  ><img src="img/icons/common/github.svg"
+                /></span>
+                <span class="btn-inner--text">Github</span>
+              </a>
+              <a href="#" class="btn btn-neutral btn-icon">
+                <span class="btn-inner--icon"
+                  ><img src="img/icons/common/google.svg"
+                /></span>
+                <span class="btn-inner--text">Google</span>
+              </a>
+            </div>
           </div>
-        </div>
-      </div>
-      <div class="d-flex justify-content-lg-center px-3 mt-5">
-        <div>
-          <div
-            class="icon icon-shape bg-gradient-white shadow rounded-circle text-primary"
-          >
-            <i class="ni ni-building text-primary"></i>
-          </div>
-        </div>
-        <div class="col-lg-6">
-          <p class="text-white">
-            <strong>The Arctic Ocean</strong> freezes every winter and much of
-            the sea-ice then thaws every summer, and that process will continue
-            whatever.
-          </p>
-        </div>
-      </div>
-      <div class="row row-grid justify-content-center">
-        <div class="col-lg-10">
-          <div class="table-responsive">
-            <base-table class="table table-dark mt-5" :data="features">
-              <template v-slot:columns>
-                <th class="px-0 bg-transparent" scope="col">
-                  <span class="text-light font-weight-700">Features</span>
-                </th>
-                <th class="text-center bg-transparent" scope="col">
-                  Bravo Pack
-                </th>
-                <th class="text-center bg-transparent" scope="col">
-                  Alpha Pack
-                </th>
-              </template>
-
-              <template v-slot:default="row">
-                <td class="px-0">{{ row.item.title }}</td>
-                <td class="text-center" v-html="row.item.bravo"></td>
-                <td class="text-center" v-html="row.item.alpha"></td>
-              </template>
-            </base-table>
+          <div class="card-body px-lg-4 py-lg-4">
+            <div class="text-center text-muted mb-2">
+              <small>Or sign In with credentials</small>
+            </div>
+            <div class="register-container">
+              <div>
+                <input class="custom" placeholder="Email" />
+              </div>
+              <div>
+                <input class="custom" placeholder="Password" />
+              </div>
+              <div class="error">{{ model.error }}</div>
+              <div style="margin-top: 10px">
+                <button @click="login" class="btn-cutstom-input">Login</button>
+              </div>
+              <div class="user-login">
+                <p>
+                  New User?
+                  <router-link to="/register">
+                    <span class="signup-span">Signup</span>
+                  </router-link>
+                </p>
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -217,59 +90,37 @@
   </div>
 </template>
 <script>
-import BaseTable from "@/components/BaseTable";
+// import BaseButton from "../../components/BaseButton.vue";
 export default {
-  name: "pricing-page",
-  components: {
-    BaseTable,
-  },
+  name: "lock",
   data() {
     return {
-      features: [
-        {
-          title: "IMAP/POP Support",
-          bravo: '<i class="fas fa-check text-success"></i>',
-          alpha: '<i class="fas fa-check text-success"></i>',
-        },
-        {
-          title: "Email Forwarding",
-          bravo: '<i class="fas fa-check text-success"></i>',
-          alpha: '<i class="fas fa-check text-success"></i>',
-        },
-        {
-          title: "Active Sync",
-          bravo: '<i class="fas fa-check text-success"></i>',
-          alpha: '<i class="fas fa-check text-success"></i>',
-        },
-        {
-          title: "Multiple domain hosting",
-          bravo: '<i class="fas fa-check text-success"></i>',
-          alpha:
-            '<span class="text-sm text-light">Limited to 1 domain only</span>',
-        },
-        {
-          title: "Additional storage upgrade",
-          bravo: '<i class="fas fa-check text-success"></i>',
-          alpha: '<i class="fas fa-check text-success">',
-        },
-        {
-          title: "30MB Attachment Limit",
-          bravo: '<i class="fas fa-check text-success"></i>',
-          alpha: "-",
-        },
-        {
-          title: "Password protected / Expiry links",
-          bravo: '<i class="fas fa-check text-success"></i>',
-          alpha: "-",
-        },
-        {
-          title: "Unlimited Custom Apps",
-          bravo: '<i class="fas fa-check text-success"></i>',
-          alpha: "-",
-        },
-      ],
+      model: {
+        password: "",
+      },
     };
   },
 };
 </script>
-<style></style>
+<style scoped>
+.custom {
+  border: none;
+  margin-bottom: 10px;
+  padding: 5px 20px;
+  box-shadow: 1px 1px 5px rgb(196, 196, 196);
+  border-radius: 5px;
+}
+
+.custom::placeholder {
+  font-size: 15px;
+  font-family: sans-serif;
+}
+
+.btn-cutstom-input {
+  border: none;
+  border-radius: 40px;
+  padding: 7px 20px;
+  color: white;
+  background-color: rgb(108, 91, 252);
+}
+</style>

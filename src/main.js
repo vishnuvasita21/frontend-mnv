@@ -21,8 +21,11 @@ import router from "./router";
 import ArgonDashboard from "./plugins/argon-dashboard";
 import "element-plus/lib/theme-chalk/index.css";
 import dayjs from "dayjs";
+
 import Toast from "vue-toastification";
 import "vue-toastification/dist/index.css";
+import relativeTime from "dayjs/plugin/relativeTime";
+dayjs.extend(relativeTime);
 
 const options = { containerClassName: "ct-notification" };
 

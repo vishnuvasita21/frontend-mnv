@@ -10,7 +10,7 @@
     >
       <template v-slot:brand>
         <div class="navbar-wrapper">
-          <router-link class="navbar-brand" to="/">
+          <router-link class="navbar-brand" to="">
             <img src="img/brand/white-logo.png" />
           </router-link>
         </div>
@@ -38,15 +38,20 @@
 
       <ul class="navbar-nav mr-auto">
         <li class="nav-item">
-          <router-link to="/login" class="nav-link">
-            <span class="nav-link-inner--text">Login</span>
+          <router-link to="/login" class="page-item-link">
+            <span class="pagelayout text-white">Login</span>
           </router-link>
         </li>
         <li class="nav-item">
-          <router-link to="/register" class="nav-link">
-            <span class="nav-link-inner--text">Register</span>
+          <router-link to="/register" class="page-item-link">
+            <span class="pagelayout text-white">Register</span>
           </router-link>
         </li>
+        <!-- <li class="nav-item">
+          <router-link to="/pricing" class="page-item-link">
+            <span class="pagelayout text-white">price</span>
+          </router-link>
+        </li> -->
       </ul>
       <hr class="d-lg-none" />
       <ul class="navbar-nav align-items-lg-center ml-lg-auto">
@@ -101,12 +106,12 @@
       </ul>
     </base-nav>
 
-    <div class="main-content">
+    <div class="main-content vh-100">
       <router-view></router-view>
     </div>
 
-    <footer class="py-5" id="footer-main">
-      <div class="container">
+    <!-- <footer>
+       <div class="container bg-transparent">
         <div class="row align-items-center justify-content-xl-between">
           <div class="col-xl-6">
             <div class="copyright text-center text-xl-left text-muted">
@@ -115,7 +120,7 @@
                 href="https://www.creative-tim.com"
                 class="font-weight-bold ml-1"
                 target="_blank"
-                >Creative Tim</a
+                >Creative Vishnu</a
               >
             </div>
           </div>
@@ -128,7 +133,7 @@
                   href="https://www.creative-tim.com"
                   class="nav-link"
                   target="_blank"
-                  >Creative Tim</a
+                  >Creative Vishnu</a
                 >
               </li>
               <li class="nav-item">
@@ -158,8 +163,8 @@
             </ul>
           </div>
         </div>
-      </div>
-    </footer>
+      </div> 
+    </footer> -->
   </div>
 </template>
 <script>
@@ -259,5 +264,11 @@ $scaleSize: 0.8;
 
 .main-content .zoomOut {
   animation-name: zoomOut8;
+}
+
+.pagelayout {
+  font-family: sans-serif !important;
+  font-weight: 500 !important;
+  margin: 0 10px !important;
 }
 </style>

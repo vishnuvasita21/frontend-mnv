@@ -15,7 +15,7 @@
     </base-header>
     <!-- div for search menu -->
 
-    <div class="container mt--6">
+    <div class="card mt--6 ml-4 mr-4">
       <div class="card" style="padding: 20px">
         <div class="container">
           <!-- leave header -->

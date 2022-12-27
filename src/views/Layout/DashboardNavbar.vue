@@ -1,7 +1,7 @@
 <template>
   <base-nav
     style="background-color: rgb(54, 134, 255)"
-    class="navbar-top border-bottom navbar-expand"
+    class="navbar-top border-bottom navbar-expand bg-mnvspec"
     :class="{ 'navbar-dark': type === 'default' }"
   >
     <!-- Search form -->
@@ -72,83 +72,38 @@
         <!-- Dropdown header -->
         <div class="px-3 py-3">
           <h6 class="text-sm text-muted m-0">
-            You have <strong class="text-primary">13</strong> notifications.
+            You have
+            <strong class="text-primary">{{ notificationList.length }}</strong>
+            notifications.
           </h6>
         </div>
         <!-- List group -->
         <div class="list-group list-group-flush">
-          <a href="#!" class="list-group-item list-group-item-action">
+          <a
+            href="#components/checklists"
+            v-for="data in notificationList"
+            :key="data.id"
+            class="list-group-item list-group-item-action"
+          >
             <div class="row align-items-center">
               <div class="col-auto">
                 <!-- Avatar -->
                 <img
                   alt="Image placeholder"
-                  src="img/theme/team-2.jpg"
+                  src="userpic.jpeg"
                   class="avatar rounded-circle"
                 />
               </div>
               <div class="col ml--2">
                 <div class="d-flex justify-content-between align-items-center">
                   <div>
-                    <h4 class="mb-0 text-sm">Vishnu Vasita</h4>
+                    <h4 class="mb-0 text-sm">New Task</h4>
                   </div>
                   <div class="text-right text-muted">
-                    <small>2 hrs ago</small>
+                    <small>{{ $dayjs(data.date).fromNow() }}</small>
                   </div>
                 </div>
-                <p class="text-sm mb-0">
-                  Let's meet at Starbucks at 11:30. Wdyt?
-                </p>
-              </div>
-            </div>
-          </a>
-          <a href="#!" class="list-group-item list-group-item-action">
-            <div class="row align-items-center">
-              <div class="col-auto">
-                <!-- Avatar -->
-                <img
-                  alt="Image placeholder"
-                  src="img/theme/team-2.jpg"
-                  class="avatar rounded-circle"
-                />
-              </div>
-              <div class="col ml--2">
-                <div class="d-flex justify-content-between align-items-center">
-                  <div>
-                    <h4 class="mb-0 text-sm">Vishnu Vasita</h4>
-                  </div>
-                  <div class="text-right text-muted">
-                    <small>3 hrs ago</small>
-                  </div>
-                </div>
-                <p class="text-sm mb-0">
-                  A new issue has been reported for Argon.
-                </p>
-              </div>
-            </div>
-          </a>
-          <a href="#!" class="list-group-item list-group-item-action">
-            <div class="row align-items-center">
-              <div class="col-auto">
-                <!-- Avatar -->
-                <img
-                  alt="Image placeholder"
-                  src="img/theme/team-2.jpg"
-                  class="avatar rounded-circle"
-                />
-              </div>
-              <div class="col ml--2">
-                <div class="d-flex justify-content-between align-items-center">
-                  <div>
-                    <h4 class="mb-0 text-sm">John Snow</h4>
-                  </div>
-                  <div class="text-right text-muted">
-                    <small>3 hrs ago</small>
-                  </div>
-                </div>
-                <p class="text-sm mb-0">
-                  A new issue has been reported for Argon.
-                </p>
+                <p class="text-sm mb-0">{{ data.notificationmsg }}</p>
               </div>
             </div>
           </a>
@@ -212,9 +167,9 @@
                 />
               </span>
               <div class="media-body ml-2 d-none d-lg-block">
-                <span class="mb-0 text-sm font-weight-bold">{{
-                  user.fullName
-                }}</span>
+                <p class="mb-0 text-white">
+                  {{ user.fullName }}
+                </p>
               </div>
             </div>
           </a>
@@ -250,6 +205,7 @@
 </template>
 <script>
 import BaseNav from "@/components/Navbar/BaseNav";
+import axios from "axios";
 
 export default {
   components: {
@@ -271,6 +227,7 @@ export default {
   },
   data() {
     return {
+      notificationList: [],
       activeNotifications: false,
       showMenu: false,
       searchModalVisible: false,
@@ -279,6 +236,12 @@ export default {
     };
   },
   methods: {
+    getNotification(id) {
+      this.notificationList = [];
+      axios.get(`http://localhost:7000/notify/${id}`).then((response) => {
+        this.notificationList = response.data;
+      });
+    },
     removeLocal() {
       localStorage.removeItem("user");
       localStorage.removeItem("token");
@@ -301,6 +264,7 @@ export default {
   },
   mounted() {
     this.user = JSON.parse(localStorage.getItem("user"));
+    this.getNotification(JSON.parse(localStorage.getItem("user"))._id);
   },
 };
 </script>

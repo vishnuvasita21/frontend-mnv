@@ -14,7 +14,7 @@
       </div>
     </base-header>
 
-    <div class="card mt--6" style="margin: 20px; padding: 15px">
+    <div class="card mt--6 m-4 p-3" style="min-height: 500px">
       <!-- div for search menu -->
       <div class="search-view">
         <div class="search-office-select">
@@ -401,7 +401,8 @@ img {
   height: auto;
 }
 .text-pink {
-  color: #ff679b !important;
+  font-weight: 500;
+  color: #580391 !important;
 }
 .btn-rounded {
   border-radius: 2em;

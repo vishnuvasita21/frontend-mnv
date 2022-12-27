@@ -1,7 +1,7 @@
 <template>
-  <div>
+  <div class="custom-gradient">
     <!-- Header -->
-    <div class="header bg-gradient-primary py-6 py-lg-6 pt-lg-6">
+    <div class="header py-5 py-lg-5 pt-lg-7">
       <div class="container">
         <div class="header-body text-center mb-7">
           <div class="row justify-content-center">
@@ -11,7 +11,7 @@
           </div>
         </div>
       </div>
-      <div class="separator separator-bottom separator-skew zindex-100">
+      <!-- <div class="separator separator-bottom separator-skew zindex-100">
         <svg
           x="0"
           y="0"
@@ -25,15 +25,15 @@
             points="2560 0 2560 100 0 100"
           ></polygon>
         </svg>
-      </div>
+      </div> -->
     </div>
     <!-- Page content -->
     <div class="container mt--8 pb-5">
       <!-- Table -->
       <div class="row justify-content-center">
-        <div class="col-lg-6 col-md-8">
-          <div class="card bg-secondary border-0">
-            <div class="card-header bg-transparent pb-3">
+        <div class="col-lg-5 col-md-8">
+          <div class="card border-0">
+            <!-- <div class="card-header bg-transparent pb-4">
               <div class="text-muted text-center mt-2 mb-4">
                 <small>Sign up with</small>
               </div>
@@ -51,61 +51,60 @@
                   <span class="btn-inner--text">Google</span>
                 </a>
               </div>
-            </div>
-            <div class="card-body px-lg-5 py-lg-5">
+            </div> -->
+            <div class="card-body px-lg-4 py-lg-4">
               <div class="text-center text-muted mb-2">
                 <small>Or sign up with credentials</small>
               </div>
               <Form @submit="onSubmit" :validation-schema="schema">
-                <base-input
-                  alternative
-                  class="mb-3"
-                  addon-left-icon="ni ni-hat-3"
-                  placeholder="Name"
-                  name="fullName"
-                >
-                </base-input>
+                <div class="register-container">
+                  <div class="w-100">
+                    <base-input
+                      addon-left-icon="ni ni-hat-3"
+                      name="fullName"
+                      placeholder="Name"
+                    />
+                  </div>
+                  <div class="w-100">
+                    <base-input
+                      addon-left-icon="ni ni-email-83"
+                      placeholder="Email"
+                      name="email"
+                    >
+                    </base-input>
+                  </div>
 
-                <base-input
-                  alternative
-                  class="mb-3"
-                  addon-left-icon="ni ni-email-83"
-                  placeholder="Email"
-                  name="email"
-                >
-                </base-input>
+                  <div class="w-100">
+                    <base-input
+                      addon-left-icon="ni ni-lock-circle-open"
+                      placeholder="Password"
+                      type="password"
+                      name="password"
+                    >
+                    </base-input>
+                  </div>
+                  <div
+                    v-html="model.err"
+                    style="color: red; text-align: center"
+                  ></div>
+                  <div
+                    v-html="model.alert"
+                    style="color: green; text-align: center"
+                  ></div>
 
-                <base-input
-                  alternative
-                  class="mb-3"
-                  addon-left-icon="ni ni-lock-circle-open"
-                  placeholder="Password"
-                  type="password"
-                  name="password"
-                >
-                </base-input>
-                <div
-                  v-html="model.err"
-                  style="color: red; text-align: center"
-                ></div>
-                <div
-                  v-html="model.alert"
-                  style="color: green; text-align: center"
-                ></div>
-
-                <div class="row my-2"></div>
-                <div class="text-center">
-                  <button type="submit" class="btn btn-primary mt-4">
-                    Create account
-                  </button>
-                </div>
-                <div class="user-login" style="text-align: center">
-                  <p>
-                    Already have Account?
-                    <router-link to="/login">
-                      <span class="signup-span">Login</span>
-                    </router-link>
-                  </p>
+                  <div class="text-center">
+                    <button type="submit" class="btn btn-primary">
+                      Create account
+                    </button>
+                  </div>
+                  <div class="user-login" style="text-align: center">
+                    <p>
+                      Already have Account?
+                      <router-link to="/login">
+                        <span class="signup-span">Login</span>
+                      </router-link>
+                    </p>
+                  </div>
                 </div>
               </Form>
             </div>
@@ -137,6 +136,9 @@ export default {
         });
         if (response.data == "user exist") {
           this.model.err = "user already exist!";
+          this.model.alert = await null;
+        } else if (response.data == "domain already exist") {
+          this.model.err = "domain already exist!";
           this.model.alert = await null;
         } else {
           this.model.err = await null;

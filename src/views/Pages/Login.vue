@@ -1,22 +1,18 @@
 <template>
-  <div>
+  <div class="custom-gradient">
     <!-- Header -->
-    <div class="header bg-gradient-primary py-5 py-lg-5 pt-lg-7">
+    <div class="header py-5 py-lg-5 pt-lg-7">
       <div class="container">
         <div class="header-body text-center mb-7">
           <div class="row justify-content-center">
             <div class="col-xl-5 col-lg-6 col-md-8 px-5">
               <h1 class="text-white">Sign In to account</h1>
-              <div class="audun_success" v-if="model.alert">
-                <div><i class="fa fa-check-circle" aria-hidden="true"></i></div>
-                <div v-html="model.alert"></div>
-              </div>
             </div>
           </div>
         </div>
       </div>
 
-      <div class="separator separator-bottom separator-skew zindex-100">
+      <!-- <div class="separator separator-bottom separator-skew zindex-100">
         <svg
           x="0"
           y="0"
@@ -30,18 +26,15 @@
             points="2560 0 2560 100 0 100"
           ></polygon>
         </svg>
-      </div>
+      </div>-->
     </div>
     <!-- Page content -->
     <div class="container mt--8 pb-5">
       <!-- Table -->
       <div class="row justify-content-center">
-        <div class="col-lg-6 col-md-8">
+        <div class="col-lg-5 col-md-8">
           <div class="card bg-secondary border-0">
-            <div class="card-header bg-transparent pb-4">
-              <div class="text-muted text-center mt-2 mb-4">
-                <small>Sign In with</small>
-              </div>
+            <!-- <div class="card-header bg-transparent">
               <div class="text-center">
                 <a href="#" class="btn btn-neutral btn-icon mr-4">
                   <span class="btn-inner--icon"
@@ -56,36 +49,37 @@
                   <span class="btn-inner--text">Google</span>
                 </a>
               </div>
-            </div>
+            </div> -->
             <div class="card-body px-lg-4 py-lg-4">
               <div class="text-center text-muted mb-2">
                 <small>Or sign In with credentials</small>
               </div>
               <div class="register-container">
-                <div class="email-input">
-                  <i
-                    class="fa-solid fa-envelope fa-xs"
-                    style="margin: 0 5px"
-                  ></i>
-                  <input
-                    class="input-form"
+                <div class="w-100 mb-4">
+                  <el-input
+                    prefix-icon="fa fa-envelope"
+                    autocomplete="email"
+                    placeholder="Email"
                     type="email"
                     name="email"
-                    placeholder="Email"
                     v-model="model.email"
                   />
                 </div>
-                <div class="password-input">
-                  <i class="fa-solid fa-lock fa-xs" style="margin: 0 5px"></i>
-                  <input
-                    class="input-form"
+                <div class="w-100 mb-4">
+                  <el-input
+                    prefix-icon="fa fa-lock"
                     type="password"
                     name="password"
                     placeholder="Password"
                     v-model="model.password"
                   />
                 </div>
-                <div class="error" v-html="model.error"></div>
+                <div class="mb-2">
+                  <router-link to="/forgotpassword">
+                    <a class="customhover"><small>Forgot password?</small></a>
+                  </router-link>
+                </div>
+                <div class="error">{{ model.error }}</div>
                 <div class="btn-input">
                   <button @click="login">Login</button>
                 </div>
@@ -110,11 +104,13 @@
 // import { Form } from "vee-validate";
 // import * as Yup from "yup";
 import Authentication from "../../services/Authentication";
+
+import { ElInput } from "element-plus";
 export default {
   name: "login",
-  // components: {
-  //   Form,
-  // },
+  components: {
+    ElInput,
+  },
   data() {
     return {
       showModal: "",
@@ -122,7 +118,7 @@ export default {
         email: "",
         password: "",
         agree: false,
-        error: null,
+        error: "",
       },
     };
   },
@@ -134,17 +130,23 @@ export default {
           password: this.model.password,
         });
 
-        if (response != null) {
-          this.$router.push("/dashboard");
-          localStorage.setItem("token", JSON.stringify(response.data.token));
-          localStorage.setItem("user", JSON.stringify(response.data));
+        if (response.data != null) {
+          if (response.data == "user not found") {
+            this.model.error = "email not found";
+          } else {
+            this.$router.push("/dashboard");
+            localStorage.setItem("token", JSON.stringify(response.data.token));
+            localStorage.setItem("user", JSON.stringify(response.data));
+            this.model.error = "";
+          }
         }
-
-        this.model.error = await null;
       } catch (err) {
         this.model.error = "Invalid email/password";
         console.log(this.model.error);
       }
+    },
+    doSomething(event) {
+      console.log(event);
     },
   },
   // setup() {
@@ -170,6 +172,27 @@ export default {
 *:focus {
   outline: none;
 }
+@keyframes gradient {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+.custom-gradient {
+  background: linear-gradient(-45deg, #ee7752, #c03369, #3a7bf5, #23d5ab);
+  background-size: 400% 400%;
+  animation: gradient 10s ease infinite;
+  height: 100vh;
+}
+
+.customhover :hover {
+  cursor: pointer;
+}
 
 .register-container {
   display: flex;
@@ -189,18 +212,7 @@ export default {
   padding: 3px;
   box-shadow: 0 1px 2px rgb(155, 154, 154);
 }
-.input-form {
-  background: transparent;
-  width: 300px;
-  margin: 5px 0;
-  padding: 0 10px;
-  border: none;
-  min-width: 100px;
-}
-.input-form::placeholder {
-  font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
-  font-size: 15px;
-}
+
 .btn-input button {
   margin-top: 10px;
   border-radius: 5px;

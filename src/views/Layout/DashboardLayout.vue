@@ -68,7 +68,7 @@
         <template v-if="admin">
           <sidebar-item
             :link="{
-              name: 'Myadmin',
+              name: 'My Admin',
               icon: 'ni ni-single-02 text-blue',
               path: '/components/myadmin',
             }"

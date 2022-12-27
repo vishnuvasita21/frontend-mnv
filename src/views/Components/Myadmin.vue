@@ -1,5 +1,6 @@
 <template>
   <div>
+    <!-- HEADER -->
     <base-header style="background-color: rgb(54, 134, 255) !important">
       <div class="row align-items-center py-4">
         <div class="col-lg-6 col-7">
@@ -45,13 +46,10 @@
       </div>
     </base-header>
 
-    <div
-      class="card"
-      style="margin: 20px; padding: 10px"
-      v-if="allusercontainer"
-    >
+    <!-- ALL USER CARD -->
+    <div style="margin: 10px" v-if="allusercontainer">
       <!-- header -->
-      <div>
+      <div class="card" style="padding: 10px">
         <div class="leave-body-header">
           <div>
             <span style="font-size: 20px; color: Dodgerblue">
@@ -95,7 +93,7 @@
             <el-button type="primary" @click="showModal = true" solid
               >Add User</el-button
             >
-
+            <!-- ADD USER MODAL -->
             <transition name="fade" appear>
               <div class="modal-overlay" v-if="showModal"></div>
             </transition>
@@ -144,6 +142,14 @@
                         </el-select>
                       </base-input>
                     </div>
+
+                    <div>
+                      <el-checkbox
+                        v-model="admincheck"
+                        label="Admin"
+                        size="large"
+                      />
+                    </div>
                     <div>
                       <base-input
                         label="password"
@@ -171,7 +177,7 @@
           </div>
         </div>
 
-        <!-- third part -->
+        <!-- SHOW ALL USERS -->
 
         <div class="tasks">
           <div>
@@ -192,36 +198,69 @@
                 </template></el-table-column
               >
               <el-table-column prop="email" label="Email" class="flex-fill" />
-              <el-table-column
-                prop="position"
-                label="Department"
-                class="flex-fill"
-              />
+              <el-table-column prop="position" label="Department" width="220" />
               <el-table-column
                 label="Manager"
                 class="flex-fill"
                 prop="manager"
+                width="140"
                 sortable
               />
               <el-table-column
                 label="Office"
                 class="flex-fill"
                 prop="office"
+                width="150"
                 sortable
               />
+              <el-table-column
+                prop=""
+                label="Delete Users"
+                class="flex-fill"
+                width="150"
+              >
+                <template v-slot="{ row }">
+                  <el-button
+                    type="danger"
+                    @click="(showDeleteModal = true), setUserDetails(row)"
+                    solid
+                    >Delete</el-button
+                  ></template
+                ></el-table-column
+              >
             </el-table>
+            <transition name="fade" appear>
+              <div class="modal-overlay" v-if="showDeleteModal"></div>
+            </transition>
+
+            <transition name="slide" appear>
+              <div class="timeOffModal" v-if="showDeleteModal">
+                <h2>Delete this User?</h2>
+                <hr style="margin: 20px 0" />
+                <img
+                  class="profile_image"
+                  :src="setuserimg ? setuserimg : 'userpic.jpeg'"
+                />
+                <h3>{{ setusername }}</h3>
+                <h4>{{ setuseremail }}</h4>
+                <div>
+                  <base-button type="danger" @click="delUserDetails"
+                    >Delete</base-button
+                  >
+                  <base-button type="default" @click="showDeleteModal = false"
+                    >Cancel</base-button
+                  >
+                </div>
+              </div>
+            </transition>
           </div>
         </div>
       </div>
     </div>
 
     <!-- leave list for admin -->
-    <div
-      class="card"
-      style="margin: 20px; padding: 10px"
-      v-if="allleavecontainer"
-    >
-      <div class="leave-body">
+    <div style="margin: 10px" v-if="allleavecontainer">
+      <div class="card" style="padding: 10px">
         <div class="leave-body-header">
           <div>
             <span style="font-size: 20px; color: Dodgerblue">
@@ -231,7 +270,7 @@
           <div><h3 style="margin: 0">All Leave Requests</h3></div>
         </div>
 
-        <!-- second part -->
+        <!-- SEARCH INPUT -->
         <div class="select-filter">
           <div>
             <el-select v-model="department" placeholder="Select type">
@@ -262,7 +301,7 @@
           </div>
         </div>
 
-        <!-- third part -->
+        <!--  LEAVES REQUEST  -->
 
         <div class="tasks">
           <div>
@@ -312,8 +351,8 @@
         </div>
       </div>
 
-      <!-- previous lists -->
-      <div class="leave-body">
+      <!-- previous LEAVES -->
+      <div class="card" style="padding: 10px">
         <div class="leave-body-header">
           <div>
             <span style="font-size: 20px; color: Dodgerblue">
@@ -322,10 +361,6 @@
           </div>
           <div><h3 style="margin: 0">All Previous Leaves</h3></div>
         </div>
-
-        <!-- second part -->
-
-        <!-- third part -->
 
         <div class="tasks">
           <div>
@@ -370,14 +405,10 @@
       </div>
     </div>
 
-    <!-- all tasks -->
-    <div
-      class="card"
-      style="margin: 20px; padding: 10px"
-      v-if="alltaskcontainer"
-    >
-      <!-- header -->
-      <div class="leave-body">
+    <!-- ALL TASKS-->
+    <div style="margin: 10px" v-if="alltaskcontainer">
+      <!-- SEARCH TASKS -->
+      <div class="card p-2">
         <div class="leave-body-header">
           <div>
             <span style="font-size: 20px; color: Dodgerblue">
@@ -387,7 +418,7 @@
           <div><h3 style="margin: 0">All Tasks</h3></div>
         </div>
 
-        <!-- second part -->
+        <!-- ASSIGN TASK TO USERS -->
         <div class="select-filter">
           <div>
             <el-select v-model="leavetype" placeholder="Select type">
@@ -410,6 +441,7 @@
             </el-select>
           </div>
 
+          <!-- TASK MODAL -->
           <div>
             <el-button type="primary" @click="showTaskModal = true" solid
               >+ New Task</el-button
@@ -478,9 +510,9 @@
           </div>
         </div>
 
-        <!-- third part -->
+        <!-- ALL ASSIGNED TASK LIST -->
 
-        <div class="tasks">
+        <div class="task">
           <div>
             <el-table
               height="550px"
@@ -507,33 +539,38 @@
                 label="Task"
                 class="flex-fill"
               />
-              <el-table-column label="Date" class="flex-fill"
+              <el-table-column prop="" label="Date" class="flex-fill" sortable
                 ><template v-slot="{ row }">
                   <span>{{ $dayjs(row.DueDate).format("DD-MM-YYYY") }}</span>
                 </template></el-table-column
               >
-              <el-table-column prop="fullName" label="User" class="flex-fill" />
+              <el-table-column label="User" class="flex-fill"
+                ><template v-slot="{ row }">
+                  {{ row.fullName }}
+                </template></el-table-column
+              >
               <el-table-column
                 label="Status"
                 class="flex-fill"
                 prop="status"
-                sortable
+                width="150"
               >
                 <template v-slot="{ row }">
                   <badge class="badge-dot mr-4" type="">
                     <span
                       :class="`bg-${row.statusType}`"
-                      style="
-                        color: white;
-                        padding: 5px;
-                        opacity: 0.7;
-                        border-radius: 5px;
-                      "
+                      style="color: white; padding: 5px; opacity: 0.7"
                       >{{ row.status }}</span
                     >
                   </badge>
                 </template>
               </el-table-column>
+              <el-table-column align="right" width="80">
+                <template v-slot="{ row }">
+                  <el-button @click="deleteTask(row)" size="small" circle
+                    ><i class="fa fa-trash tex-red"></i
+                  ></el-button> </template
+              ></el-table-column>
             </el-table>
           </div>
         </div>
@@ -547,6 +584,7 @@ import * as Yup from "yup";
 import axios from "axios";
 import projects from "../Tables/projects";
 import {
+  ElCheckbox,
   ElDatePicker,
   ElInput,
   ElSelect,
@@ -562,6 +600,7 @@ import {
 export default {
   components: {
     Form,
+    ElCheckbox,
     ElInput,
     ElDatePicker,
     ElSelect,
@@ -575,10 +614,15 @@ export default {
   },
   data() {
     return {
+      admincheck: false,
+      setuserimg: "",
+      setusername: "",
+      setuseremail: "",
       duedate: "",
       taskname: "",
       selectedusers: [],
-      duedate: "",
+      //duedate: "",
+      deleteuser: "",
       task: "",
       image: "",
       selectdate: "",
@@ -598,6 +642,7 @@ export default {
       days: "",
       showModal: false,
       showLeaveModal: false,
+      showDeleteModal: false,
       projects,
       currentPage: 1,
       error: null,
@@ -605,6 +650,7 @@ export default {
       allleavecontainer: false,
       alltaskcontainer: false,
       showTaskModal: false,
+
       pagename: "All Users",
       users: [],
 
@@ -643,6 +689,31 @@ export default {
     };
   },
   methods: {
+    notifyUser(id) {
+      axios.post(`http://localhost:7000/notify`, {
+        user: id,
+        notificationmsg: "you got new task",
+      });
+    },
+    deleteTask(row) {
+      axios.delete(`http://localhost:7000/deltask/${row._id}`).then(() => {
+        this.getallTasks();
+      });
+    },
+    delUserDetails() {
+      axios
+        .delete(`http://localhost:7000/deleteuser/${this.deleteuser}`)
+        .then(() => {
+          this.getEmployees();
+          this.showDeleteModal = false;
+        });
+    },
+    setUserDetails(row) {
+      this.setuserimg = row.profile_pic;
+      this.setusername = row.fullName;
+      this.setuseremail = row.email;
+      this.deleteuser = row._id;
+    },
     disableDates(value) {
       const today_date = this.$dayjs().format("YYYY-MM-DD");
       const value_date = this.$dayjs(value).format("YYYY-MM-DD");
@@ -676,6 +747,7 @@ export default {
         .post(`http://localhost:7000/register/user`, {
           fullName: value.fullName,
           email: value.email,
+          admin: this.admincheck,
           position: this.selectDepart,
           password: value.password,
         })
@@ -691,22 +763,25 @@ export default {
     },
 
     AddNewUserTask() {
-      axios
-        .post("http://localhost:7000/Checklist", {
-          taskName: this.taskname,
-          taskType: "Checkbox",
-          addMember: this.selectedusers,
-          DueDate: this.duedate,
-          Description: "urgent",
-          status: "Pending",
-          statusType: "danger",
-        })
-        .then((response) => {
-          this.getallTasks();
-          this.taskname = "";
-          this.selectedusers = "";
-          this.duedate = "";
-        });
+      for (let i = 0; i < this.selectedusers.length; i++) {
+        axios
+          .post("http://localhost:7000/Checklist", {
+            taskName: this.taskname,
+            taskType: "Checkbox",
+            addMember: this.selectedusers[i],
+            DueDate: this.duedate,
+            Description: "urgent",
+            status: "Pending",
+            statusType: "danger",
+          })
+          .then(() => {
+            this.getallTasks();
+            this.notifyUser(this.selectedusers);
+            this.taskname = "";
+            this.selectedusers = "";
+            this.duedate = "";
+          });
+      }
     },
     getEmployees() {
       this.allUsers = [];
@@ -745,9 +820,14 @@ export default {
       });
     },
     getUserName(id, i) {
-      axios.get(`http://localhost:7000/usertask/${id}`).then((response) => {
-        this.alltasklist[i]["fullName"] = response.data.fullName;
-      });
+      axios
+        .get(`http://localhost:7000/usertask/${id}`)
+        .then((response) => {
+          this.alltasklist[i]["fullName"] = response.data.fullName;
+        })
+        .then(() => {
+          console.log(this.alltasklist);
+        });
     },
   },
   computed: {

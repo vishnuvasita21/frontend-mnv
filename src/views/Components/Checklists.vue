@@ -15,8 +15,8 @@
     </base-header>
     <!-- div for search menu -->
 
-    <div class="container mt--6">
-      <div class="card" style="padding: 20px">
+    <div class="mt--6 ml-4 mr-4">
+      <div class="card p-4">
         <div class="search-view-new">
           <div class="search-office-select">
             <el-select v-model="selects.simple" placeholder="Select">
@@ -91,6 +91,8 @@
             </div></transition
           >
         </div>
+      </div>
+      <div class="card p-4 mt-2">
         <div class="tasks-header">
           <h3>Completed Tasks</h3>
         </div>
