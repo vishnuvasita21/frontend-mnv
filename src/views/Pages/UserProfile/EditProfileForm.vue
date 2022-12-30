@@ -32,17 +32,8 @@
       <div v-if="edit && users.length">
         <div>
           <h3>
-            <i
-              class="fa fa-user"
-              style="
-                background: rgb(54, 134, 255);
-                padding: 3px 5px;
-                border-radius: 50%;
-                color: white;
-                margin-right: 5px;
-              "
-            ></i
-            >Personal Details
+            <i class="fa-solid fa-user-tie text-blue p-1 mr-1"></i>Personal
+            Details
           </h3>
         </div>
         <div class="information">
@@ -88,16 +79,7 @@
         <hr />
         <div>
           <h3>
-            <i
-              class="fa fa-location-dot"
-              style="
-                background: rgb(54, 134, 255);
-                padding: 3px 5px;
-                border-radius: 50%;
-                color: white;
-                margin-right: 5px;
-              "
-            ></i
+            <i class="fa-solid fa-location-crosshairs text-blue p-1 mr-1"></i
             >Address
           </h3>
         </div>
@@ -140,17 +122,8 @@
         <hr />
         <div>
           <h3>
-            <i
-              class="fa fa-bank"
-              style="
-                background: rgb(54, 134, 255);
-                padding: 3px 5px;
-                border-radius: 50%;
-                color: white;
-                margin-right: 5px;
-              "
-            ></i
-            >Bank Details
+            <i class="fa-solid fa-building-columns text-blue p-1 mr-1"></i>Bank
+            Details
           </h3>
         </div>
         <div class="information">
@@ -341,12 +314,26 @@
       <div class="row justify-content-center">
         <div class="col-lg-3 order-lg-2">
           <div class="card-profile-image">
-            <img id="mypic" :src="img ? img : 'userpic.jpeg'" />
+            <img
+              class="profilepic__image"
+              id="mypic"
+              :src="img ? img : 'userpic.jpeg'"
+            />
+            <div class="profilepic__content">
+              <span class="profilepic__icon">
+                <label for="inputTag">
+                  <i class="fa fa-camera fa-2x"></i>
+                </label>
+
+                <input
+                  id="inputTag"
+                  type="file"
+                  ref="file"
+                  @change="onSubmit"
+                />
+              </span>
+            </div>
           </div>
-          <label for="inputTag">
-            <input id="inputTag" type="file" ref="file" @change="onSubmit" />
-            <i class="fa fa-2x fa-edit"></i>
-          </label>
         </div>
       </div>
 
@@ -467,14 +454,15 @@ export default {
           formData
         );
         this.message = "Uploaded !! ";
+        await this.getMyProfile();
       } catch (err) {
         console.tog(err);
         this.message = "Something went wrong !! ";
       }
     },
-    selectFile() {
+    async selectFile() {
       var formdata = new FormData();
-      formdata.append("recfile", this.$("#input-image").files[0]).ajax({
+      await formdata.append("recfile", this.$("#input-image").files[0]).ajax({
         method: "POST",
         processData: false,
         contentType: false,
@@ -483,7 +471,6 @@ export default {
         }`,
         data: formdata,
       });
-      this.getMyProfile();
     },
     async getMyProfile() {
       this.img = JSON.parse(localStorage.getItem("user")).profile_pic;
@@ -579,14 +566,42 @@ export default {
 };
 </script>
 <style scoped>
-input {
+.profilepic__icon > input {
   display: none;
 }
-label {
+
+.card-profile-image:hover .profilepic__content {
+  opacity: 1;
+}
+
+.profilepic__image {
+  object-fit: cover;
+  opacity: 1;
+  transition: opacity 0.2s ease-in-out;
+}
+
+.profilepic__content {
   position: absolute;
-  bottom: -75px;
-  right: -60px;
-  cursor: pointer;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  color: rgb(0, 0, 0);
+  opacity: 0;
+  transition: opacity 0.2s ease-in-out;
+}
+
+.profilepic__icon {
+  color: white;
+  padding-bottom: 8px;
+}
+
+.fas {
+  font-size: 20px;
 }
 
 .information {

@@ -54,7 +54,7 @@
             </div> -->
             <div class="card-body px-lg-4 py-lg-4">
               <div class="text-center text-muted mb-2">
-                <small>Or sign up with credentials</small>
+                <small>sign up with credentials</small>
               </div>
               <Form @submit="onSubmit" :validation-schema="schema">
                 <div class="register-container">

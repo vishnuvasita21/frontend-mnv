@@ -16,17 +16,17 @@
     <!-- div for search menu -->
 
     <div class="card mt--6 ml-4 mr-4">
-      <div class="card" style="padding: 20px">
-        <div class="container">
+      <div class="card p-4">
+        <div>
           <!-- leave header -->
-          <div class="leave-header">
-            <div class="leave">
+          <div class="d-flex justify-content-start">
+            <div class="mr-2 border p-2 w-25">
               <div class="flex-fill">
-                <h3 style="margin: 0">Sick leaves</h3>
+                <h3 style="margin: 0">Sick leaves(Unpaid)</h3>
               </div>
               <div class="flex-fill"><p style="margin: 0">10 Days</p></div>
             </div>
-            <div class="leave">
+            <div class="mr-2 border p-2 w-25">
               <div class="flex-fill">
                 <h3 style="margin: 0">Unpaid leaves</h3>
               </div>
@@ -36,19 +36,17 @@
 
           <!-- leave body -->
           <!-- header -->
-          <div class="leave-body">
-            <div class="leave-body-header">
-              <div>
-                <span style="font-size: 20px; color: Dodgerblue">
-                  <i class="fa fa-list"></i>
-                </span>
-              </div>
-              <div><h3 style="margin: 0">My Requests</h3></div>
+          <div class="mt-3">
+            <div>
+              <h3>
+                <i class="fa fa-rectangle-list text-blue mr-2 fa-lg"></i>My
+                Leaves
+              </h3>
             </div>
 
             <!-- second part -->
-            <div class="select-filter">
-              <div>
+            <div class="d-flex mb-2">
+              <div class="mr-2">
                 <el-select v-model="leavetype" placeholder="Select type">
                   <el-option
                     v-for="option in leaveType"
@@ -58,7 +56,7 @@
                   />
                 </el-select>
               </div>
-              <div>
+              <div class="mr-2">
                 <el-select v-model="leavestatus" placeholder="Select status">
                   <el-option
                     v-for="option in leaveStatus"
@@ -68,28 +66,30 @@
                   />
                 </el-select>
               </div>
-              <div>
+              <div class="mr-2 w-25">
                 <el-date-picker
+                  style="width: 100%"
                   v-model="selectdate"
                   type="date"
                   placeholder="Pick a day"
                 />
               </div>
 
-              <div>
-                <el-button type="primary" @click="showModal = true" solid
+              <div class="mr-2 w-25">
+                <el-button type="primary" @click="modals = true" solid
                   >+ New Request</el-button
                 >
-                <transition name="fade" appear>
-                  <div class="modal-overlay" v-if="showModal"></div>
-                </transition>
+              </div>
 
-                <transition name="slide" appear>
-                  <div class="timeOffModal" v-if="showModal">
-                    <h2>New Request</h2>
-                    <hr style="margin: 20px 0" />
-                    <div class="timeoffinput">
-                      <div>
+              <modal v-model:show="modals">
+                <div>
+                  <div class="d-flex flex-column">
+                    <div>
+                      <h2>New Request</h2>
+                      <hr style="margin: 20px 0" />
+                    </div>
+                    <div class="d-flex align-items-center mb-4">
+                      <div class="mr-2">
                         <i class="fa fa-plane-up"></i>
                       </div>
                       <div class="flex-fill">
@@ -107,41 +107,42 @@
                         </el-select>
                       </div>
                     </div>
-                    <div class="timeoffinput-radio">
-                      <div><i class="fa-regular fa-clock"></i></div>
-                      <div style="padding-top: 3px">
+                    <div class="d-flex align-items-start mb-4">
+                      <div class="mr-2">
+                        <i class="fa fa-clock p-0 m-0"></i>
+                      </div>
+                      <div>
                         <el-radio-group v-model="days" size="small">
                           <el-radio label="single day">Single Day</el-radio>
                           <el-radio label="multiple days"
                             >Multiple Day</el-radio
                           >
                         </el-radio-group>
-                        <div>
-                          <div class="singledayinput">
-                            <div>
+                        <div class="d-flex w-100">
+                          <div class="d-flex">
+                            <div class="flex-fill mr-2">
                               <el-date-picker
                                 v-if="days == 'single day'"
                                 v-model="date"
                                 type="date"
                                 placeholder="Pick a day"
+                                class="w-100"
                               />
                             </div>
-                            <div>
+                            <div class="flex-fill">
                               <el-time-picker
                                 v-if="days == 'single day'"
                                 v-model="time"
                                 is-range
                                 start-placeholder="Start time"
                                 end-placeholder="End time"
-                                style="width: 300px"
+                                class="w-100"
                               />
                             </div>
                           </div>
-                          {{ date[0] }}
-                          {{ date[1] }}
-                          {{ time[0] }}
-                          {{ time[1] }}
+
                           <el-date-picker
+                            class="w-75"
                             v-if="!(days == 'single day')"
                             v-model="date"
                             type="daterange"
@@ -152,11 +153,14 @@
                         </div>
                       </div>
                     </div>
-                    <div class="timeoffinput-text">
-                      <div><i class="fa fa-bars-staggered"></i></div>
+                    <div class="d-flex align-items-start mb-4">
+                      <div class="mr-2">
+                        <i class="fa fa-bars-staggered"></i>
+                      </div>
                       <div class="flex-fill">
-                        <el-form-item label="">
+                        <el-form-item label="" class="h-100 m-0">
                           <el-input
+                            class="h-100"
                             v-model="note"
                             placeholder="Note(Optional)"
                             type="textarea"
@@ -164,9 +168,11 @@
                         </el-form-item>
                       </div>
                     </div>
-                    <div class="timeoffinput-text">
-                      <div><i class="fa-solid fa-paperclip"></i></div>
-                      <div>
+                    <div class="d-flex align-items-start mb-4">
+                      <div class="mr-2">
+                        <i class="fa-solid fa-paperclip"></i>
+                      </div>
+                      <div class="mr-2">
                         <el-upload
                           drag
                           type="file"
@@ -197,24 +203,26 @@
                       </div>
                     </div>
 
-                    <div class="timeoffinput-radio">
-                      <div>
+                    <div class="d-flex align-items-start mb-4">
+                      <div class="mr-2">
                         <i
                           class="fa-regular fa-bell"
                           style="padding-top: 10px"
                         ></i>
                       </div>
-                      <div class="linemanger">
-                        <div class="flex-fill">
-                          <el-input
-                            v-model="member"
-                            placeholder="Add member to notify them"
-                            :prefix-icon="Search"
-                          />
+                      <div class="w-100">
+                        <div class="d-flex flex-column mb-2">
+                          <div>
+                            <el-input
+                              v-model="member"
+                              placeholder="Add member to notify them"
+                              :prefix-icon="Search"
+                            />
+                          </div>
                         </div>
 
-                        <div class="timeoffinput">
-                          <div>
+                        <div class="d-flex align-items-center">
+                          <div class="mr-2">
                             <p
                               style="
                                 margin: 0;
@@ -225,15 +233,22 @@
                               This request will be sent to your line manager
                             </p>
                           </div>
-                          <div class="timeoffinput-user-dp">
-                            <div>
+                          <div>
+                            <div
+                              class="d-flex p-1"
+                              style="
+                                background-color: rgb(227, 235, 241);
+                                border-radius: 25px;
+                              "
+                            >
                               <img
-                                class="img-dp"
+                                class="img-dp mr-2"
                                 src="https://storage.googleapis.com/prod-production-5f508e55bb1bb80026996182/profile-images/6366184c704381002693b1b8/Fi83N4EWLSMpPh58wQQCE.jpeg"
                               />
-                            </div>
-                            <div>
-                              <h5 style="margin: 0">{{ manager }}</h5>
+
+                              <h5 class="m-0 mr-2">
+                                {{ manager }}
+                              </h5>
                             </div>
                           </div>
                         </div>
@@ -245,25 +260,23 @@
                         type="primary"
                         @click="
                           timeoff();
-                          showModal = false;
+                          modals = false;
                         "
                         solid
                         >Submit</el-button
                       >
-                      <el-button type="danger" @click="showModal = false"
+                      <el-button type="danger" @click="modals = false"
                         >Close</el-button
                       >
                     </div>
                   </div>
-                </transition>
-              </div>
+                </div>
+              </modal>
             </div>
 
             <!-- third part -->
-            <div class="tasks-header">
-              <h3>Your Leaves</h3>
-            </div>
-            <div class="tasks">
+
+            <div>
               <div>
                 <el-table
                   height="400px"
@@ -281,13 +294,16 @@
                     label="Leave"
                     class="flex-fill"
                   />
-                  <el-table-column
-                    prop="startDate"
-                    label="Date"
-                    class="flex-fill"
+                  <el-table-column label="Date" class="flex-fill"
                     ><template v-slot="{ row }">
                       <span>{{
                         $dayjs(row.startDate).format("DD-MM-YYYY")
+                      }}</span>
+
+                      <span>{{
+                        row.endDate
+                          ? " - " + $dayjs(row.endDate).format("DD-MM-YYYY")
+                          : ""
                       }}</span>
                     </template></el-table-column
                   >
@@ -315,6 +331,7 @@
 </template>
 <script>
 import projects from "../Tables/projects";
+import Modal from "@/components/Modal";
 import {
   ElTimePicker,
   ElUpload,
@@ -335,6 +352,7 @@ import {
 import axios from "axios";
 export default {
   components: {
+    Modal,
     ElTimePicker,
     ElUpload,
     ElFormItem,
@@ -353,6 +371,7 @@ export default {
   },
   data() {
     return {
+      modals: false,
       image: "",
       selectdate: "",
       leavestatus: "",
@@ -388,6 +407,13 @@ export default {
     };
   },
   methods: {
+    clearData() {
+      this.time = "";
+      this.date = "";
+      this.days = "";
+      this.note = "";
+      this.member = "";
+    },
     show() {
       var input = this.$refs;
 
@@ -526,73 +552,6 @@ export default {
   background-color: lightgrey;
   border-radius: 20px;
   gap: 5px;
-}
-
-.timeoffinput {
-  margin-bottom: 20px;
-  display: flex;
-  justify-content: flex-start;
-  gap: 20px;
-  align-items: center;
-  flex: 20px 1fr;
-}
-
-.timeoffinput-radio {
-  margin-bottom: 20px;
-  display: flex;
-  gap: 20px;
-  flex: 20px 1fr;
-}
-
-.timeoffinput-text {
-  margin-bottom: 20px;
-  display: flex;
-  justify-content: flex-start;
-  gap: 20px;
-  flex: 20px 1fr;
-}
-
-.leave-header {
-  display: flex;
-  flex-direction: row;
-  gap: 15px;
-  margin: 10px 0;
-}
-
-.leave {
-  width: 200px;
-  display: flex;
-  flex-direction: column;
-  padding: 5px 10px;
-  background: white;
-  box-shadow: 0 0 1px grey;
-}
-
-.leave-body-header {
-  display: flex;
-  gap: 10px;
-  align-items: center;
-  margin-bottom: 10px;
-  padding: 10px;
-}
-.select-filter {
-  display: flex;
-  justify-content: flex-start;
-  align-items: center;
-  gap: 10px;
-  margin-bottom: 20px;
-}
-.select-button {
-  border: none;
-  box-shadow: 0 0 1px grey;
-}
-.leave-body {
-  box-shadow: 0 0 2px lightgray;
-  padding: 10px;
-  width: 100%;
-  margin: 0;
-  margin-bottom: 20px;
-  background-color: white;
 }
 .logo-design {
   background-color: rgb(45, 206, 137);

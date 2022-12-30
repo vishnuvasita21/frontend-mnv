@@ -26,15 +26,18 @@
           <el-table-column type="selection" width="55" />
           <el-table-column label="MESSAGES" class="flex-fill text-bold"
             ><template v-slot="{ row }">
-              <p
-                style="
-                  font-family: 'Roboto', sans-serif;
-                  margin: 0;
-                  color: black;
-                  font-weight: solid;
-                "
-              >
-                {{ row.notificationmsg }}
+              <p class="m-0">
+                <a
+                  href="#/components/checklists"
+                  style="
+                    font-family: 'Roboto', sans-serif;
+                    margin: 0;
+                    color: black;
+                    font-weight: solid;
+                  "
+                >
+                  {{ row.notificationmsg }}
+                </a>
               </p>
             </template></el-table-column
           >

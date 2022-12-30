@@ -4,8 +4,9 @@
 
 .card-profile-image {
     position: relative;
-
+    
     img {
+        
         max-width: 140px;
         border-radius: $border-radius;
         border: 3px solid $card-bg;

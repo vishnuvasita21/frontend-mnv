@@ -36,7 +36,10 @@
           </div>
         </div>
         <div class="tasks-header">
-          <h3>New Tasks</h3>
+          <h3>
+            <i class="fa-regular fa-rectangle-list text-blue mr-2 fa-lg"></i>New
+            Tasks
+          </h3>
         </div>
         <!-- second div for card view -->
         <div class="tasks">

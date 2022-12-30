@@ -47,22 +47,28 @@
     </base-header>
 
     <!-- ALL USER CARD -->
-    <div style="margin: 10px" v-if="allusercontainer">
+    <div class="m-2" v-if="allusercontainer">
       <!-- header -->
-      <div class="card" style="padding: 10px">
+      <div class="card p-3">
         <div class="leave-body-header">
           <div>
             <span style="font-size: 20px; color: Dodgerblue">
-              <i class="fa fa-users"></i>
+              <i class="fa-solid fa-users"></i>
             </span>
           </div>
-          <div><h3 style="margin: 0">All Users</h3></div>
+          <div>
+            <h3 style="margin: 0">All Users</h3>
+          </div>
         </div>
 
         <!-- second part -->
-        <div class="select-filter">
-          <div>
-            <el-select v-model="department" placeholder="Select type">
+        <div class="d-flex mb-4">
+          <div class="mr-2 w-25">
+            <el-select
+              style="width: 100%"
+              v-model="department"
+              placeholder="Select type"
+            >
               <el-option
                 v-for="option in departments"
                 :key="option.label"
@@ -71,42 +77,44 @@
               />
             </el-select>
           </div>
-          <div>
-            <el-select v-model="manager" placeholder="Select status">
+          <div class="mr-2 w-25">
+            <el-select
+              style="width: 100%"
+              v-model="manager"
+              placeholder="Select status"
+            >
               <el-option
-                v-for="option in managers"
+                v-for="option in managerList"
                 :key="option.label"
                 :label="option.label"
                 :value="option.value"
               />
             </el-select>
           </div>
-          <div class="search-user">
-            <el-input
-              placeholder="user"
-              style="width: 400px"
-              v-model="searchName"
-            />
+          <div class="mr-2 w-25">
+            <el-input class="w-100" placeholder="user" v-model="searchName" />
           </div>
 
-          <div>
-            <el-button type="primary" @click="showModal = true" solid
-              >Add User</el-button
+          <div class="mr-2 w-25">
+            <el-button
+              class="h-100"
+              type="primary"
+              @click="usermodal = true"
+              solid
+              >+Add User</el-button
             >
             <!-- ADD USER MODAL -->
-            <transition name="fade" appear>
-              <div class="modal-overlay" v-if="showModal"></div>
-            </transition>
 
-            <transition name="slide" appear>
-              <div class="timeOffModal" v-if="showModal">
-                <h2>New User</h2>
-                <hr style="margin: 20px 0" />
-                <Form @submit="AddNewUser" :validation-schema="schema">
-                  <h6 class="heading-small text-muted mb-4">
-                    Enter User Details
-                  </h6>
-                  <div>
+            <modal v-model:show="usermodal">
+              <div>
+                <div class="d-flex flex-column">
+                  <Form @submit="AddNewUser" :validation-schema="schema">
+                    <div>
+                      <h6 class="heading-small text-muted mb-2">
+                        Enter User Details
+                      </h6>
+                    </div>
+
                     <div>
                       <base-input
                         label="Full name"
@@ -117,38 +125,67 @@
                       </base-input>
                     </div>
 
-                    <div>
-                      <base-input
-                        label="Email"
-                        name="email"
-                        placeholder="Enter email"
-                        rules="required"
-                        success-message="Looks good!"
-                      >
-                      </base-input>
-                    </div>
-                    <div>
-                      <base-input label="Select Department" name="dep">
-                        <el-select
-                          v-model="selectDepart"
-                          placeholder="Select type"
+                    <div class="d-flex align-items-center">
+                      <div class="w-75 mr-2">
+                        <base-input
+                          label="Email"
+                          name="email"
+                          placeholder="Enter email"
+                          rules="required"
+                          success-message="Looks good!"
                         >
-                          <el-option
-                            v-for="option in departments"
-                            :key="option.label"
-                            :label="option.label"
-                            :value="option.value"
-                          />
-                        </el-select>
-                      </base-input>
+                        </base-input>
+                      </div>
+                      <div class="w-25 pl-4">
+                        <el-checkbox
+                          v-model="admincheck"
+                          label="Admin"
+                          size="large"
+                        />
+                      </div>
+                    </div>
+                    <div class="d-flex">
+                      <div class="flex-fill mr-2">
+                        <base-input label="Select Department" name="dep">
+                          <el-select
+                            v-model="selectDepart"
+                            placeholder="Select type"
+                          >
+                            <el-option
+                              v-for="option in departments"
+                              :key="option.label"
+                              :label="option.label"
+                              :value="option.value"
+                            />
+                          </el-select>
+                        </base-input>
+                      </div>
+                      <div class="flex-fill">
+                        <base-input label="Select Manager" name="dep">
+                          <el-select
+                            v-model="selectManager"
+                            placeholder="Select Manager"
+                          >
+                            <el-option
+                              v-for="option in managerList"
+                              :key="option.label"
+                              :label="option.label"
+                              :value="option.value"
+                            />
+                          </el-select>
+                        </base-input>
+                      </div>
                     </div>
 
                     <div>
-                      <el-checkbox
-                        v-model="admincheck"
-                        label="Admin"
-                        size="large"
-                      />
+                      <base-input label="Joining Date" name="joindate">
+                        <el-date-picker
+                          v-model="joindate"
+                          type="date"
+                          placeholder="Pick a day"
+                          class="w-100"
+                        />
+                      </base-input>
                     </div>
                     <div>
                       <base-input
@@ -163,104 +200,99 @@
                       v-html="error"
                       style="color: red; text-align: center"
                     ></div>
-                  </div>
 
-                  <base-button type="success" native-type="submit"
-                    >Submit</base-button
-                  >
-                  <base-button type="danger" @click="showModal = false"
-                    >Cancel</base-button
-                  >
-                </Form>
+                    <base-button type="success" native-type="submit"
+                      >Submit</base-button
+                    >
+                    <base-button type="danger" @click="usermodal = false"
+                      >Cancel</base-button
+                    >
+                  </Form>
+                </div>
               </div>
-            </transition>
+            </modal>
           </div>
         </div>
 
         <!-- SHOW ALL USERS -->
 
-        <div class="tasks">
-          <div>
-            <el-table
-              height="500px"
-              scrollbar-always-on="true"
-              :data="filteredUsers"
-              style="width: 100%"
-              cell-class-name="my-cells"
-            >
-              <el-table-column prop="fullName" label="Name" class="flex-fill"
-                ><template v-slot="{ row }">
-                  <img
-                    class="profile_image"
-                    :src="row.profile_pic ? row.profile_pic : 'userpic.jpeg'"
-                  />
-                  <span>{{ row.fullName }}</span>
-                </template></el-table-column
-              >
-              <el-table-column prop="email" label="Email" class="flex-fill" />
-              <el-table-column prop="position" label="Department" width="220" />
-              <el-table-column
-                label="Manager"
-                class="flex-fill"
-                prop="manager"
-                width="140"
-                sortable
-              />
-              <el-table-column
-                label="Office"
-                class="flex-fill"
-                prop="office"
-                width="150"
-                sortable
-              />
-              <el-table-column
-                prop=""
-                label="Delete Users"
-                class="flex-fill"
-                width="150"
-              >
-                <template v-slot="{ row }">
-                  <el-button
-                    type="danger"
-                    @click="(showDeleteModal = true), setUserDetails(row)"
-                    solid
-                    >Delete</el-button
-                  ></template
-                ></el-table-column
-              >
-            </el-table>
-            <transition name="fade" appear>
-              <div class="modal-overlay" v-if="showDeleteModal"></div>
-            </transition>
-
-            <transition name="slide" appear>
-              <div class="timeOffModal" v-if="showDeleteModal">
-                <h2>Delete this User?</h2>
-                <hr style="margin: 20px 0" />
+        <div>
+          <el-table
+            height="500px"
+            scrollbar-always-on="true"
+            :data="filteredUsers"
+            style="width: 100%"
+            cell-class-name="my-cells"
+          >
+            <el-table-column prop="fullName" label="Name" class="flex-fill"
+              ><template v-slot="{ row }">
                 <img
                   class="profile_image"
-                  :src="setuserimg ? setuserimg : 'userpic.jpeg'"
+                  :src="row.profile_pic ? row.profile_pic : 'userpic.jpeg'"
                 />
-                <h3>{{ setusername }}</h3>
-                <h4>{{ setuseremail }}</h4>
-                <div>
-                  <base-button type="danger" @click="delUserDetails"
-                    >Delete</base-button
-                  >
-                  <base-button type="default" @click="showDeleteModal = false"
-                    >Cancel</base-button
-                  >
-                </div>
+                <span>{{ row.fullName }}</span>
+              </template></el-table-column
+            >
+            <el-table-column prop="email" label="Email" class="flex-fill" />
+            <el-table-column prop="position" label="Department" width="220" />
+            <el-table-column
+              label="Manager"
+              class="flex-fill"
+              prop="manager"
+              width="150"
+              sortable
+            />
+            <el-table-column
+              label="Office"
+              class="flex-fill"
+              prop="office"
+              width="150"
+              sortable
+            />
+            <el-table-column
+              prop=""
+              label="Delete Users"
+              class="flex-fill"
+              width="140"
+            >
+              <template v-slot="{ row }">
+                <el-button
+                  type="danger"
+                  @click="(delusermodal = true), setUserDetails(row)"
+                  solid
+                  >Delete</el-button
+                ></template
+              ></el-table-column
+            >
+          </el-table>
+
+          <modal v-model:show="delusermodal">
+            <div>
+              <h2>Delete this User?</h2>
+              <hr style="margin: 20px 0" />
+              <img
+                class="profile_image"
+                :src="setuserimg ? setuserimg : 'userpic.jpeg'"
+              />
+              <h3>{{ setusername }}</h3>
+              <h4>{{ setuseremail }}</h4>
+              <div>
+                <base-button type="danger" @click="delUserDetails"
+                  >Delete</base-button
+                >
+                <base-button type="default" @click="delusermodal = false"
+                  >Cancel</base-button
+                >
               </div>
-            </transition>
-          </div>
+            </div>
+          </modal>
         </div>
       </div>
     </div>
 
     <!-- leave list for admin -->
-    <div style="margin: 10px" v-if="allleavecontainer">
-      <div class="card" style="padding: 10px">
+    <div class="m-2" v-if="allleavecontainer">
+      <div class="card p-3" style="padding: 10px">
         <div class="leave-body-header">
           <div>
             <span style="font-size: 20px; color: Dodgerblue">
@@ -271,33 +303,37 @@
         </div>
 
         <!-- SEARCH INPUT -->
-        <div class="select-filter">
-          <div>
-            <el-select v-model="department" placeholder="Select type">
+        <div class="d-flex mb-4">
+          <div class="mr-2 w-25">
+            <el-select
+              style="width: 100%"
+              v-model="department"
+              placeholder="Select type"
+            >
               <el-option
-                v-for="option in departments"
+                v-for="option in leavetypes"
                 :key="option.label"
                 :label="option.label"
                 :value="option.value"
               />
             </el-select>
           </div>
-          <div>
-            <el-select v-model="manager" placeholder="Select status">
+          <div class="mr-2 w-25">
+            <el-select
+              style="width: 100%"
+              v-model="manager"
+              placeholder="Select status"
+            >
               <el-option
-                v-for="option in managers"
+                v-for="option in leavestatus"
                 :key="option.label"
                 :label="option.label"
                 :value="option.value"
               />
             </el-select>
           </div>
-          <div class="search-user">
-            <el-input
-              placeholder="user"
-              style="width: 400px"
-              v-model="searchName"
-            />
+          <div class="mr-2 w-25">
+            <el-input class="h-100" placeholder="user" v-model="searchName" />
           </div>
         </div>
 
@@ -352,88 +388,90 @@
       </div>
 
       <!-- previous LEAVES -->
-      <div class="card" style="padding: 10px">
-        <div class="leave-body-header">
-          <div>
-            <span style="font-size: 20px; color: Dodgerblue">
-              <i class="fa fa-business-time"></i>
-            </span>
+      <div>
+        <div class="card p-3">
+          <div class="leave-body-header">
+            <div>
+              <span style="font-size: 20px; color: Dodgerblue">
+                <i class="fa fa-business-time"></i>
+              </span>
+            </div>
+            <div><h3 style="margin: 0">All Previous Leaves</h3></div>
           </div>
-          <div><h3 style="margin: 0">All Previous Leaves</h3></div>
-        </div>
 
-        <div class="tasks">
           <div>
-            <el-table
-              height="300px"
-              :data="prevLeaves"
-              cell-class-name="my-cells"
-            >
-              <el-table-column
-                prop="SelectType"
-                label="type"
-                class="flex-fill"
-              />
-              <el-table-column prop="Leaves" label="Leave" class="flex-fill" />
-              <el-table-column label="Date" class="flex-fill"
-                ><template v-slot="{ row }">
-                  <span>{{ $dayjs(row.startDate).format("DD-MM-YYYY") }}</span>
+            <div>
+              <el-table
+                height="300px"
+                :data="prevLeaves"
+                cell-class-name="my-cells"
+              >
+                <el-table-column
+                  prop="SelectType"
+                  label="type"
+                  class="flex-fill"
+                />
+                <el-table-column
+                  prop="Leaves"
+                  label="Leave"
+                  class="flex-fill"
+                />
+                <el-table-column label="Date" class="flex-fill"
+                  ><template v-slot="{ row }">
+                    <span>{{
+                      $dayjs(row.startDate).format("DD-MM-YYYY")
+                    }}</span>
 
-                  <span>{{
-                    row.endDate
-                      ? " - " + $dayjs(row.endDate).format("DD-MM-YYYY")
-                      : ""
-                  }}</span>
-                </template></el-table-column
-              >
-              <el-table-column
-                label="Status"
-                class="flex-fill"
-                prop="status"
-                sortable
-              >
-                <template v-slot="{ row }">
-                  <badge class="badge-dot mr-4" type="">
-                    <i :class="`bg-${row.statusType}`"></i>
-                    <span class="status">{{ row.status }}</span>
-                  </badge>
-                </template>
-              </el-table-column>
-            </el-table>
+                    <span>{{
+                      row.endDate
+                        ? " - " + $dayjs(row.endDate).format("DD-MM-YYYY")
+                        : ""
+                    }}</span>
+                  </template></el-table-column
+                >
+                <el-table-column
+                  label="Status"
+                  class="flex-fill"
+                  prop="status"
+                  sortable
+                >
+                  <template v-slot="{ row }">
+                    <badge class="badge-dot mr-4" type="">
+                      <i :class="`bg-${row.statusType}`"></i>
+                      <span class="status">{{ row.status }}</span>
+                    </badge>
+                  </template>
+                </el-table-column>
+              </el-table>
+            </div>
           </div>
         </div>
       </div>
     </div>
 
     <!-- ALL TASKS-->
-    <div style="margin: 10px" v-if="alltaskcontainer">
+    <div class="m-2" v-if="alltaskcontainer">
       <!-- SEARCH TASKS -->
-      <div class="card p-2">
+      <div class="card p-3">
         <div class="leave-body-header">
           <div>
             <span style="font-size: 20px; color: Dodgerblue">
-              <i class="fa fa-users"></i>
+              <i class="fa-regular fa-rectangle-list"></i>
             </span>
           </div>
           <div><h3 style="margin: 0">All Tasks</h3></div>
         </div>
 
         <!-- ASSIGN TASK TO USERS -->
-        <div class="select-filter">
-          <div>
-            <el-select v-model="leavetype" placeholder="Select type">
+        <div class="d-flex mb-4">
+          <div class="w-50 mr-2">
+            <el-select
+              style="width: 100%"
+              v-model="leavestatus"
+              placeholder="Select status"
+            >
               <el-option
-                v-for="option in leaveType"
-                :key="option.label"
-                :label="option.label"
-                :value="option.value"
-              />
-            </el-select>
-          </div>
-          <div>
-            <el-select v-model="leavestatus" placeholder="Select status">
-              <el-option
-                v-for="option in leaveStatus"
+                v-for="option in taskstatus"
                 :key="option.label"
                 :label="option.label"
                 :value="option.value"
@@ -442,16 +480,17 @@
           </div>
 
           <!-- TASK MODAL -->
-          <div>
-            <el-button type="primary" @click="showTaskModal = true" solid
+          <div class="w-50 mr-2">
+            <el-button
+              class="h-100"
+              type="primary"
+              @click="taskmodal = true"
+              solid
               >+ New Task</el-button
             >
-            <transition name="fade" appear>
-              <div class="modal-overlay" v-if="showTaskModal"></div>
-            </transition>
 
-            <transition name="slide" appear>
-              <div class="timeOffModal" v-if="showTaskModal">
+            <modal v-model:show="taskmodal">
+              <div>
                 <h2>Add Task</h2>
                 <hr style="margin: 20px 0" />
                 <div>
@@ -496,17 +535,17 @@
                     type="primary"
                     @click="
                       AddNewUserTask();
-                      showTaskModal = false;
+                      taskmodal = false;
                     "
                     solid
                     >Submit</el-button
                   >
-                  <el-button type="danger" @click="showTaskModal = false"
+                  <el-button type="danger" @click="taskmodal = false"
                     >Close</el-button
                   >
                 </div>
               </div>
-            </transition>
+            </modal>
           </div>
         </div>
 
@@ -583,6 +622,7 @@ import { Form } from "vee-validate";
 import * as Yup from "yup";
 import axios from "axios";
 import projects from "../Tables/projects";
+import Modal from "@/components/Modal";
 import {
   ElCheckbox,
   ElDatePicker,
@@ -599,6 +639,7 @@ import {
 
 export default {
   components: {
+    Modal,
     Form,
     ElCheckbox,
     ElInput,
@@ -614,6 +655,9 @@ export default {
   },
   data() {
     return {
+      taskmodal: false,
+      usermodal: false,
+      delusermodal: false,
       admincheck: false,
       setuserimg: "",
       setusername: "",
@@ -623,6 +667,7 @@ export default {
       selectedusers: [],
       //duedate: "",
       deleteuser: "",
+      joindate: "",
       task: "",
       image: "",
       selectdate: "",
@@ -630,6 +675,8 @@ export default {
       department: "",
       searchName: "",
       selectDepart: "",
+      selectManager: "",
+      managerList: [{ value: "", label: "All" }],
       allUsers: [],
       leaveReq: [],
       list: [],
@@ -654,11 +701,17 @@ export default {
       pagename: "All Users",
       users: [],
 
-      managers: [
-        { value: "", label: "All" },
-        { value: "jay", label: "Jay Dalal" },
-        { value: "ajay", label: "Ajay" },
+      leavetypes: [
+        { value: "", label: "All Types" },
+        { value: "Single day", label: "Single day" },
+        { value: "Multiple day", label: "Multiple day" },
       ],
+      leavestatus: [
+        { value: "", label: "All Status" },
+        { value: "Approved", label: "Approved" },
+        { value: "Rejected", label: "Rejected" },
+      ],
+
       departments: [
         { value: "", label: "All Departments" },
         { value: "Admin", label: "Admin" },
@@ -674,7 +727,7 @@ export default {
         { value: "SEO", label: "SEO" },
       ],
       taskstatus: [
-        { value: "", label: "All" },
+        { value: "", label: "All Status" },
         { value: "Completed", label: "Completed" },
         { value: "Pending", label: "Pending" },
       ],
@@ -705,7 +758,7 @@ export default {
         .delete(`http://localhost:7000/deleteuser/${this.deleteuser}`)
         .then(() => {
           this.getEmployees();
-          this.showDeleteModal = false;
+          this.delusermodal = false;
         });
     },
     setUserDetails(row) {
@@ -746,16 +799,18 @@ export default {
       axios
         .post(`http://localhost:7000/register/user`, {
           fullName: value.fullName,
+          manager: this.selectManager || "Jay Dalal",
           email: value.email,
           admin: this.admincheck,
           position: this.selectDepart,
           password: value.password,
+          joinDate: this.joindate,
         })
         .then((response) => {
           if (response.data == "user exist") {
             this.error = "This email already exist!";
           } else {
-            this.showModal = false;
+            this.usermodal = false;
             this.error = null;
             this.getEmployees();
           }
@@ -784,6 +839,16 @@ export default {
       }
     },
     getEmployees() {
+      this.managerList = [
+        {
+          value: "",
+          label: "All",
+        },
+        {
+          value: "Jay Dalal",
+          label: "Jay Dalal",
+        },
+      ];
       this.allUsers = [];
       this.users = [];
       axios.get(`http://localhost:7000/employees`).then((response) => {
@@ -793,6 +858,13 @@ export default {
             value: this.allUsers[i]._id,
             label: this.allUsers[i].fullName,
           });
+
+          if (this.allUsers[i].admin) {
+            this.managerList.push({
+              value: this.allUsers[i].fullName,
+              label: this.allUsers[i].fullName,
+            });
+          }
         }
       });
     },
@@ -825,9 +897,7 @@ export default {
         .then((response) => {
           this.alltasklist[i]["fullName"] = response.data.fullName;
         })
-        .then(() => {
-          console.log(this.alltasklist);
-        });
+        .then(() => {});
     },
   },
   computed: {

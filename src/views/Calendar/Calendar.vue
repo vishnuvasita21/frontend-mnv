@@ -11,7 +11,7 @@
       </div>
     </base-header>
 
-    <div class="card mt--6 ml-4 mr-4">
+    <div class="container mt--6">
       <div class="row">
         <div class="col">
           <!-- Fullcalendar -->
@@ -19,26 +19,31 @@
             <!-- Card header -->
             <div class="card-header">
               <!-- Title -->
-              <div>
-                <a
-                  href="#"
-                  @click.prevent="prev"
-                  class="fullcalendar-btn-prev btn btn-sm btn-default"
-                >
-                  <i class="fas fa-angle-left"></i>
-                </a>
-                <a
-                  href="#"
-                  @click.prevent="next"
-                  class="fullcalendar-btn-next btn btn-sm btn-default"
-                >
-                  <i class="fas fa-angle-right"></i>
-                </a>
-
+              <div class="d-flex justify-content-between">
+                <div>
+                  <a
+                    v-if="disablePrevbutton"
+                    href="#"
+                    @click.prevent="prev"
+                    class="fullcalendar-btn-prev btn btn-sm btn-default"
+                  >
+                    <i class="fas fa-angle-left"></i>
+                  </a>
+                </div>
                 <div class="d-inline-block mr-2">
                   <h2>
                     {{ monthyear }}
                   </h2>
+                </div>
+                <div>
+                  <a
+                    v-if="disableNextbutton"
+                    href="#"
+                    @click.prevent="next"
+                    class="fullcalendar-btn-next btn btn-sm btn-default"
+                  >
+                    <i class="fas fa-angle-right"></i>
+                  </a>
                 </div>
               </div>
             </div>
@@ -104,46 +109,12 @@
     </modal>
 
     <modal v-model:show="showEditModal" modal-classes="modal-secondary">
-      <form class="edit-event--form" @submit.prevent="editEvent">
-        <base-input
-          name="title2"
-          label="Event title"
-          placeholder="Event Title"
-          v-model="model.title"
-          input-classes="form-control-alternative new-event--title"
-        >
-        </base-input>
-        <div class="form-group">
-          <label class="form-control-label d-block mb-3">Status color</label>
-          <div class="btn-group btn-group-toggle btn-group-colors event-tag">
-            <label
-              v-for="color in eventColors"
-              :key="color"
-              class="btn"
-              :class="[color, { 'active focused': model.className === color }]"
-            >
-              <input
-                v-model="model.className"
-                type="radio"
-                name="event-tag"
-                :value="color"
-                autocomplete="off"
-              />
-            </label>
-          </div>
-        </div>
-        <base-input name="textarea" label="Description">
-          <textarea
-            v-model="model.description"
-            class="form-control form-control-alternative edit-event--description textarea-autosize"
-            placeholder="Event Desctiption"
-          >
-          </textarea>
-          <i class="form-group--bar"></i>
-        </base-input>
-        <input type="hidden" class="new-event--start" />
-        <input type="hidden" class="new-event--end" />
-      </form>
+      <div>
+        <h1>{{ model.title }}</h1>
+      </div>
+      <div>{{ model.description }}</div>
+      <input type="hidden" class="new-event--start" />
+      <input type="hidden" class="new-event--end" />
 
       <template v-slot:footer>
         <base-button
@@ -168,10 +139,11 @@ import dayGridPlugin from "@fullcalendar/daygrid";
 import interactionPlugin from "@fullcalendar/interaction";
 import timeGridDay from "@fullcalendar/timegrid";
 import axios from "axios";
+import { event } from "d3";
 
-const today = new Date();
-const y = today.getFullYear();
-const m = today.getMonth();
+// const today = new Date();
+// const y = today.getFullYear();
+// const m = today.getMonth();
 // const d = today.getDate();
 var calendar;
 // console.log(calendar.viewTitle);
@@ -183,14 +155,13 @@ export default {
   data() {
     return {
       monthyear: "",
+      setYear: "",
+      disableNextbutton: true,
+      disablePrevbutton: true,
       events: [],
       model: {
-        title: "New event",
-        className: "bg-default",
-        description:
-          "Nullam id dolor id nibh ultricies vehicula ut id elit. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.",
-        start: "",
-        end: "",
+        title: "",
+        description: "",
       },
       showAddModal: false,
       showEditModal: false,
@@ -212,8 +183,56 @@ export default {
       axios.get("http://localhost:7000/dates").then((response) => {
         for (let i = 0; i < response.data.length; i++) {
           this.events.push({
+            title: response.data[i].fullName,
+            start:
+              this.setYear +
+              "-" +
+              this.$dayjs(response.data[i].Info.DOB).format("MM-DD"),
+            allDay: true,
+            className: "event-azure",
+          });
+          this.events.push({
+            title: "Anniversary",
+            start:
+              this.setYear +
+              "-" +
+              this.$dayjs(response.data[i].joinDate).format("MM-DD"),
+            allDay: true,
+            className: "event-azure",
+          });
+          this.events.push({
             title: "BirthDay",
-            start: this.$dayjs(response.data[i].Info.DOB).format("YYYY-MM-DD"),
+            start:
+              this.$dayjs("2021").format("YYYY") +
+              "-" +
+              this.$dayjs(response.data[i].Info.DOB).format("MM-DD"),
+            allDay: true,
+            className: "event-azure",
+          });
+          this.events.push({
+            title: "Anniversary",
+            start:
+              this.$dayjs("2021").format("YYYY") +
+              "-" +
+              this.$dayjs(response.data[i].joinDate).format("MM-DD"),
+            allDay: true,
+            className: "event-azure",
+          });
+          this.events.push({
+            title: "BirthDay",
+            start:
+              this.$dayjs("2023").format("YYYY") +
+              "-" +
+              this.$dayjs(response.data[i].Info.DOB).format("MM-DD"),
+            allDay: true,
+            className: "event-azure",
+          });
+          this.events.push({
+            title: "Anniversary",
+            start:
+              this.$dayjs("2023").format("YYYY") +
+              "-" +
+              this.$dayjs(response.data[i].joinDate).format("MM-DD"),
             allDay: true,
             className: "event-azure",
           });
@@ -221,6 +240,7 @@ export default {
         this.initCalendar();
       });
     },
+
     initCalendar() {
       var calendarEl = document.getElementById("fullCalendar");
 
@@ -230,17 +250,11 @@ export default {
         headerToolbar: false,
         select: () => {
           this.showAddModal = true;
-          this.model.start = new Date(y, m, 21);
-          this.model.end = new Date(y, m, 21);
         },
         eventClick: () => {
           this.model = {
             title: event.title,
-            className: event.classNames ? event.classNames.join(" ") : "",
-            start: event.start,
-            end: event.end,
-            description:
-              "Nullam id dolor id nibh ultricies vehicula ut id elit. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.",
+            description: event.description,
           };
           this.showEditModal = true;
         },
@@ -255,10 +269,24 @@ export default {
     next() {
       calendar.next();
       this.monthyear = calendar.currentData.viewTitle;
+      this.disablePrevbutton = true;
+      if (
+        this.$dayjs(calendar.currentData.currentDate).format("YYYY-MM") >
+        this.$dayjs("2023-11-01").format("YYYY-MM")
+      ) {
+        this.disableNextbutton = false;
+      }
     },
     prev() {
       calendar.prev();
       this.monthyear = calendar.currentData.viewTitle;
+      this.disableNextbutton = true;
+      if (
+        this.$dayjs(calendar.currentData.currentDate).format("YYYY-MM") <
+        this.$dayjs("2021-11-01").format("YYYY-MM")
+      ) {
+        this.disablePrevbutton = false;
+      }
     },
     saveEvent() {
       if (this.model.title) {
@@ -293,6 +321,7 @@ export default {
     },
   },
   mounted() {
+    this.setYear = this.$dayjs().year();
     this.getBirthDate();
     this.monthyear = this.$dayjs().format("MMMM YYYY");
   },

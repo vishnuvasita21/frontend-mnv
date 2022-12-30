@@ -52,7 +52,7 @@
             </div> -->
             <div class="card-body px-lg-4 py-lg-4">
               <div class="text-center text-muted mb-2">
-                <small>Or sign In with credentials</small>
+                <small>sign In with credentials</small>
               </div>
               <div class="register-container">
                 <div class="w-100 mb-4">
@@ -184,7 +184,7 @@ export default {
   }
 }
 .custom-gradient {
-  background: linear-gradient(-45deg, #ee7752, #c03369, #3a7bf5, #23d5ab);
+  background: linear-gradient(-45deg, #ee7752, #c03369, #a83eff, #23d5ab);
   background-size: 400% 400%;
   animation: gradient 10s ease infinite;
   height: 100vh;

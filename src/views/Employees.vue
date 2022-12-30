@@ -16,9 +16,13 @@
 
     <div class="card mt--6 m-4 p-3" style="min-height: 500px">
       <!-- div for search menu -->
-      <div class="search-view">
-        <div class="search-office-select">
-          <el-select v-model="officesearch" placeholder="All Offices">
+      <div class="d-flex">
+        <div class="mr-2 w-25">
+          <el-select
+            style="width: 100%"
+            v-model="officesearch"
+            placeholder="All Offices"
+          >
             <el-option
               v-for="option in offices"
               :key="option.label"
@@ -28,8 +32,12 @@
           </el-select>
         </div>
 
-        <div class="search-department-select">
-          <el-select v-model="departsearch" placeholder="All Departments">
+        <div class="mr-2 w-25">
+          <el-select
+            style="width: 100%"
+            v-model="departsearch"
+            placeholder="All Departments"
+          >
             <el-option
               v-for="option in departments"
               :key="option.label"
@@ -39,49 +47,14 @@
           </el-select>
         </div>
 
-        <div class="search-user w-25">
-          <el-input placeholder="Please Input" v-model="search" />
+        <div class="mr-2 w-25">
+          <el-input
+            style="width: 100%"
+            placeholder="Please Input"
+            v-model="search"
+          />
         </div>
       </div>
-      <!-- second div for card view -->
-
-      <!-- user card view youtube clone -->
-      <!-- <div class="video-div">
-                  <div
-                    class="video-preview"
-                    v-for="user in filteredUsers"
-                    :key="user.id"
-                  >
-                    <div class="thumbnail-row">
-                      <img
-                        class="img1"
-                        :src="user.profile_pic ? user.profile_pic : 'giff.gif'"
-                      />
-                    </div>
-                    <div>
-                      <h3>{{ user.fullName }}</h3>
-                    </div>
-                    <div>
-                      <p style="margin: 0">{{ user.position }}</p>
-                    </div>
-                    <div>
-                      <h4 style="margin: 0">ID{{ user._id.slice(3, 8) }}</h4>
-                    </div>
-                    <div>
-                      <p style="margin: 0">+91 {{ user.number }}</p>
-                    </div>
-                    <div>
-                      <a href="#">{{ user.email }}</a>
-                    </div>
-
-                    <div>
-                      <hr style="margin: 10px 0" />
-                      <p style="margin: 0">
-                        <small>Line Manager {{ user.manager }}</small>
-                      </p>
-                    </div>
-                  </div>
-                </div> -->
 
       <!-- demo -->
 
@@ -264,103 +237,6 @@ export default {
 <style scoped>
 *:focus {
   outline: none;
-}
-/* .userview {
-  display: flex;
-  flex-grow: 4;
-  flex-wrap: wrap;
-}
-.user-flexview {
-  border-radius: 10px;
-  box-shadow: 0 0 2px;
-  flex: 1;
-  margin: 10px;
-  padding: 30px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-flow: column;
-  margin: 10px;
-}
-img {
-  width: 150px;
-  height: 150px;
-  border-radius: 50%;
-} */
-
-/* user card view css */
-.video-preview {
-  background-color: white;
-  box-shadow: 0 0 3px grey;
-  padding: 10px;
-  display: flex;
-  justify-content: center;
-  flex-direction: column;
-  align-content: center;
-  margin: 0;
-  gap: 1px;
-}
-.thumbnail-row {
-  margin: 0;
-  height: 100px;
-}
-.thumbnail-row .img1 {
-  height: 100%;
-  padding: 10px;
-  margin-top: 15px;
-}
-.video-div {
-  margin-top: 50px;
-  display: flex;
-  flex-wrap: wrap;
-
-  column-gap: 20px;
-  row-gap: 20px;
-}
-/* ends here */
-.searchbar {
-  padding: 2px 10px;
-  width: 300px;
-  border-radius: 5px;
-  border: solid;
-  border-width: 1px;
-  background: transparent;
-}
-.search-item {
-  width: 250px;
-  padding: 3px 7px;
-  font-size: 15px;
-  margin-left: 5px;
-  background: transparent;
-  border: none;
-}
-.searchbar:hover {
-  cursor: pointer;
-  border-color: green;
-  border-style: solid;
-}
-
-.search-view {
-  height: 50px;
-  padding: 30px 10px;
-  display: flex;
-  align-items: center;
-  flex-direction: row;
-}
-.search-office-select,
-.search-department-select {
-  margin-right: 10px;
-}
-
-.select-button {
-  font-family: "Arial";
-  background: transparent;
-  padding: 7px 7px;
-  border-radius: 5px;
-}
-.select-button:hover {
-  border-color: green;
-  cursor: pointer;
 }
 
 /* demo */

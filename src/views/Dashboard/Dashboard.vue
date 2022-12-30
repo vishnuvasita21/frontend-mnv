@@ -16,100 +16,108 @@
     </base-header>
 
     <!-- dashboard -->
-    <div class="card-view">
-      <!-- flex-calendar -->
-      <div style="flex: 2">
-        <div class="card m-2 p-4">
-          <div>
-            <h3 class="text-blue">
-              <i class="fa fa-calendar mr-2"></i>Upcoming Events
-            </h3>
-          </div>
-          <div class="border">
-            <el-calendar
-              :range="[new Date(2019, 2, 4), new Date(2019, 2, 24)]"
-            />
-          </div>
-        </div>
-        <div class="card m-2 p-4">
-          <div>
-            <h3 class="text-blue"><i class="fa fa-calendar mr-2"></i>News</h3>
-          </div>
-          <div class="border p-4">
-            <h3>
-              <i class="fa fa-flag text-red mr-2"></i>One Day Picnic at 100
-              Acres Resort (14th May, 2022)
-            </h3>
-            <p class="text-muted">
-              <i class="fa fa-clock mr-2"></i>12 May 2022 | Sachin Gupta
-            </p>
-          </div>
-        </div>
-        <div class="card m-2 p-4">
-          <div>
-            <h3 class="text-blue">
-              <i class="fa fa-user-plus mr-2"></i>New member
-            </h3>
-          </div>
-          <div class="border">
-            <el-table :data="tableData" style="width: 100%">
-              <el-table-column class="flex-fill" />
-            </el-table>
-          </div>
-        </div>
-      </div>
-
-      <!-- flex-activities -->
-      <div style="flex: 1">
-        <div class="card m-2 p-4">
-          <div>
-            <h3 class="text-blue">
-              <i class="fa fa-clock mr-2"></i>Clock-in/out
-            </h3>
-          </div>
-          <div class="border">
+    <div class="container">
+      <div class="card-view">
+        <!-- flex-calendar -->
+        <div style="flex: 2">
+          <div class="card m-2 p-4">
             <div>
-              <el-button type="success" style="width: 100%"
-                ><i class="fa fa-clock text-white mr-2"></i>Clock
-                in/out</el-button
-              >
+              <h3 class="text-blue">
+                <i class="fa fa-calendar mr-2"></i>Upcoming Events
+              </h3>
+            </div>
+            <div class="w-100">
+              <vue-cal
+                class="vuecal--blue-theme"
+                hide-view-selector
+                :time="false"
+                active-view="week"
+                style="width: 100%; height: 300px"
+              />
+            </div>
+          </div>
+          <div class="card m-2 p-4">
+            <div>
+              <h3 class="text-blue"><i class="fa fa-calendar mr-2"></i>News</h3>
+            </div>
+            <div v-for="news in eventList" :key="news.id" class="border p-4">
+              <h3>
+                <i class="fa fa-flag text-red mr-2"></i>{{ news.title }} ({{
+                  $dayjs(news.eventDate).format("DD-MMM-YYYY")
+                }})
+              </h3>
+              <p class="text-muted">
+                <i class="fa fa-clock mr-2"></i
+                >{{ $dayjs(news.date).format("DD-MMM-YYYY") }} | Sachin Gupta
+              </p>
+            </div>
+          </div>
+          <div class="card m-2 p-4">
+            <div>
+              <h3 class="text-blue">
+                <i class="fa fa-user-plus mr-2"></i>New member
+              </h3>
+            </div>
+            <div class="border">
+              <el-table :data="tableData" style="width: 100%">
+                <el-table-column class="flex-fill" />
+              </el-table>
             </div>
           </div>
         </div>
-        <div class="card m-2 p-4">
-          <div>
-            <h3 class="text-blue">
-              <i class="fa fa-stopwatch mr-2"></i>To-dos
-            </h3>
+
+        <!-- flex-activities -->
+        <div style="flex: 1">
+          <div class="card m-2 p-4">
+            <div>
+              <h3 class="text-blue">
+                <i class="fa fa-clock mr-2"></i>Clock-in/out
+              </h3>
+            </div>
+            <div class="border">
+              <div>
+                <el-button type="success" style="width: 100%"
+                  ><i class="fa fa-clock text-white mr-2"></i>Clock
+                  in/out</el-button
+                >
+              </div>
+            </div>
           </div>
-          <div class="border">
-            <el-table :data="tableData" height="200" style="width: 100%">
-              <el-table-column class="flex-fill" />
-            </el-table>
+          <div class="card m-2 p-4">
+            <div>
+              <h3 class="text-blue">
+                <i class="fa fa-stopwatch mr-2"></i>To-dos
+              </h3>
+            </div>
+            <div class="border">
+              <el-table :data="tableData" height="200" style="width: 100%">
+                <el-table-column class="flex-fill" />
+              </el-table>
+            </div>
           </div>
-        </div>
-        <div class="card m-2 p-4">
-          <div>
-            <h3 class="text-blue">
-              <i class="fa fa-plane mr-2"></i>My Time-off
-            </h3>
+          <div class="card m-2 p-4">
+            <div>
+              <h3 class="text-blue">
+                <i class="fa fa-plane mr-2"></i>My Time-off
+              </h3>
+            </div>
+            <div class="border">
+              <el-table :data="tableData" height="250" style="width: 100%">
+                <el-table-column class="flex-fill" />
+              </el-table>
+            </div>
           </div>
-          <div class="border">
-            <el-table :data="tableData" height="250" style="width: 100%">
-              <el-table-column class="flex-fill" />
-            </el-table>
-          </div>
-        </div>
-        <div class="card m-2 p-4">
-          <div>
-            <h3 class="text-blue">
-              <i class="fa fa-plane-up mr-2"></i>Who's off today
-            </h3>
-          </div>
-          <div class="border">
-            <el-table :data="tableData" height="250" style="width: 100%">
-              <el-table-column class="flex-fill" />
-            </el-table>
+          <div class="card m-2 p-4">
+            <div>
+              <h3 class="text-blue">
+                <i class="fa fa-plane-up mr-2"></i>Who's off today
+              </h3>
+            </div>
+            <div class="border">
+              <el-table :data="tableData" height="250" style="width: 100%">
+                <el-table-column class="flex-fill" />
+              </el-table>
+            </div>
           </div>
         </div>
       </div>
@@ -119,21 +127,35 @@
 
 <script>
 import RouteBreadCrumb from "@/components/Breadcrumb/RouteBreadcrumb";
-import { ElCalendar, ElTable, ElTableColumn, ElButton } from "element-plus";
+import { ElTable, ElTableColumn, ElButton } from "element-plus";
+import VueCal from "vue-cal";
+import "vue-cal/dist/vuecal.css";
+import axios from "axios";
 
 export default {
   components: {
     RouteBreadCrumb,
     [ElTable.name]: ElTable,
     [ElTableColumn.name]: ElTableColumn,
-    ElCalendar,
+    VueCal,
     ElButton,
   },
   data() {
-    return {};
+    return {
+      eventList: [],
+    };
   },
-  methods: {},
-  mounted() {},
+  methods: {
+    getEventDetails() {
+      this.eventList = [];
+      axios.get("http://localhost:7000/getevent").then((response) => {
+        this.eventList = response.data;
+      });
+    },
+  },
+  mounted() {
+    this.getEventDetails();
+  },
 };
 </script>
 
