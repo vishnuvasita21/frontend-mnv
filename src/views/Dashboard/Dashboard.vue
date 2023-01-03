@@ -41,6 +41,9 @@
               :clickToNavigate="false"
               :disable-views="['years', 'day']"
             >
+              <template #title="{ title }"
+                ><h3 class="m-0">{{ title }}</h3></template
+              >
             </vue-cal>
           </div>
         </div>
@@ -139,8 +142,8 @@
             </h3>
           </div>
           <div class="border">
-            <el-table :data="tableData" height="250" style="width: 100%">
-              <el-table-column class="flex-fill" />
+            <el-table :data="allleavelist" class="h-100" style="width: 100%">
+              <el-table-column prop="fullName" label="Name" class="flex-fill" />
             </el-table>
           </div>
         </div>

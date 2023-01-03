@@ -27,6 +27,7 @@
     "dropzone": "5.7.6",
     "element-plus": "1.0.1-beta.24",
     "element-ui": "^2.15.12",
+    "firebase-tools": "^9.14.0",
     "fullcalendar": "^6.0.2",
     "fuse.js": "6.4.6",
     "jquery": "3.6.0",
