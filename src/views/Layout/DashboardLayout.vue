@@ -1,5 +1,5 @@
 <template>
-  <div class="wrapper">
+  <div class="wrapper" ref="formContainer">
     <!-- <notifications></notifications> -->
     <side-bar>
       <template v-slot:links>
@@ -121,6 +121,28 @@ export default {
     ContentFooter,
   },
   methods: {
+    submit() {
+      let loader = this.$loading.show({
+        // Optional parameters
+        container: this.fullPage ? null : this.$refs.formContainer,
+        canCancel: true,
+        color: "#318efd",
+        loader: "dots",
+        width: 100,
+        height: 100,
+        backgroundColor: "#ffffff",
+        opacity: 1,
+        zIndex: 9999,
+        onCancel: this.onCancel,
+      });
+      // simulate AJAX
+      setTimeout(() => {
+        loader.hide();
+      }, 2000);
+    },
+    onCancel() {
+      console.log("User cancelled the loader.");
+    },
     getAdmin() {
       console.log(typeof JSON.parse(localStorage.getItem("user")).admin);
       this.admin = JSON.parse(localStorage.getItem("user")).admin;
@@ -135,6 +157,7 @@ export default {
   mounted() {
     this.initScrollbar();
     this.getAdmin();
+    this.submit();
   },
 };
 </script>

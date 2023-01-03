@@ -58,22 +58,8 @@
 
       <!-- demo -->
 
-      <div class="row">
-        <div class="col-sm-4">
-          <a
-            href="#custom-modal"
-            class="btn btn-custom waves-effect waves-light mb-4"
-            data-animation="fadein"
-            data-plugin="custommodal"
-            data-overlayspeed="200"
-            data-overlaycolor="#36404a"
-            ><i class="mdi mdi-plus"></i
-          ></a>
-        </div>
-        <!-- end col -->
-      </div>
       <!-- end row -->
-      <div class="row">
+      <div class="row mt-4">
         <div class="col-lg-3" v-for="user in filteredUsers" :key="user.id">
           <div class="text-center card-box">
             <div class="member-card pt-2 pb-2">

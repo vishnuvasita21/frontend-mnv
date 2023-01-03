@@ -39,7 +39,6 @@
           ref="vuecal"
           :time="false"
           hide-view-selector
-          class="vuecal--blue-theme"
           :selected-date="todayDate"
           active-view="month"
           events-on-month-view="true"

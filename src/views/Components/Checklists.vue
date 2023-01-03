@@ -181,11 +181,13 @@ export default {
       this.completedTasks = [];
       this.tasklist = [];
       axios
-        .get(`http://localhost:7000/tasks/${id}`, {
+        .get(
+          `http://localhost:7000/tasks/${id}` /*{
           headers: {
             Authorization: JSON.parse(localStorage.getItem("user")).token,
           },
-        })
+        }*/
+        )
         .then((response) => {
           this.list = response.data;
           for (let i = 0; i < this.list.length; i++) {
