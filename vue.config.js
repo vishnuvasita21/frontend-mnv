@@ -1,7 +1,19 @@
 module.exports = {
   lintOnSave: true,
   css: {
-    // Enable CSS source maps.
-    sourceMap: true,
+    loaderOptions: {
+      css: {
+        sourceMap: true,
+      },
+      sass: {
+        sourceMap: true,
+      },
+      stylus: {
+        sourceMap: true,
+      },
+      postcss: {
+        sourceMap: true,
+      },
+    },
   },
 };
