@@ -104,6 +104,7 @@
 // import { Form } from "vee-validate";
 // import * as Yup from "yup";
 import Authentication from "../../services/Authentication";
+import router from "../../router";
 
 import { ElInput } from "element-plus";
 export default {
@@ -123,6 +124,11 @@ export default {
     };
   },
   methods: {
+    async authcheck() {
+      if (JSON.parse(localStorage.getItem("user")).token) {
+        router.push("/dashboard");
+      }
+    },
     async login() {
       try {
         const response = await Authentication.login({
@@ -148,6 +154,9 @@ export default {
     doSomething(event) {
       console.log(event);
     },
+  },
+  mounted() {
+    this.authcheck();
   },
   // setup() {
   //   function onSubmit(values) {

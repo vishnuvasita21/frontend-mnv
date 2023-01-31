@@ -193,11 +193,13 @@ export default {
     //   );
     // },
     getUsers() {
-      axios.get("http://localhost:7000/employees").then((response) => {
-        console.log(response.data);
-        this.users = response.data;
-        console.log(this.users);
-      });
+      axios
+        .get("https://mnv-backend.onrender.com/employees")
+        .then((response) => {
+          console.log(response.data);
+          this.users = response.data;
+          console.log(this.users);
+        });
     },
   },
   mounted() {
@@ -261,6 +263,8 @@ export default {
   border-radius: 0.25rem;
   max-width: 100%;
   height: auto;
+  min-height: 100%;
+  min-width: 100%;
 }
 .text-pink {
   font-weight: 500;

@@ -423,7 +423,7 @@ export default {
     async timeoff() {
       axios
         .post(
-          `http://localhost:7000/leave/${
+          `https://mnv-backend.onrender.com/leave/${
             JSON.parse(localStorage.getItem("user"))._id
           }`,
           {
@@ -446,10 +446,12 @@ export default {
     },
     getLeaveList(id) {
       this.leaveList = [];
-      axios.get(`http://localhost:7000/getLeaveList/${id}`).then((response) => {
-        console.log(response.data);
-        this.leaveList = response.data;
-      });
+      axios
+        .get(`https://mnv-backend.onrender.com/getLeaveList/${id}`)
+        .then((response) => {
+          console.log(response.data);
+          this.leaveList = response.data;
+        });
     },
   },
   computed: {

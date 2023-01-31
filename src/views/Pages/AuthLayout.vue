@@ -58,7 +58,7 @@
         <li class="nav-item">
           <a
             class="nav-link nav-link-icon"
-            href="https://www.facebook.com/creativetim"
+            href=""
             target="_blank"
             data-toggle="tooltip"
             data-original-title="Like us on Facebook"
@@ -70,7 +70,7 @@
         <li class="nav-item">
           <a
             class="nav-link nav-link-icon"
-            href="https://www.instagram.com/creativetimofficial"
+            href=""
             target="_blank"
             data-toggle="tooltip"
             data-original-title="Follow us on Instagram"
@@ -82,7 +82,7 @@
         <li class="nav-item">
           <a
             class="nav-link nav-link-icon"
-            href="https://twitter.com/creativetim"
+            href=""
             target="_blank"
             data-toggle="tooltip"
             data-original-title="Follow us on Twitter"
@@ -94,7 +94,7 @@
         <li class="nav-item">
           <a
             class="nav-link nav-link-icon"
-            href="https://github.com/creativetimofficial"
+            href=""
             target="_blank"
             data-toggle="tooltip"
             data-original-title="Star us on Github"

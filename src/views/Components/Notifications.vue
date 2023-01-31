@@ -80,7 +80,9 @@ export default {
     delSelected() {
       for (let i = 0; i < this.delNoti.length; i++) {
         axios
-          .delete(`http://localhost:7000/deletenoti/${this.delNoti[i]._id}`)
+          .delete(
+            `https://mnv-backend.onrender.com/deletenoti/${this.delNoti[i]._id}`
+          )
           .then(() => {
             var id = JSON.parse(localStorage.getItem("user"))._id;
             this.getNotification(id);
@@ -89,9 +91,11 @@ export default {
     },
     getNotification(id) {
       this.notificationList = [];
-      axios.get(`http://localhost:7000/notify/${id}`).then((response) => {
-        this.notificationList = response.data;
-      });
+      axios
+        .get(`https://mnv-backend.onrender.com/notify/${id}`)
+        .then((response) => {
+          this.notificationList = response.data;
+        });
     },
   },
   mounted() {

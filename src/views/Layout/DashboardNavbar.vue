@@ -238,9 +238,11 @@ export default {
   methods: {
     getNotification(id) {
       this.notificationList = [];
-      axios.get(`http://localhost:7000/notify/${id}`).then((response) => {
-        this.notificationList = response.data;
-      });
+      axios
+        .get(`https://mnv-backend.onrender.com/notify/${id}`)
+        .then((response) => {
+          this.notificationList = response.data;
+        });
     },
     removeLocal() {
       localStorage.removeItem("user");

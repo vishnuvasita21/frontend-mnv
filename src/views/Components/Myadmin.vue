@@ -9,6 +9,9 @@
           </h6>
         </div>
         <div class="col-lg-6 col-5 text-right">
+          <base-button size="sm" type="neutral" @click="newsmodal = true"
+            >+ News</base-button
+          >
           <base-button
             size="sm"
             type="neutral"
@@ -45,6 +48,51 @@
         </div>
       </div>
     </base-header>
+
+    <modal v-model:show="newsmodal">
+      <div>
+        <h2>Add new event</h2>
+        <hr style="margin: 20px 0" />
+        <div>
+          <div>
+            <base-input label="Title">
+              <el-input
+                v-model="eventtitle"
+                placeholder="Enter event"
+              ></el-input>
+            </base-input>
+          </div>
+          <div class="flex-fill">
+            <base-input label="Description">
+              <el-input
+                v-model="eventdes"
+                placeholder="Enter detail"
+              ></el-input>
+            </base-input>
+          </div>
+          <base-input label="Select Due Date">
+            <el-date-picker
+              placeholder="Date"
+              v-model="eventdate"
+              type="date"
+              :default-time="defaultTime1"
+          /></base-input>
+        </div>
+
+        <div>
+          <el-button
+            type="primary"
+            @click="
+              AddNews();
+              newsmodal = false;
+            "
+            solid
+            >Submit</el-button
+          >
+          <el-button type="danger" @click="newsmodal = false">Close</el-button>
+        </div>
+      </div>
+    </modal>
 
     <!-- ALL USER CARD -->
     <div class="m-2" v-if="allusercontainer">
@@ -655,6 +703,10 @@ export default {
   },
   data() {
     return {
+      eventtitle: "",
+      eventdes: "",
+      eventdate: "",
+      newsmodal: false,
       taskmodal: false,
       usermodal: false,
       delusermodal: false,
@@ -743,19 +795,23 @@ export default {
   },
   methods: {
     notifyUser(id) {
-      axios.post(`http://localhost:7000/notify`, {
+      axios.post(`https://mnv-backend.onrender.com/notify`, {
         user: id,
         notificationmsg: "you got new task",
       });
     },
     deleteTask(row) {
-      axios.delete(`http://localhost:7000/deltask/${row._id}`).then(() => {
-        this.getallTasks();
-      });
+      axios
+        .delete(`https://mnv-backend.onrender.com/deltask/${row._id}`)
+        .then(() => {
+          this.getallTasks();
+        });
     },
     delUserDetails() {
       axios
-        .delete(`http://localhost:7000/deleteuser/${this.deleteuser}`)
+        .delete(
+          `https://mnv-backend.onrender.com/deleteuser/${this.deleteuser}`
+        )
         .then(() => {
           this.getEmployees();
           this.delusermodal = false;
@@ -786,7 +842,7 @@ export default {
       const id = row._id;
 
       axios
-        .post(`http://localhost:7000/updateleavestatus/${id}`, {
+        .post(`https://mnv-backend.onrender.com/updateleavestatus/${id}`, {
           status: value,
         })
         .then((resp) => {
@@ -797,7 +853,7 @@ export default {
     },
     async AddNewUser(value) {
       axios
-        .post(`http://localhost:7000/register/user`, {
+        .post(`https://mnv-backend.onrender.com/register/user`, {
           fullName: value.fullName,
           manager: this.selectManager || "Jay Dalal",
           email: value.email,
@@ -817,10 +873,23 @@ export default {
         });
     },
 
+    AddNews() {
+      axios
+        .post(`https://mnv-backend.onrender.com/events`, {
+          title: this.eventtitle,
+          eventDate: this.eventdate,
+          detail: this.detail,
+        })
+        .then(() => {
+          this.eventtitle = "";
+          this.eventdes = "";
+          this.eventdate = "";
+        });
+    },
     AddNewUserTask() {
       for (let i = 0; i < this.selectedusers.length; i++) {
         axios
-          .post("http://localhost:7000/Checklist", {
+          .post("https://mnv-backend.onrender.com/Checklist", {
             taskName: this.taskname,
             taskType: "Checkbox",
             addMember: this.selectedusers[i],
@@ -851,40 +920,44 @@ export default {
       ];
       this.allUsers = [];
       this.users = [];
-      axios.get(`http://localhost:7000/employees`).then((response) => {
-        this.allUsers = response.data;
-        for (let i = 0; i < this.allUsers.length; i++) {
-          this.users.push({
-            value: this.allUsers[i]._id,
-            label: this.allUsers[i].fullName,
-          });
-
-          if (this.allUsers[i].admin) {
-            this.managerList.push({
-              value: this.allUsers[i].fullName,
+      axios
+        .get(`https://mnv-backend.onrender.com/employees`)
+        .then((response) => {
+          this.allUsers = response.data;
+          for (let i = 0; i < this.allUsers.length; i++) {
+            this.users.push({
+              value: this.allUsers[i]._id,
               label: this.allUsers[i].fullName,
             });
+
+            if (this.allUsers[i].admin) {
+              this.managerList.push({
+                value: this.allUsers[i].fullName,
+                label: this.allUsers[i].fullName,
+              });
+            }
           }
-        }
-      });
+        });
     },
     getLeaves() {
       this.leaveReq = [];
       this.prevLeaves = [];
-      axios.get(`http://localhost:7000/leavereq`).then((response) => {
-        this.list = response.data;
-        for (let i = 0; i < this.list.length; i++) {
-          if (this.list[i].status == "Pending") {
-            this.leaveReq.push(this.list[i]);
-          } else {
-            this.prevLeaves.push(this.list[i]);
+      axios
+        .get(`https://mnv-backend.onrender.com/leavereq`)
+        .then((response) => {
+          this.list = response.data;
+          for (let i = 0; i < this.list.length; i++) {
+            if (this.list[i].status == "Pending") {
+              this.leaveReq.push(this.list[i]);
+            } else {
+              this.prevLeaves.push(this.list[i]);
+            }
           }
-        }
-      });
+        });
     },
     getallTasks() {
       this.alltasklist = [];
-      axios.get(`http://localhost:7000/alltask`).then((response) => {
+      axios.get(`https://mnv-backend.onrender.com/alltask`).then((response) => {
         this.alltasklist = response.data;
         for (let i = 0; i < this.alltasklist.length; i++) {
           this.getUserName(this.alltasklist[i].addMember[0], i);
@@ -893,7 +966,7 @@ export default {
     },
     getUserName(id, i) {
       axios
-        .get(`http://localhost:7000/usertask/${id}`)
+        .get(`https://mnv-backend.onrender.com/usertask/${id}`)
         .then((response) => {
           this.alltasklist[i]["fullName"] = response.data.fullName;
         })
@@ -965,8 +1038,8 @@ export default {
   gap: 5px;
 }
 .profile_image {
-  height: 30px;
-  width: auto;
+  max-height: 30px;
+  max-width: 30px;
   margin: 5px;
   border-radius: 50%;
 }

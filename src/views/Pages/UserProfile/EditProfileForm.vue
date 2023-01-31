@@ -1,400 +1,418 @@
 <template>
-  <div style="flex: 2">
-    <card>
-      <template v-slot:header>
-        <div class="row align-items-center">
-          <div class="col-8">
-            <h3 class="mb-0">My Profile</h3>
-          </div>
-          <div
-            v-if="hide"
-            class="col-4 text-right"
-            @click="
-              hide = false;
-              edit = false;
-            "
-          >
-            <a
-              class="btn btn-sm"
-              type="primary"
-              style="
-                width: 70px;
-                font-size: 15px;
-                background-color: rgb(54, 134, 255);
-                color: white;
+  <div class="user_profile_flex">
+    <div style="flex: 2">
+      <card>
+        <template v-slot:header>
+          <div class="d-flex align-items-center justify-content-between p-2">
+            <div>
+              <h2 class="mb-0">My Profile</h2>
+            </div>
+            <div
+              v-if="hide"
+              class="text-right mr-2"
+              @click="
+                hide = false;
+                edit = false;
               "
-              >Edit</a
             >
-          </div>
-        </div>
-      </template>
-
-      <div v-if="edit && users.length">
-        <div>
-          <h3>
-            <i class="fa-solid fa-user-tie text-blue p-1 mr-1"></i>Personal
-            Details
-          </h3>
-        </div>
-        <div class="information">
-          <div style="flex: 1">
-            <p>Name:</p>
-            <p>Email:</p>
-            <p>Date of Birth:</p>
-            <p>Number:</p>
-          </div>
-          <div style="flex: 2">
-            <p>
-              <span class="user-info">{{ users[0].fullName }}</span>
-            </p>
-            <p>
-              <span class="user-info">{{ users[0].email }}</span>
-            </p>
-            <p>
-              <span class="user-info">{{
-                users[0].Info.DOB
-                  ? $dayjs(users[0].Info.DOB).format("DD-MM-YYYY")
-                  : "-"
-              }}</span>
-            </p>
-            <p>
-              <span class="user-info">{{ users[0].number }}</span>
-            </p>
-          </div>
-          <div style="flex: 1">
-            <p>Gender:</p>
-            <p>Blood group:</p>
-            <p>Nationality:</p>
-            <p>Marital Status:</p>
-          </div>
-          <div style="flex: 2">
-            <p>
-              <span class="user-info">{{ users[0].Info.Gender }}</span>
-            </p>
-            <p><span class="user-info">B&plus;</span></p>
-            <p><span class="user-info">Indian</span></p>
-            <p><span class="user-info"></span></p>
-          </div>
-        </div>
-        <hr />
-        <div>
-          <h3>
-            <i class="fa-solid fa-location-crosshairs text-blue p-1 mr-1"></i
-            >Address
-          </h3>
-        </div>
-        <div class="information">
-          <div style="flex: 1">
-            <p>Primary Address:</p>
-
-            <p>Permanent Address:</p>
-          </div>
-          <div style="flex: 2">
-            <p>
-              <span class="user-info">{{ users[0].Info.Address.Address }}</span>
-            </p>
-
-            <p>
-              <span class="user-info">{{ users[0].Info.Address.Address }}</span>
-            </p>
-          </div>
-          <div style="flex: 1">
-            <p>City:</p>
-            <p>State/Province:</p>
-            <p>Country:</p>
-            <p>Postal:</p>
-          </div>
-          <div style="flex: 2">
-            <p>
-              <span class="user-info">{{ users[0].Info.Address.City }}</span>
-            </p>
-            <p>
-              <span class="user-info">{{ users[0].Info.Address.City }}</span>
-            </p>
-            <p>
-              <span class="user-info">{{ users[0].Info.Address.Country }}</span>
-            </p>
-            <p>
-              <span class="user-info">{{ users[0].Info.Address.Postal }}</span>
-            </p>
-          </div>
-        </div>
-        <hr />
-        <div>
-          <h3>
-            <i class="fa-solid fa-building-columns text-blue p-1 mr-1"></i>Bank
-            Details
-          </h3>
-        </div>
-        <div class="information">
-          <div style="flex: 1">
-            <p>Bank Name:</p>
-            <p>Account Name:</p>
-            <p>Account Number:</p>
-            <p>Branch:</p>
-          </div>
-          <div style="flex: 2">
-            <p>
-              <span class="user-info">{{ users[0].Info.Bank.Bank_name }}</span>
-            </p>
-            <p>
-              <span class="user-info">{{
-                users[0].Info.Bank.Account_name
-              }}</span>
-            </p>
-            <p>
-              <span class="user-info">{{ users[0].Info.Bank.Account_no }}</span>
-            </p>
-
-            <p>
-              <span class="user-info">{{ users[0].Info.Bank.Branch }}</span>
-            </p>
-          </div>
-        </div>
-      </div>
-
-      <Form @submit="updateProfile" :validation-schema="schema" v-if="!edit">
-        <h6 class="heading-small text-muted mb-4">Personal information</h6>
-        <div class="form-row">
-          <div class="col-md-6">
-            <base-input
-              label="First name"
-              name="FirstName"
-              placeholder="First name"
-              rules="required"
-              v-model:value="firstName"
-            >
-            </base-input>
-          </div>
-
-          <div class="col-md-6">
-            <base-input
-              label="Last name"
-              name="LastName"
-              placeholder="Last name"
-              rules="required"
-              success-message="Looks good!"
-              v-model:value="lastName"
-            >
-            </base-input>
-          </div>
-          <div class="col-md-4">
-            <base-input
-              label="Contact No."
-              name="number"
-              placeholder="Mobile No."
-              rules="required"
-              v-model:value="number"
-            >
-            </base-input>
-          </div>
-
-          <div class="col-md-6">
-            <base-input label="Date of birth" name="DOB">
-              <el-date-picker v-model="DOB" type="date" placeholder="Date"
-            /></base-input>
-          </div>
-          <div class="col-md-4">
-            <base-input label="Gender" name="Gender">
-              <el-select placeholder="Gender" v-model="Gender" size="large">
-                <el-option label="Male" value="Male" />
-                <el-option label="Female" value="Female" />
-                <el-option label="Other" value="Other" /> </el-select
-            ></base-input>
-          </div>
-        </div>
-        <hr />
-        <h6 class="heading-small text-muted mb-4">Address</h6>
-        <div class="form-row">
-          <div class="col-md-6">
-            <base-input
-              label="Address"
-              name="Address"
-              placeholder="Address"
-              rules="required"
-              v-model:value="Address"
-            >
-            </base-input>
-          </div>
-          <div class="col-md-6">
-            <base-input
-              label="City"
-              name="City"
-              placeholder="City"
-              rules="required"
-              v-model:value="City"
-            >
-            </base-input>
-          </div>
-          <div class="col-md-3">
-            <base-input
-              label="Country"
-              name="Country"
-              placeholder="Country"
-              rules="required"
-              v-model:value="Country"
-            >
-            </base-input>
-          </div>
-          <div class="col-md-3">
-            <base-input
-              label="Postal"
-              name="Postal"
-              placeholder="Postal"
-              rules="required"
-              v-model:value="Postal"
-            >
-            </base-input>
-          </div>
-        </div>
-
-        <hr />
-        <h6 class="heading-small text-muted mb-4">Bank Details</h6>
-        <div class="form-row">
-          <div class="col-md-6">
-            <base-input
-              label="Bank Name"
-              name="Bank_name"
-              placeholder="Bank Name"
-              rules="required"
-              v-model:value="Bank_name"
-            >
-            </base-input>
-          </div>
-          <div class="col-md-6">
-            <base-input
-              label="Account Name"
-              name="Account_name"
-              placeholder="Name"
-              rules="required"
-              v-model:value="Account_name"
-            >
-            </base-input>
-          </div>
-          <div class="col-md-6">
-            <base-input
-              label="Account Number"
-              name="Account_no"
-              placeholder="Account Number"
-              rules="required"
-              v-model:value="Account_no"
-            >
-            </base-input>
-          </div>
-
-          <div class="col-md-6">
-            <base-input
-              label="Branch"
-              name="Branch"
-              placeholder="Branch"
-              rules="required"
-              v-model:value="Branch"
-            >
-            </base-input>
-          </div>
-        </div>
-
-        <base-button type="primary" native-type="submit">Submit</base-button>
-        <base-button type="danger" @click="(edit = true), (hide = true)"
-          >Cancel</base-button
-        >
-      </Form>
-    </card>
-  </div>
-
-  <!-- user profile -->
-  <div style="flex: 1">
-    <div class="card card-profile" v-if="users.length">
-      <img
-        src="img/theme/img-1-1000x600.jpg"
-        alt="Image placeholder"
-        class="card-img-top"
-      />
-
-      <div class="row justify-content-center">
-        <div class="col-lg-3 order-lg-2">
-          <div class="card-profile-image">
-            <img
-              class="profilepic__image"
-              id="mypic"
-              :src="img ? img : 'userpic.jpeg'"
-            />
-            <div class="profilepic__content">
-              <span class="profilepic__icon">
-                <label for="inputTag">
-                  <i class="fa fa-camera fa-2x"></i>
-                </label>
-
-                <input
-                  id="inputTag"
-                  type="file"
-                  ref="file"
-                  @change="onSubmit"
-                />
-              </span>
+              <a
+                class="btn btn-sm"
+                type="primary"
+                style="
+                  width: 70px;
+                  font-size: 15px;
+                  background-color: rgb(54, 134, 255);
+                  color: white;
+                "
+                >Edit</a
+              >
             </div>
           </div>
-        </div>
-      </div>
+        </template>
 
-      <div class="card-header text-center border-0 pt-8 pt-md-4 pb-0 pb-md-4">
-        <div class="d-flex justify-content-between"></div>
-      </div>
-
-      <div class="card-body pt-0">
-        <div class="row">
-          <div class="col">
-            <div class="card-profile-stats d-flex justify-content-center"></div>
+        <div v-if="edit && users.length">
+          <div>
+            <h3>
+              <i class="fa-solid fa-user-tie text-blue p-1 mr-1"></i>Personal
+              Details
+            </h3>
           </div>
-        </div>
-        <div class="text-center">
-          <h2>
-            {{ users[0].fullName
-            }}<span class="font-weight-light">
-              {{ age ? ", " + age : null }}</span
-            >
-          </h2>
-          <div style="font-weight: bold">ID{{ users[0]._id.slice(4, 8) }}</div>
-          <div class="h5 font-weight-300">
-            <h3 style="color: grey">{{ users[0].position }}</h3>
+          <div class="information">
+            <div style="flex: 1">
+              <p>Name:</p>
+              <p>Email:</p>
+              <p>Date of Birth:</p>
+              <p>Number:</p>
+            </div>
+            <div style="flex: 2">
+              <p>
+                <span class="user-info">{{ users[0].fullName }}</span>
+              </p>
+              <p>
+                <span class="user-info">{{ users[0].email }}</span>
+              </p>
+              <p>
+                <span class="user-info">{{
+                  users[0].Info.DOB
+                    ? $dayjs(users[0].Info.DOB).format("DD-MM-YYYY")
+                    : "-"
+                }}</span>
+              </p>
+              <p>
+                <span class="user-info">{{ users[0].number }}</span>
+              </p>
+            </div>
+            <div style="flex: 1">
+              <p>Gender:</p>
+              <p>Blood group:</p>
+              <p>Nationality:</p>
+              <p>Marital Status:</p>
+            </div>
+            <div style="flex: 2">
+              <p>
+                <span class="user-info">{{ users[0].Info.Gender }}</span>
+              </p>
+              <p><span class="user-info">B&plus;</span></p>
+              <p><span class="user-info">Indian</span></p>
+              <p><span class="user-info"></span></p>
+            </div>
           </div>
           <hr />
-          <div class="user-contact-info">
-            <div><i class="fa-regular fa-envelope"></i></div>
-            <div>
-              <h4 class="user-email">{{ users[0].email }}</h4>
+          <div>
+            <h3>
+              <i class="fa-solid fa-location-crosshairs text-blue p-1 mr-1"></i
+              >Address
+            </h3>
+          </div>
+          <div class="information">
+            <div style="flex: 1">
+              <p>Primary Address:</p>
+
+              <p>Permanent Address:</p>
+            </div>
+            <div style="flex: 2">
+              <p>
+                <span class="user-info">{{
+                  users[0].Info.Address.Address
+                }}</span>
+              </p>
+
+              <p>
+                <span class="user-info">{{
+                  users[0].Info.Address.Address
+                }}</span>
+              </p>
+            </div>
+            <div style="flex: 1">
+              <p>City:</p>
+              <p>State/Province:</p>
+              <p>Country:</p>
+              <p>Postal:</p>
+            </div>
+            <div style="flex: 2">
+              <p>
+                <span class="user-info">{{ users[0].Info.Address.City }}</span>
+              </p>
+              <p>
+                <span class="user-info">{{ users[0].Info.Address.City }}</span>
+              </p>
+              <p>
+                <span class="user-info">{{
+                  users[0].Info.Address.Country
+                }}</span>
+              </p>
+              <p>
+                <span class="user-info">{{
+                  users[0].Info.Address.Postal
+                }}</span>
+              </p>
+            </div>
+          </div>
+          <hr />
+          <div>
+            <h3>
+              <i class="fa-solid fa-building-columns text-blue p-1 mr-1"></i
+              >Bank Details
+            </h3>
+          </div>
+          <div class="information">
+            <div style="flex: 1">
+              <p>Bank Name:</p>
+              <p>Account Name:</p>
+              <p>Account Number:</p>
+              <p>Branch:</p>
+            </div>
+            <div style="flex: 2">
+              <p>
+                <span class="user-info">{{
+                  users[0].Info.Bank.Bank_name
+                }}</span>
+              </p>
+              <p>
+                <span class="user-info">{{
+                  users[0].Info.Bank.Account_name
+                }}</span>
+              </p>
+              <p>
+                <span class="user-info">{{
+                  users[0].Info.Bank.Account_no
+                }}</span>
+              </p>
+
+              <p>
+                <span class="user-info">{{ users[0].Info.Bank.Branch }}</span>
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <Form @submit="updateProfile" :validation-schema="schema" v-if="!edit">
+          <h6 class="heading-small text-muted mb-4">Personal information</h6>
+          <div class="form-row">
+            <div class="col-md-6">
+              <base-input
+                label="First name"
+                name="FirstName"
+                placeholder="First name"
+                rules="required"
+                v-model:value="firstName"
+              >
+              </base-input>
+            </div>
+
+            <div class="col-md-6">
+              <base-input
+                label="Last name"
+                name="LastName"
+                placeholder="Last name"
+                rules="required"
+                success-message="Looks good!"
+                v-model:value="lastName"
+              >
+              </base-input>
+            </div>
+            <div class="col-md-4">
+              <base-input
+                label="Contact No."
+                name="number"
+                placeholder="Mobile No."
+                rules="required"
+                v-model:value="number"
+              >
+              </base-input>
+            </div>
+
+            <div class="col-md-6">
+              <base-input label="Date of birth" name="DOB">
+                <el-date-picker v-model="DOB" type="date" placeholder="Date"
+              /></base-input>
+            </div>
+            <div class="col-md-4">
+              <base-input label="Gender" name="Gender">
+                <el-select placeholder="Gender" v-model="Gender" size="large">
+                  <el-option label="Male" value="Male" />
+                  <el-option label="Female" value="Female" />
+                  <el-option label="Other" value="Other" /> </el-select
+              ></base-input>
+            </div>
+          </div>
+          <hr />
+          <h6 class="heading-small text-muted mb-4">Address</h6>
+          <div class="form-row">
+            <div class="col-md-6">
+              <base-input
+                label="Address"
+                name="Address"
+                placeholder="Address"
+                rules="required"
+                v-model:value="Address"
+              >
+              </base-input>
+            </div>
+            <div class="col-md-6">
+              <base-input
+                label="City"
+                name="City"
+                placeholder="City"
+                rules="required"
+                v-model:value="City"
+              >
+              </base-input>
+            </div>
+            <div class="col-md-3">
+              <base-input
+                label="Country"
+                name="Country"
+                placeholder="Country"
+                rules="required"
+                v-model:value="Country"
+              >
+              </base-input>
+            </div>
+            <div class="col-md-3">
+              <base-input
+                label="Postal"
+                name="Postal"
+                placeholder="Postal"
+                rules="required"
+                v-model:value="Postal"
+              >
+              </base-input>
             </div>
           </div>
 
-          <div class="user-contact-info">
-            <div><i class="fa-solid fa-phone"></i></div>
-            <div>
-              <h4 class="user-email">
-                +91 {{ users[0].number ? users[0].number : "-" }}
-              </h4>
-            </div>
-          </div>
-          <div class="user-contact-info">
-            <div>
-              <i class="fa fa-globe"></i>
-            </div>
-            <div><h4 class="user-email">GMT +05:30</h4></div>
-          </div>
           <hr />
-          <div class="user-department-info">
-            <div><p style="margin: 0">DEPARTMENT</p></div>
-            <div><h4>Software Developer</h4></div>
-          </div>
-          <div class="user-department-info">
-            <div><p style="margin: 0">OFFICE</p></div>
-            <div>
-              <h4>{{ users[0].office }}</h4>
+          <h6 class="heading-small text-muted mb-4">Bank Details</h6>
+          <div class="form-row">
+            <div class="col-md-6">
+              <base-input
+                label="Bank Name"
+                name="Bank_name"
+                placeholder="Bank Name"
+                rules="required"
+                v-model:value="Bank_name"
+              >
+              </base-input>
+            </div>
+            <div class="col-md-6">
+              <base-input
+                label="Account Name"
+                name="Account_name"
+                placeholder="Name"
+                rules="required"
+                v-model:value="Account_name"
+              >
+              </base-input>
+            </div>
+            <div class="col-md-6">
+              <base-input
+                label="Account Number"
+                name="Account_no"
+                placeholder="Account Number"
+                rules="required"
+                v-model:value="Account_no"
+              >
+              </base-input>
+            </div>
+
+            <div class="col-md-6">
+              <base-input
+                label="Branch"
+                name="Branch"
+                placeholder="Branch"
+                rules="required"
+                v-model:value="Branch"
+              >
+              </base-input>
             </div>
           </div>
-          <div class="user-department-info">
-            <div><p style="margin: 0">LINE MANAGER</p></div>
-            <div>
-              <h4>@{{ users[0].manager }}</h4>
+
+          <base-button type="primary" native-type="submit">Submit</base-button>
+          <base-button type="danger" @click="(edit = true), (hide = true)"
+            >Cancel</base-button
+          >
+        </Form>
+      </card>
+    </div>
+
+    <!-- user profile -->
+    <div style="flex: 1">
+      <div class="card card-profile" v-if="users.length">
+        <img
+          src="img/theme/img-1-1000x600.jpg"
+          alt="Image placeholder"
+          class="card-img-top"
+        />
+
+        <div class="row justify-content-center">
+          <div class="col-lg-3 order-lg-2">
+            <div class="card-profile-image">
+              <img
+                class="profilepic__image"
+                id="mypic"
+                :src="img ? img : 'userpic.jpeg'"
+              />
+              <div class="profilepic__content">
+                <span class="profilepic__icon">
+                  <label for="inputTag">
+                    <i class="fa fa-camera fa-2x"></i>
+                  </label>
+
+                  <input
+                    id="inputTag"
+                    type="file"
+                    ref="file"
+                    @change="onSubmit"
+                  />
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="card-header text-center border-0 pt-8 pt-md-4 pb-0 pb-md-4">
+          <div class="d-flex justify-content-between"></div>
+        </div>
+
+        <div class="card-body pt-0">
+          <div class="row">
+            <div class="col">
+              <div
+                class="card-profile-stats d-flex justify-content-center"
+              ></div>
+            </div>
+          </div>
+          <div class="text-center">
+            <h2>
+              {{ users[0].fullName
+              }}<span class="font-weight-light">
+                {{ age ? ", " + age : null }}</span
+              >
+            </h2>
+            <div style="font-weight: bold">
+              ID{{ users[0]._id.slice(4, 8) }}
+            </div>
+            <div class="h5 font-weight-300">
+              <h3 style="color: grey">{{ users[0].position }}</h3>
+            </div>
+            <hr />
+            <div class="user-contact-info">
+              <div><i class="fa-regular fa-envelope"></i></div>
+              <div>
+                <h4 class="user-email">{{ users[0].email }}</h4>
+              </div>
+            </div>
+
+            <div class="user-contact-info">
+              <div><i class="fa-solid fa-phone"></i></div>
+              <div>
+                <h4 class="user-email">
+                  +91 {{ users[0].number ? users[0].number : "-" }}
+                </h4>
+              </div>
+            </div>
+            <div class="user-contact-info">
+              <div>
+                <i class="fa fa-globe"></i>
+              </div>
+              <div><h4 class="user-email">GMT +05:30</h4></div>
+            </div>
+            <hr />
+            <div class="user-department-info">
+              <div><p style="margin: 0">DEPARTMENT</p></div>
+              <div><h4>Software Developer</h4></div>
+            </div>
+            <div class="user-department-info">
+              <div><p style="margin: 0">OFFICE</p></div>
+              <div>
+                <h4>{{ users[0].office }}</h4>
+              </div>
+            </div>
+            <div class="user-department-info">
+              <div><p style="margin: 0">LINE MANAGER</p></div>
+              <div>
+                <h4>@{{ users[0].manager }}</h4>
+              </div>
             </div>
           </div>
         </div>
@@ -448,7 +466,7 @@ export default {
       formData.append("recfile", this.file);
       try {
         await axios.post(
-          `http://localhost:7000/upload/${
+          `https://mnv-backend.onrender.com/upload/${
             JSON.parse(localStorage.getItem("user"))._id
           }`,
           formData
@@ -460,24 +478,24 @@ export default {
         this.message = "Something went wrong !! ";
       }
     },
-    async selectFile() {
-      var formdata = new FormData();
-      await formdata.append("recfile", this.$("#input-image").files[0]).ajax({
-        method: "POST",
-        processData: false,
-        contentType: false,
-        url: `http://localhost:7000/upload/${
-          JSON.parse(localStorage.getItem("user"))._id
-        }`,
-        data: formdata,
-      });
-    },
+    // async selectFile() {
+    //   var formdata = new FormData();
+    //   await formdata.append("recfile", this.$("#input-image").files[0]).ajax({
+    //     method: "POST",
+    //     processData: false,
+    //     contentType: false,
+    //     url: `https://mnv-backend.onrender.com/upload/${
+    //       JSON.parse(localStorage.getItem("user"))._id
+    //     }`,
+    //     data: formdata,
+    //   });
+    // },
     async getMyProfile() {
       this.img = JSON.parse(localStorage.getItem("user")).profile_pic;
       this.users = [];
       await axios
         .get(
-          `http://localhost:7000/myprofile/${
+          `https://mnv-backend.onrender.com/myprofile/${
             JSON.parse(localStorage.getItem("user"))._id
           }`
         )
@@ -514,7 +532,7 @@ export default {
       this.hide = true;
       axios
         .post(
-          `http://localhost:7000/updateprofile/${
+          `https://mnv-backend.onrender.com/updateprofile/${
             JSON.parse(localStorage.getItem("user"))._id
           }`,
           {
@@ -566,6 +584,14 @@ export default {
 };
 </script>
 <style scoped>
+.user_profile_flex {
+  display: flex;
+  margin: 0;
+  padding: 0;
+  gap: 10px;
+  flex-wrap: wrap;
+  flex-grow: 2fr 1fr;
+}
 .profilepic__icon > input {
   display: none;
 }
@@ -575,6 +601,8 @@ export default {
 }
 
 .profilepic__image {
+  min-width: 130px;
+  min-height: 130px;
   object-fit: cover;
   opacity: 1;
   transition: opacity 0.2s ease-in-out;

@@ -96,7 +96,7 @@ export default {
   methods: {
     sendForgotMail() {
       axios
-        .post(`http://localhost:7000/forgot`, {
+        .post(`https://mnv-backend.onrender.com/forgot`, {
           email: this.forgotpass,
         })
         .then(() => {

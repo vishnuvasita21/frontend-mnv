@@ -92,7 +92,7 @@ export default {
   methods: {
     getBirthDate() {
       this.events = [];
-      axios.get("http://localhost:7000/dates").then((response) => {
+      axios.get("https://mnv-backend.onrender.com/dates").then((response) => {
         for (let i = 0; i < response.data.length; i++) {
           // current year
           this.events.push({
@@ -106,7 +106,11 @@ export default {
               this.$dayjs(response.data[i].Info.DOB).format("MM-DD"),
             allDay: true,
             title: '<i class="fa fa-gift text-blue fa-lg"></i>',
-            content: `<img class="rounded-circle" style="width: 30px" src="${response.data[i].profile_pic}"/>`,
+            content: `<img class="rounded-circle" style="width: 30px" src="${
+              response.data[i].profile_pic
+                ? response.data[i].profile_pic
+                : "userpic.jpeg"
+            }"/>`,
             class: "yellow-event",
           });
 
@@ -121,7 +125,11 @@ export default {
               this.$dayjs(response.data[i].joinDate).format("MM-DD"),
             allDay: true,
             title: '<i class="fa-solid fa-award text-blue fa-lg"></i>',
-            content: `<img class="rounded-circle" style="width: 30px" src="${response.data[i].profile_pic}"/>`,
+            content: `<img class="rounded-circle" style="width: 30px" src="${
+              response.data[i].profile_pic
+                ? response.data[i].profile_pic
+                : "userpic.jpeg"
+            }"/>`,
             class: "yellow-event",
           });
 
@@ -137,7 +145,11 @@ export default {
               this.$dayjs(response.data[i].Info.DOB).format("MM-DD"),
             allDay: true,
             title: '<i class="fa fa-gift text-blue fa-lg"></i>',
-            content: `<img class="rounded-circle" style="width: 30px" src="${response.data[i].profile_pic}"/>`,
+            content: `<img class="rounded-circle" style="width: 30px" src="${
+              response.data[i].profile_pic
+                ? response.data[i].profile_pic
+                : "userpic.jpeg"
+            }"/>`,
             class: "yellow-event",
           });
 
@@ -152,7 +164,11 @@ export default {
               this.$dayjs(response.data[i].joinDate).format("MM-DD"),
             allDay: true,
             title: '<i class="fa-solid fa-award text-blue fa-lg"></i>',
-            content: `<img class="rounded-circle" style="width: 30px" src="${response.data[i].profile_pic}"/>`,
+            content: `<img class="rounded-circle" style="width: 30px" src="${
+              response.data[i].profile_pic
+                ? response.data[i].profile_pic
+                : "userpic.jpeg"
+            }"/>`,
             class: "yellow-event",
           });
 
@@ -168,7 +184,11 @@ export default {
               this.$dayjs(response.data[i].Info.DOB).format("MM-DD"),
             allDay: true,
             title: '<i class="fa fa-gift text-blue fa-lg"></i>',
-            content: `<img class="rounded-circle" style="width: 30px" src="${response.data[i].profile_pic}"/>`,
+            content: `<img class="rounded-circle" style="width: 30px" src="${
+              response.data[i].profile_pic
+                ? response.data[i].profile_pic
+                : "userpic.jpeg"
+            }"/>`,
             class: "yellow-event",
           });
 
@@ -183,7 +203,11 @@ export default {
               this.$dayjs(response.data[i].joinDate).format("MM-DD"),
             allDay: true,
             title: '<i class="fa-solid fa-award text-blue fa-lg"></i>',
-            content: `<img class="rounded-circle" style="width: 30px" src="${response.data[i].profile_pic}"/>`,
+            content: `<img class="rounded-circle" style="width: 30px" src="${
+              response.data[i].profile_pic
+                ? response.data[i].profile_pic
+                : "userpic.jpeg"
+            }"/>`,
             class: "yellow-event",
           });
         }

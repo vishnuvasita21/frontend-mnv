@@ -2,17 +2,13 @@
   <div>
     <!-- your form inputs goes here-->
 
-    <base-header style="background-color: rgb(54, 134, 255) !important">
+    <base-header style="background-color: white !important">
       <div class="row align-items-center py-4">
         <div class="col-lg-6 col-7">
           <h6 class="h2 text-white d-inline-block mb-0">Default</h6>
           <nav aria-label="breadcrumb" class="d-none d-md-inline-block ml-md-4">
             <route-bread-crumb></route-bread-crumb>
           </nav>
-        </div>
-        <div class="col-lg-6 col-5 text-right">
-          <base-button size="sm" type="neutral">New</base-button>
-          <base-button size="sm" type="neutral">Filters</base-button>
         </div>
       </div>
     </base-header>
@@ -51,13 +47,13 @@
           <div>
             <h3 class="text-blue"><i class="fa fa-calendar mr-2"></i>News</h3>
           </div>
-          <div v-for="news in eventList" :key="news.id" class="border p-3">
+          <div v-for="news in eventList" :key="news.id" class="border p-3 mb-1">
             <h3>
               <i class="fa fa-flag text-red mr-2"></i>{{ news.title }} ({{
                 $dayjs(news.eventDate).format("DD-MMM-YYYY")
               }})
             </h3>
-            <p class="text-muted">
+            <p class="text-muted mb-0">
               <i class="fa fa-clock mr-2"></i
               >{{ $dayjs(news.date).format("DD-MMM-YYYY") }} | Sachin Gupta
             </p>
@@ -223,7 +219,7 @@ export default {
     // },
     getBirthDate() {
       this.$events = [];
-      axios.get("http://localhost:7000/dates").then((response) => {
+      axios.get("https://mnv-backend.onrender.com/dates").then((response) => {
         for (let i = 0; i < response.data.length; i++) {
           // current year
           this.$events.push({
@@ -237,7 +233,11 @@ export default {
               this.$dayjs(response.data[i].Info.DOB).format("MM-DD"),
             allDay: true,
             title: '<i class="fa fa-gift text-blue fa-lg"></i>',
-            content: `<img class="rounded-circle" style="width: 30px" src="${response.data[i].profile_pic}"/>`,
+            content: `<img class="rounded-circle" style="width: 30px" src="${
+              response.data[i].profile_pic
+                ? response.data[i].profile_pic
+                : "userpic.jpeg"
+            }"/>`,
             class: "yellow-event",
           });
 
@@ -252,7 +252,11 @@ export default {
               this.$dayjs(response.data[i].joinDate).format("MM-DD"),
             allDay: true,
             title: '<i class="fa-solid fa-award text-blue fa-lg"></i>',
-            content: `<img class="rounded-circle" style="width: 30px" src="${response.data[i].profile_pic}"/>`,
+            content: `<img class="rounded-circle" style="width: 30px" src="${
+              response.data[i].profile_pic
+                ? response.data[i].profile_pic
+                : "userpic.jpeg"
+            }"/>`,
             class: "yellow-event",
           });
 
@@ -268,7 +272,11 @@ export default {
               this.$dayjs(response.data[i].Info.DOB).format("MM-DD"),
             allDay: true,
             title: '<i class="fa fa-gift text-blue fa-lg"></i>',
-            content: `<img class="rounded-circle" style="width: 30px" src="${response.data[i].profile_pic}"/>`,
+            content: `<img class="rounded-circle" style="width: 30px" src="${
+              response.data[i].profile_pic
+                ? response.data[i].profile_pic
+                : "userpic.jpeg"
+            }"/>`,
             class: "yellow-event",
           });
 
@@ -283,7 +291,11 @@ export default {
               this.$dayjs(response.data[i].joinDate).format("MM-DD"),
             allDay: true,
             title: '<i class="fa-solid fa-award text-blue fa-lg"></i>',
-            content: `<img class="rounded-circle" style="width: 30px" src="${response.data[i].profile_pic}"/>`,
+            content: `<img class="rounded-circle" style="width: 30px" src="${
+              response.data[i].profile_pic
+                ? response.data[i].profile_pic
+                : "userpic.jpeg"
+            }"/>`,
             class: "yellow-event",
           });
 
@@ -299,7 +311,11 @@ export default {
               this.$dayjs(response.data[i].Info.DOB).format("MM-DD"),
             allDay: true,
             title: '<i class="fa fa-gift text-blue fa-lg"></i>',
-            content: `<img class="rounded-circle" style="width: 30px" src="${response.data[i].profile_pic}"/>`,
+            content: `<img class="rounded-circle" style="width: 30px" src="${
+              response.data[i].profile_pic
+                ? response.data[i].profile_pic
+                : "userpic.jpeg"
+            }"/>`,
             class: "yellow-event",
           });
 
@@ -314,7 +330,11 @@ export default {
               this.$dayjs(response.data[i].joinDate).format("MM-DD"),
             allDay: true,
             title: '<i class="fa-solid fa-award text-blue fa-lg"></i>',
-            content: `<img class="rounded-circle" style="width: 30px" src="${response.data[i].profile_pic}"/>`,
+            content: `<img class="rounded-circle" style="width: 30px" src="${
+              response.data[i].profile_pic
+                ? response.data[i].profile_pic
+                : "userpic.jpeg"
+            }"/>`,
             class: "yellow-event",
           });
         }
@@ -332,7 +352,7 @@ export default {
       this.tasklist = [];
       axios
         .get(
-          `http://localhost:7000/tasks/${id}` /*, {
+          `https://mnv-backend.onrender.com/tasks/${id}` /*, {
           headers: {
             Authorization: JSON.parse(localStorage.getItem("token")),
           },
@@ -347,41 +367,45 @@ export default {
         });
     },
     getalluserupdate() {
-      axios.get("http://localhost:7000/userprofiles").then((response) => {
-        for (let i = 0; i < response.data.userdetails.length; i++) {
-          if (
-            this.$dayjs(response.data.userdetails[i].joinDate).format(
-              "DD-MM"
-            ) == this.$dayjs().format("DD-MM")
-          ) {
-            this.userupdatelist.push(response.data.userdetails[i]);
+      axios
+        .get("https://mnv-backend.onrender.com/userprofiles")
+        .then((response) => {
+          for (let i = 0; i < response.data.userdetails.length; i++) {
+            if (
+              this.$dayjs(response.data.userdetails[i].joinDate).format(
+                "DD-MM"
+              ) == this.$dayjs().format("DD-MM")
+            ) {
+              this.userupdatelist.push(response.data.userdetails[i]);
+            }
+            // console.log(response.data[i].joinDate);
           }
-          // console.log(response.data[i].joinDate);
-        }
-        for (let i = 0; i < response.data.thisday.length; i++) {
-          if (
-            this.$dayjs(response.data.thisday[i].startDate).format("DD-MM") ==
-              this.$dayjs().format("DD-MM") &&
-            response.data.thisday[i].status == "Approved"
-          ) {
-            axios
-              .get(
-                `http://localhost:7000/usertask/${response.data.thisday[i].user}`
-              )
-              .then((res) => {
-                this.allleavelist.push(res.data);
-              });
+          for (let i = 0; i < response.data.thisday.length; i++) {
+            if (
+              this.$dayjs(response.data.thisday[i].startDate).format("DD-MM") ==
+                this.$dayjs().format("DD-MM") &&
+              response.data.thisday[i].status == "Approved"
+            ) {
+              axios
+                .get(
+                  `https://mnv-backend.onrender.com/usertask/${response.data.thisday[i].user}`
+                )
+                .then((res) => {
+                  this.allleavelist.push(res.data);
+                });
+            }
+            // console.log(response.data[i].joinDate);
           }
-          // console.log(response.data[i].joinDate);
-        }
-      });
+        });
     },
 
     getEventDetails() {
       this.eventList = [];
-      axios.get("http://localhost:7000/getevent").then((response) => {
-        this.eventList = response.data;
-      });
+      axios
+        .get("https://mnv-backend.onrender.com/getevent")
+        .then((response) => {
+          this.eventList = response.data;
+        });
     },
   },
   mounted() {

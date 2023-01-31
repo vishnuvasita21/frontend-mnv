@@ -170,19 +170,21 @@ export default {
   methods: {
     updateTask(row) {
       const id = row._id;
-      axios.post(`http://localhost:7000/updatetask/${id}`).then((resp) => {
-        if (resp) {
-          const userId = JSON.parse(localStorage.getItem("user"))._id;
-          this.getTasks(userId);
-        }
-      });
+      axios
+        .post(`https://mnv-backend.onrender.com/updatetask/${id}`)
+        .then((resp) => {
+          if (resp) {
+            const userId = JSON.parse(localStorage.getItem("user"))._id;
+            this.getTasks(userId);
+          }
+        });
     },
     getTasks(id) {
       this.completedTasks = [];
       this.tasklist = [];
       axios
         .get(
-          `http://localhost:7000/tasks/${id}` /*{
+          `https://mnv-backend.onrender.com/tasks/${id}` /*{
           headers: {
             Authorization: JSON.parse(localStorage.getItem("user")).token,
           },

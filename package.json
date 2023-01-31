@@ -31,6 +31,7 @@
     "fullcalendar": "^6.0.2",
     "fuse.js": "6.4.6",
     "jquery": "3.6.0",
+    "lottie-vuejs": "^0.4.0",
     "nouislider": "14.6.3",
     "popper.js": "1.16.1",
     "quill": "1.3.7",
@@ -42,7 +43,7 @@
     "vue-cal": "^4.0.0",
     "vue-flatpickr-component": "9.0.3",
     "vue-loading-overlay": "^4.0.4",
-    "vue-router": "^4.0.13",
+    "vue-router": "^4.1.6",
     "vue-toastification": "2.0.0-beta.9",
     "yup": "0.32.9"
   },

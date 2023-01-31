@@ -27,6 +27,8 @@ import "vue-toastification/dist/index.css";
 import relativeTime from "dayjs/plugin/relativeTime";
 import VueLoading from "vue-loading-overlay";
 import "vue-loading-overlay/dist/vue-loading.css";
+import LottieAnimation from "lottie-vuejs/src/LottieAnimation.vue";
+
 dayjs.extend(relativeTime);
 
 const options = { containerClassName: "ct-notification" };
@@ -39,5 +41,6 @@ appInstance.use(router);
 appInstance.use(Toast, options);
 appInstance.use(ArgonDashboard);
 appInstance.use(VueLoading);
+appInstance.use(LottieAnimation);
 appInstance.use(dayjs);
 appInstance.mount("#app");
